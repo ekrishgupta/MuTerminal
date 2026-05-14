@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+@theme {
+  --color-mu-bg: #0a0a0c;
+  --color-mu-surface: #121214;
+  --color-mu-border: #222226;
+  --color-mu-text: #e0e0e0;
+  --color-mu-dim: #707070;
+  --color-mu-green: #00ff66;
+  --color-mu-red: #ff3333;
+  --color-mu-amber: #ffaa00;
+  --color-mu-cyan: #00f0ff;
+
+  --font-mu: "JetBrains Mono", "Roboto Mono", "Fira Code", monospace;
+}
+
+@layer base {
+  body {
+    @apply bg-mu-bg text-mu-text font-mu antialiased selection:bg-mu-cyan/30;
+    overflow: hidden; /* Terminal is a fixed layout */
+  }
+
+  /* Scanline effect */
+  body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.1) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.02),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.02)
+    );
+    z-index: 1000;
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+}
+
+@layer utilities {
+  .mu-panel {
+    @apply bg-mu-surface border border-mu-border rounded-sm shadow-lg;
+  }
+
+  .mu-glow {
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  .mu-scrollbar::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .mu-scrollbar::-webkit-scrollbar-track {
+    @apply bg-mu-bg;
+  }
+
+  .mu-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-mu-border hover:bg-mu-dim;
+  }
+}
+
+/* Custom CSS for the "Terminal" scroll behavior */
+.terminal-scroll {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+}
