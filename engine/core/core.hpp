@@ -1,0 +1,328 @@
+#pragma once
+
+#include "capabilities.hpp"
+#include "price.hpp"
+#include "units.hpp"
+#include <chrono>
+#include <cstddef>
+#include <cstdint>
+#include <stdexcept>
+#include <string>
+#include <string_view>
+#include <variant>
+
+namespace bop {
+
+struct MarketBackend; // Forward declaration
+
+// FNV-1a Constants
+constexpr uint32_t FNV_PRIME = 16777619u;
+constexpr uint32_t FNV_OFFSET_BASIS = 2166136261u;
+
+// Constexpr Compile-Time String Hashing (FNV-1a)
+constexpr uint32_t fnv1a(const char *str, uint32_t hash = FNV_OFFSET_BASIS) {
+  return *str == '\0'
+             ? hash
+             : fnv1a(str + 1, (hash ^ static_cast<uint32_t>(*str)) * FNV_PRIME);
+}
+
+inline uint32_t fnv1a(std::string_view sv) {
+  uint32_t hash = FNV_OFFSET_BASIS;
+  for (char c : sv) {
+    hash ^= static_cast<uint32_t>(c);
+    hash *= FNV_PRIME;
+  }
+  return hash;
+}
+
+// Compile-Time Market ID wrapper
+struct MarketId {
+  uint32_t hash;
+  std::string ticker; // Added for real API calls
+  bool resolved = false;
+
+  MarketId() : hash(0), ticker(""), resolved(false) {}
+  explicit MarketId(uint32_t h) : hash(h), ticker(""), resolved(false) {}
+  MarketId(const char *t) : hash(fnv1a(t)), ticker(t), resolved(false) {}
+  MarketId(std::string_view t) : hash(fnv1a(t)), ticker(t), resolved(false) {}
+  MarketId(uint32_t h, std::string t)
+      : hash(h), ticker(std::move(t)), resolved(false) {}
+  MarketId(uint32_t h, std::string t, bool r)
+      : hash(h), ticker(std::move(t)), resolved(r) {}
+};
+
+// Compile-Time Account ID wrapper
+struct Account {
+  uint32_t hash;
+  constexpr explicit Account(uint32_t h) : hash(h) {}
+};
+
+// Outcome tags
+struct YES_t {};
+static constexpr YES_t YES;
+struct NO_t {};
+static constexpr NO_t NO;
+
+struct Long_t {};
+static constexpr Long_t Long;
+struct Short_t {};
+static constexpr Short_t Short;
+
+using OutcomeId = std::variant<std::monostate, bool, uint32_t, std::string>;
+struct Outcome {
+  OutcomeId id;
+  explicit Outcome(uint32_t i) : id(i) {}
+  explicit Outcome(const char *s) : id(std::string(s)) {}
+  explicit Outcome(bool b) : id(b) {}
+  explicit Outcome(OutcomeId v) : id(v) {}
+  operator OutcomeId() const { return id; }
+};
+
+// Order Status
+enum class OrderStatus {
+  Pending,
+  Open,
+  PartiallyFilled,
+  Filled,
+  Cancelled,
+  Rejected
+};
+
+// Time In Force
+enum class TimeInForce { GTC, IOC, FOK };
+
+// Self-Trade Prevention Modes
+enum class SelfTradePrevention { None, CancelNew, CancelOld, CancelBoth };
+
+// Pegged Pricing Models
+enum class ReferencePrice { Bid, Ask, Mid };
+constexpr ReferencePrice Bid = ReferencePrice::Bid;
+constexpr ReferencePrice Ask = ReferencePrice::Ask;
+constexpr ReferencePrice Mid = ReferencePrice::Mid;
+
+enum class AlgoType : uint8_t {
+  None,
+  Peg,
+  TWAP,
+  VWAP,
+  Trailing,
+  Arbitrage,
+  MarketMaker,
+  SOR,
+  Shadow
+};
+
+struct PegData {
+  ReferencePrice ref;
+  Price offset;
+  bool use_ticks = false;
+};
+
+struct ArbData {
+  MarketId m2;
+  const MarketBackend *b2;
+  Price min_profit;
+};
+
+struct MarketMakerData {
+  Price spread;
+  ReferencePrice ref;
+};
+
+struct SORData {
+  const MarketBackend *b1;
+  const MarketBackend *b2;
+};
+
+struct Order {
+  std::string order_id;
+  MarketId market;
+  Shares quantity;
+  bool is_buy;
+  OutcomeId outcome;
+  Price price = Price(0);
+  TimeInForce tif = TimeInForce::GTC;
+  bool post_only = false;
+  Shares display_qty = Shares(0);
+  uint32_t account_hash = 0;
+  Price tp_price = Price(0);
+  Price sl_price = Price(0);
+  SelfTradePrevention stp = SelfTradePrevention::None;
+  int64_t creation_timestamp_ns = 0;
+  uint64_t nonce = 0;
+  const MarketBackend *backend = nullptr;
+
+  AlgoType algo_type = AlgoType::None;
+  std::variant<std::monostate, PegData, int64_t, double, Price, ArbData,
+               MarketMakerData, SORData>
+      algo_params;
+
+  MarketId market2 = MarketId(0u);
+  bool is_spread = false;
+
+  Order()
+      : order_id(""), market(0u), market2(0u), is_spread(false),
+        quantity(Shares(0)), is_buy(true), outcome(true), price(0),
+        creation_timestamp_ns(0), backend(nullptr) {
+    static std::atomic<uint64_t> next_id{1};
+    order_id = "order_" + std::to_string(next_id++);
+  }
+
+  Order(MarketId m, Shares q, bool b, OutcomeId out = true, Price p = Price(0), int64_t ts = 0)
+      : order_id(""), market(m), market2(0u), is_spread(false), quantity(q),
+        is_buy(b), outcome(out), price(p), algo_type(AlgoType::None),
+        algo_params(std::monostate{}), creation_timestamp_ns(ts),
+        backend(nullptr) {
+    static std::atomic<uint64_t> next_id{1};
+    order_id = "order_" + std::to_string(next_id++);
+  }
+};
+
+/**
+ * @brief Template wrapper for Order to preserve backend type information
+ * for compile-time capability checks.
+ */
+template <typename B = MarketBackend> struct DetailedOrder : public Order {
+  using BackendType = B;
+  DetailedOrder(Order &&o) : Order(std::move(o)) {}
+  DetailedOrder(const Order &o) : Order(o) {}
+  DetailedOrder() = default;
+};
+
+// Action Types
+struct Buy {
+  Shares quantity;
+  int64_t timestamp_ns;
+  explicit Buy(Shares q) : quantity(q) {
+    if (q.raw <= 0)
+      throw std::invalid_argument("Buy quantity must be positive");
+    timestamp_ns =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  }
+  explicit Buy(int q) : quantity(Shares(q)) {
+    if (q <= 0)
+      throw std::invalid_argument("Buy quantity must be positive");
+    timestamp_ns =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  }
+};
+
+struct Sell {
+  Shares quantity;
+  int64_t timestamp_ns;
+  explicit Sell(Shares q) : quantity(q) {
+    if (q.raw <= 0)
+      throw std::invalid_argument("Sell quantity must be positive");
+    timestamp_ns =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  }
+  explicit Sell(int q) : quantity(Shares(q)) {
+    if (q <= 0)
+      throw std::invalid_argument("Sell quantity must be positive");
+    timestamp_ns =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  }
+};
+
+struct Quote {
+  Shares quantity;
+  int64_t timestamp_ns;
+  explicit Quote(Shares q) : quantity(q) {
+    if (q.raw <= 0)
+      throw std::invalid_argument("Quote quantity must be positive");
+    timestamp_ns =
+        std::chrono::high_resolution_clock::now().time_since_epoch().count();
+  }
+};
+
+// Intermediate DSL structure: Market Bound
+template <typename B = MarketBackend> struct MarketBoundOrder {
+  Shares quantity;
+  bool is_buy;
+  MarketId market;
+  int64_t timestamp_ns;
+  const B *backend = nullptr;
+};
+
+inline MarketBoundOrder<MarketBackend> operator/(const Buy &b,
+                                                 MarketId market) {
+  return {b.quantity, true, market, b.timestamp_ns};
+}
+
+inline MarketBoundOrder<MarketBackend> operator/(const Buy &b,
+                                                 const char *market) {
+  return {b.quantity, true, MarketId(market), b.timestamp_ns};
+}
+
+inline MarketBoundOrder<MarketBackend> operator/(const Sell &s,
+                                                 MarketId market) {
+  return {s.quantity, false, market, s.timestamp_ns};
+}
+
+inline MarketBoundOrder<MarketBackend> operator/(const Sell &s,
+                                                 const char *market) {
+  return {s.quantity, false, MarketId(market), s.timestamp_ns};
+}
+
+template <typename B>
+inline bop::DetailedOrder<B> operator/(const bop::MarketBoundOrder<B> &m, bop::YES_t) {
+  bop::DetailedOrder<B> o(bop::Order(m.market, m.quantity, m.is_buy, bop::OutcomeId(true), bop::Price(0), m.timestamp_ns));
+  o.backend = m.backend;
+  return o;
+}
+
+template <typename B>
+inline bop::DetailedOrder<B> operator/(const bop::MarketBoundOrder<B> &m, bop::NO_t) {
+  bop::DetailedOrder<B> o(bop::Order(m.market, m.quantity, m.is_buy, bop::OutcomeId(false), bop::Price(0), m.timestamp_ns));
+  o.backend = m.backend;
+  return o;
+}
+
+template <typename B>
+inline bop::DetailedOrder<B> operator/(const bop::MarketBoundOrder<B> &m, bop::Long_t) {
+  bop::DetailedOrder<B> o(bop::Order(m.market, m.quantity, m.is_buy, std::monostate{}, bop::Price(0), m.timestamp_ns));
+  o.backend = m.backend;
+  return o;
+}
+
+template <typename B>
+inline bop::DetailedOrder<B> operator/(const bop::MarketBoundOrder<B> &m, bop::OutcomeId outcome) {
+  bop::DetailedOrder<B> o(bop::Order(m.market, m.quantity, m.is_buy, outcome, bop::Price(0), m.timestamp_ns));
+  o.backend = m.backend;
+  return o;
+}
+
+} // namespace bop
+
+// Global literals (keep out of namespace for DSL feel)
+inline bop::MarketId operator""_mkt(const char *str, size_t) {
+  return bop::MarketId(str);
+}
+
+constexpr bop::Account operator""_acc(const char *str, size_t) {
+  return bop::Account(bop::fnv1a(str));
+}
+
+constexpr bop::Shares operator"" _shares(unsigned long long int v) {
+  return bop::Shares(static_cast<int64_t>(v));
+}
+
+constexpr bop::Price operator"" _usd(long double v) {
+  return bop::Price::from_usd(static_cast<double>(v));
+}
+
+constexpr bop::Price operator"" _usd(unsigned long long int v) {
+  return bop::Price::from_usd(static_cast<double>(v));
+}
+
+constexpr bop::Price operator"" _cents(unsigned long long int v) {
+  return bop::Price::from_cents(static_cast<int64_t>(v));
+}
+
+constexpr bop::Ticks operator"" _ticks(unsigned long long int v) {
+  return bop::Ticks(static_cast<int64_t>(v));
+}
+
+constexpr bop::Ticks operator"" _tick(unsigned long long int v) {
+  return bop::Ticks(static_cast<int64_t>(v));
+}

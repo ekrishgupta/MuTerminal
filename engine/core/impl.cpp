@@ -1,0 +1,374 @@
+#include "algo.hpp"
+#include "algo_manager.hpp"
+#include "engine.hpp"
+#include "order_tracker.hpp"
+#include "streaming_backend.hpp"
+#include <iostream>
+namespace bop {
+
+AlgoManager GlobalAlgoManager;
+OrderTracker GlobalOrderTracker;
+StrategyProxy Strategy;
+
+// --- ExecutionEngine ---
+
+void ExecutionEngine::run() {
+  is_running = true;
+  while (is_running) {
+    GlobalAlgoManager.tick(*this);
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+}
+
+void ExecutionEngine::execute_order(const Order &o) {
+  const MarketBackend *b = o.backend;
+  if (!b && !backends_.empty())
+    b = backends_[0];
+
+  if (b) {
+    std::string id = b->create_order(o);
+    if (!id.empty() && id != "error")
+      track_order(id, o);
+  }
+}
+
+void ExecutionEngine::execute_cancel(const std::string &id) {
+  auto record = order_store.find(id);
+  if (record && record->order.backend) {
+    if (record->order.backend->cancel_order(id)) {
+      update_order_status(id, OrderStatus::Cancelled);
+    }
+  }
+}
+
+void ExecutionEngine::execute_batch(const std::vector<Order> &orders) {
+  for (const auto &o : orders)
+    execute_order(o);
+}
+
+void ExecutionEngine::execute_cancel_all() {
+  auto orders = get_orders();
+  for (const auto &o : orders) {
+    if (o.status == OrderStatus::Open ||
+        o.status == OrderStatus::PartiallyFilled) {
+      execute_cancel(o.id);
+    }
+  }
+}
+
+void ExecutionEngine::execute_close_positions() {
+  auto positions = get_all_positions();
+  for (const auto &[market_hash, qty] : positions) {
+    if (qty == 0)
+      continue;
+
+    // Find a backend that has this market
+    for (auto b : backends_) {
+      // Simple close: Market order in opposite direction
+      Order close_order;
+      close_order.market = MarketId(market_hash);
+      close_order.quantity = Shares(std::abs(qty));
+      close_order.is_buy = (qty < 0);
+      close_order.outcome = OutcomeId(true); // Simplified
+      close_order.backend = b;
+      execute_order(close_order);
+    }
+  }
+}
+
+void ExecutionEngine::track_order(const std::string &id, const Order &o) {
+  db.log_order(id, o);
+  order_store.track(id, o);
+}
+
+void ExecutionEngine::update_order_status(const std::string &id,
+                                          OrderStatus status) {
+  db.log_status(id, status);
+  order_store.update_status(id, status);
+}
+
+void ExecutionEngine::add_order_fill(const std::string &id, Shares qty,
+                                     Price price) {
+  db.log_fill(id, qty.raw, price);
+  order_store.add_fill(id, qty.raw, price);
+  int64_t simulated_loss = (price.raw * qty.raw) / 100;
+  current_daily_pnl_raw -= simulated_loss;
+  std::cout << "[ENGINE] Fill recorded for " << id << ": " << qty << " @ "
+            << price << std::endl;
+  GlobalAlgoManager.broadcast_execution_event(*this, id, OrderStatus::Filled);
+  check_kill_switch();
+}
+
+Shares ExecutionEngine::get_volume(MarketId market) const {
+  for (auto b : backends_) {
+    int64_t v = b->get_volume(market);
+    if (v > 0)
+      return Shares(v);
+  }
+  return Shares(0);
+}
+
+// --- LiveExecutionEngine ---
+
+LiveExecutionEngine::~LiveExecutionEngine() {
+  ExecutionEngine::stop();
+  if (sync_thread.joinable())
+    sync_thread.join();
+  tick_cv.notify_all();
+}
+
+Shares LiveExecutionEngine::get_position(MarketId market) const {
+  std::lock_guard<std::mutex> lock(state_mtx);
+  auto state = current_state;
+  if (!state)
+    return Shares(0);
+  auto it = state->positions.find(market.hash);
+  return (it != state->positions.end()) ? Shares(it->second) : Shares(0);
+}
+
+Price LiveExecutionEngine::get_balance() const {
+  std::lock_guard<std::mutex> lock(state_mtx);
+  return current_state ? current_state->balance : Price(0);
+}
+
+double
+LiveExecutionEngine::get_portfolio_metric(PortfolioQuery::Metric metric) const {
+  std::shared_ptr<const LiveEngineState> state;
+  {
+    std::lock_guard<std::mutex> lock(state_mtx);
+    state = current_state;
+  }
+  if (!state)
+    return 0.0;
+  std::unordered_map<uint32_t, double> volatilities;
+  for (auto const &[hash, tracker] : market_volatility) {
+    volatilities[hash] = tracker.current_vol;
+  }
+
+  auto pg = const_cast<GreekEngine &>(greek_engine)
+                .calculate_portfolio_greeks(state->positions, backends_,
+                                            volatilities);
+
+  switch (metric) {
+  case PortfolioQuery::Metric::TotalDelta:
+    return pg.total_delta;
+  case PortfolioQuery::Metric::TotalGamma:
+    return pg.total_gamma;
+  case PortfolioQuery::Metric::TotalTheta:
+    return pg.total_theta;
+  case PortfolioQuery::Metric::TotalVega:
+    return pg.total_vega;
+  case PortfolioQuery::Metric::NetExposure:
+    return get_exposure().to_double();
+  case PortfolioQuery::Metric::PortfolioValue:
+    return state->balance.to_double();
+  default:
+    return 0.0;
+  }
+}
+
+Price LiveExecutionEngine::get_exposure() const {
+  std::lock_guard<std::mutex> lock(state_mtx);
+  return current_state ? current_state->exposure : Price(0);
+}
+Price LiveExecutionEngine::get_pnl() const {
+  std::lock_guard<std::mutex> lock(state_mtx);
+  return current_state ? current_state->pnl : Price(0);
+}
+
+void LiveExecutionEngine::run() {
+  is_running = true;
+  sync_state();
+  sync_thread = std::thread([this]() {
+    while (is_running) {
+      sync_state();
+      std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
+  });
+
+  while (is_running) {
+    {
+      std::unique_lock<std::mutex> lock(tick_mtx);
+      tick_cv.wait_for(lock, std::chrono::milliseconds(100));
+    }
+    if (!is_running)
+      break;
+    GlobalAlgoManager.tick(*this);
+    check_kill_switch();
+  }
+}
+
+void LiveExecutionEngine::sync_state() {
+  Price total_balance(0);
+  Price total_exposure(0);
+  std::unordered_map<uint32_t, int64_t> new_positions;
+  for (auto b : backends_) {
+    total_balance = total_balance + b->get_balance();
+    std::string pos_json = b->get_positions();
+    try {
+      auto j = nlohmann::json::parse(pos_json);
+      if (j.is_array()) {
+        for (const auto &p : j) {
+          std::string ticker;
+          if (p.contains("asset_id"))
+            ticker = p["asset_id"];
+          if (!ticker.empty() && p.contains("size")) {
+            int64_t size = std::stoll(p["size"].get<std::string>());
+            new_positions[fnv1a(ticker.c_str())] += size;
+
+            // Calculate exposure
+            Price mid = b->get_price(MarketId(ticker), OutcomeId(true));
+            if (mid.raw > 0) {
+              total_exposure.raw += std::abs(size) * mid.raw;
+            }
+          }
+        }
+      }
+    } catch (...) {
+    }
+  }
+  auto new_state = std::make_shared<LiveEngineState>();
+  new_state->balance = total_balance;
+  new_state->positions = std::move(new_positions);
+  new_state->exposure = total_exposure;
+  new_state->pnl = Price(current_daily_pnl_raw.load());
+
+  {
+    std::lock_guard<std::mutex> lock(state_mtx);
+    current_state = std::move(new_state);
+  }
+}
+
+// --- StreamingMarketBackend ---
+
+void StreamingMarketBackend::update_price(MarketId market, Price yes,
+
+                                          Price no) {
+  {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    price_cache_[market.hash] = {yes, no};
+  }
+  if (engine_)
+    engine_->trigger_tick();
+}
+
+void StreamingMarketBackend::update_orderbook(MarketId market,
+                                              const OrderBook &ob) {
+  {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    orderbook_cache_[market.hash] = ob;
+  }
+  if (engine_)
+    engine_->trigger_tick();
+}
+
+void StreamingMarketBackend::update_orderbook_incremental(
+    MarketId market, bool is_bid, const OrderBookLevel &level) {
+  {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    auto &ob = orderbook_cache_[market.hash];
+
+    if (is_bid) {
+      if (level.quantity <= 0) {
+        ob.bids.erase(level.price);
+      } else {
+        ob.bids[level.price] = level.quantity;
+      }
+    } else {
+      if (level.quantity <= 0) {
+        ob.asks.erase(level.price);
+      } else {
+        ob.asks[level.price] = level.quantity;
+      }
+    }
+  }
+  if (engine_)
+    engine_->trigger_tick();
+}
+
+void StreamingMarketBackend::update_volume(MarketId market, int64_t volume) {
+  {
+    std::lock_guard<std::mutex> lock(cache_mutex_);
+    volume_cache_[market.hash] = volume;
+  }
+  if (engine_)
+    engine_->trigger_tick();
+}
+
+void StreamingMarketBackend::notify_fill(const std::string &id, Shares qty,
+                                         Price price) {
+  if (engine_)
+    engine_->add_order_fill(id, qty, price);
+}
+
+void StreamingMarketBackend::notify_status(const std::string &id,
+                                           OrderStatus status) {
+  if (engine_)
+    engine_->update_order_status(id, status);
+}
+
+// --- Stateful Strategies ---
+
+bool OnFillTrigger::evaluate(const ExecutionEngine &) { return filled; }
+
+void OrderAction::execute(ExecutionEngine &engine) { order >> engine; }
+
+void CancelAction::execute(ExecutionEngine &engine) {
+  engine.execute_cancel(std::string(order_id));
+}
+
+void PersistentStrategy::on_execution_event_impl(ExecutionEngine &,
+                                                 const std::string &id,
+                                                 OrderStatus s) {
+  if (s == OrderStatus::Filled) {
+    std::lock_guard<std::mutex> lock(steps_mtx);
+    for (auto &step : steps) {
+      auto fill_trigger = dynamic_cast<OnFillTrigger *>(step.trigger.get());
+      if (fill_trigger &&
+          (fill_trigger->order_id == id || fill_trigger->order_id == "any")) {
+        fill_trigger->filled = true;
+      }
+    }
+  }
+}
+
+// --- Strategies ---
+
+template class PersistentConditionalStrategy<Condition<PriceTag>>;
+template class PersistentConditionalStrategy<Condition<PositionTag>>;
+template class PersistentConditionalStrategy<Condition<BalanceTag>>;
+template class PersistentConditionalStrategy<RelativeCondition<PriceTag>>;
+
+// --- Dispatch Operators ---
+
+void operator>>(const Order &o, ExecutionEngine &engine) {
+  Order order_to_dispatch = o;
+  if (engine.limits.dynamic_sizing_enabled) {
+    order_to_dispatch.quantity = engine.calculate_dynamic_size(o);
+  }
+  if (!engine.check_risk(order_to_dispatch))
+    return;
+  if (order_to_dispatch.algo_type != AlgoType::None) {
+    GlobalAlgoManager.submit(order_to_dispatch);
+    return;
+  }
+  // Synchronous execution for now to fix backtest visibility
+  engine.execute_order(order_to_dispatch);
+}
+
+void operator>>(const std::vector<Order> &batch, ExecutionEngine &engine) {
+  if (batch.size() == 0)
+    return;
+  std::vector<Order> orders(batch);
+  engine.execute_batch(orders);
+}
+
+void operator>>(const OCOOrder &oco, ExecutionEngine &engine) {
+  oco.order1 >> engine;
+  oco.order2 >> engine;
+}
+
+} // namespace bop
+
+bop::LiveExecutionEngine global_live_engine;
+bop::ExecutionEngine &LiveExchange = global_live_engine;

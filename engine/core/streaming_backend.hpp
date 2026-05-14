@@ -1,0 +1,141 @@
+#pragma once
+
+#include "market_base.hpp"
+#include "websocket.hpp"
+#include <atomic>
+#include <map>
+#include <mutex>
+#include <simdjson.h>
+#include <thread>
+
+namespace bop {
+
+struct ExecutionEngine;
+
+/**
+ * @brief A backend that uses WebSockets to maintain a live view of the market.
+ * This reduces latency by avoiding HTTP polling and providing immediate access
+ * to the latest data.
+ */
+class StreamingMarketBackend : public MarketBackend {
+public:
+  inline explicit StreamingMarketBackend(std::unique_ptr<WebSocketClient> ws)
+      : ws_(std::move(ws)) {
+    if (ws_) {
+      ws_->on_message([this](std::string_view msg) {
+        this->handle_message(std::string(msg));
+      });
+
+      // Handle automatic re-subscription on connection/reconnection
+      ws_->on_open([this]() {
+        std::lock_guard<std::mutex> lock(cache_mutex_);
+        for (const auto &[hash, market] : active_subscriptions_) {
+          send_subscription(market);
+        }
+      });
+    }
+  }
+
+  void set_engine(ExecutionEngine *engine) { engine_ = engine; }
+
+  // Market Data (Live) - Now returns cached data with fallback
+  Price get_price(MarketId market, OutcomeId outcome) const override {
+    bool is_yes = true;
+    if (std::holds_alternative<bool>(outcome)) {
+      is_yes = std::get<bool>(outcome);
+    } else if (std::holds_alternative<std::monostate>(outcome)) {
+      is_yes = true; // Default for equity/long
+    }
+
+    {
+      std::lock_guard<std::mutex> lock(cache_mutex_);
+      auto it = price_cache_.find(market.hash);
+      if (it != price_cache_.end()) {
+        return is_yes ? it->second.yes_price : it->second.no_price;
+      }
+    }
+    return get_price_http(market, outcome);
+  }
+
+  int64_t get_volume(MarketId market) const override {
+    {
+      std::lock_guard<std::mutex> lock(cache_mutex_);
+      auto it = volume_cache_.find(market.hash);
+      if (it != volume_cache_.end()) {
+        return it->second;
+      }
+    }
+    return 0; // Or fetch from HTTP if needed
+  }
+
+  // Virtual fallbacks to be implemented by child or remain as defaults
+  virtual Price get_price_http(MarketId market, OutcomeId outcome) const {
+    return Price(0);
+  }
+
+  OrderBook get_orderbook(MarketId market) const override {
+    {
+      std::lock_guard<std::mutex> lock(cache_mutex_);
+      auto it = orderbook_cache_.find(market.hash);
+      if (it != orderbook_cache_.end()) {
+        return it->second;
+      }
+    }
+    return get_orderbook_http(market);
+  }
+
+  virtual OrderBook get_orderbook_http(MarketId market) const { return {}; }
+
+  // WebSocket implementation
+  void ws_subscribe_orderbook(
+      MarketId market,
+      std::function<void(const OrderBook &)> callback) const override {
+    {
+      std::lock_guard<std::mutex> lock(cache_mutex_);
+      callbacks_[market.hash] = callback;
+      active_subscriptions_[market.hash] = market; // Track for re-subscription
+    }
+
+    // Hydrate from HTTP
+    OrderBook initial_ob = get_orderbook_http(market);
+    if (!initial_ob.bids.empty() || !initial_ob.asks.empty()) {
+      const_cast<StreamingMarketBackend *>(this)->update_orderbook(market,
+                                                                   initial_ob);
+    }
+
+    if (ws_ && ws_->is_connected()) {
+      send_subscription(market);
+    }
+  }
+
+  virtual void send_subscription(MarketId market) const = 0;
+
+protected:
+  virtual void handle_message(std::string_view msg) = 0;
+
+  void update_price(MarketId market, Price yes, Price no);
+  void update_orderbook(MarketId market, const OrderBook &ob);
+  void update_orderbook_incremental(MarketId market, bool is_bid,
+                                    const OrderBookLevel &level);
+  void update_volume(MarketId market, int64_t volume);
+
+  void notify_fill(const std::string &id, Shares qty, Price price);
+  void notify_status(const std::string &id, OrderStatus status);
+
+  mutable std::mutex cache_mutex_;
+  std::unique_ptr<WebSocketClient> ws_;
+  ExecutionEngine *engine_ = nullptr;
+  mutable simdjson::ondemand::parser parser_;
+
+  struct PricePair {
+    Price yes_price;
+    Price no_price;
+  };
+  mutable std::map<uint32_t, PricePair> price_cache_;
+  mutable std::map<uint32_t, OrderBook> orderbook_cache_;
+  mutable std::map<uint32_t, int64_t> volume_cache_;
+  mutable std::map<uint32_t, std::function<void(const OrderBook &)>> callbacks_;
+  mutable std::map<uint32_t, MarketId> active_subscriptions_;
+};
+
+} // namespace bop

@@ -1,0 +1,8 @@
+[ 26%] Built target bop_core
+[ 68%] Built target backtest_example
+[ 68%] Built target main
+[ 68%] Built target test_dsl
+[ 68%] Built target universal_market_example
+[100%] Built target test_risk_gates
+[100%] Built target dsl_advanced_example
+[100%] Built target test_stateful_strategy
