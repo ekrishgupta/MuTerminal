@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/krishgupta/Projects/bop/build/cmake_install.cmake"
+		"/Users/krishgupta/Projects/MuTerminal/engine/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

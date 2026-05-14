@@ -1,8 +1,8 @@
 CMakeFiles/bop_core.dir/core/database.cpp.o: \
-  /Users/krishgupta/Projects/bop/core/database.cpp \
-  /Users/krishgupta/Projects/bop/core/database.hpp \
-  /Users/krishgupta/Projects/bop/core/core.hpp \
-  /Users/krishgupta/Projects/bop/core/capabilities.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/database.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/core.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/capabilities.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/type_traits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -146,8 +146,8 @@ CMakeFiles/bop_core.dir/core/database.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/type_identity.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/unwrap_ref.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/version \
-  /Users/krishgupta/Projects/bop/core/price.hpp \
-  /Users/krishgupta/Projects/bop/core/units.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/price.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/units.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdexcept \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__exception/exception.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/string.h \
@@ -966,7 +966,7 @@ CMakeFiles/bop_core.dir/core/database.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_integral.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_result.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars.h \
-  /Users/krishgupta/Projects/bop/core/order_tracker.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/order_tracker.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h

@@ -1,9 +1,10 @@
-CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
-  /Users/krishgupta/Projects/bop/bop.hpp \
-  /Users/krishgupta/Projects/bop/core/algo_manager.hpp \
-  /Users/krishgupta/Projects/bop/core/algo.hpp \
-  /Users/krishgupta/Projects/bop/core/core.hpp \
-  /Users/krishgupta/Projects/bop/core/capabilities.hpp \
+CMakeFiles/main.dir/main.cpp.o: \
+  /Users/krishgupta/Projects/MuTerminal/engine/main.cpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/bop.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/algo_manager.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/algo.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/core.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/capabilities.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/type_traits \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__config_site \
@@ -147,8 +148,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/type_identity.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__type_traits/unwrap_ref.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/version \
-  /Users/krishgupta/Projects/bop/core/price.hpp \
-  /Users/krishgupta/Projects/bop/core/units.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/price.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/units.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/stdexcept \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__exception/exception.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__fwd/string.h \
@@ -967,44 +968,44 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_integral.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/from_chars_result.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__charconv/to_chars.h \
-  /Users/krishgupta/Projects/bop/core/market_base.hpp \
-  /Users/krishgupta/Projects/bop/core/auth.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/market_base.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/auth.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/iomanip \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/bio.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/macros.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/opensslconf.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/configuration.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/opensslv.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/e_os2.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/crypto.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/safestack.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/stack.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/types.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/cryptoerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/symhacks.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/cryptoerr_legacy.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/core.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/bioerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/buffer.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/buffererr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ec.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/asn1.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/asn1err.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/bn.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/bnerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ecerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/params.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ecdsa.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/evp.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/core_dispatch.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/indicator.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/evperr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/objects.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/obj_mac.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/objectserr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/hmac.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/sha.h \
-  /Users/krishgupta/Projects/bop/core/external/nlohmann/json.hpp \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/bio.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/macros.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/opensslconf.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/configuration.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/opensslv.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/e_os2.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/crypto.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/safestack.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/stack.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/types.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/cryptoerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/symhacks.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/cryptoerr_legacy.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/core.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/bioerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/buffer.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/buffererr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ec.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/asn1.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/asn1err.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/bn.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/bnerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ecerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/params.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ecdsa.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/evp.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/core_dispatch.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/indicator.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/evperr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/objects.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/obj_mac.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/objectserr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/hmac.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/sha.h \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/external/nlohmann/json.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/map \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__tree \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/valarray \
@@ -1085,15 +1086,15 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory_resource/pool_options.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory_resource/synchronized_pool_resource.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__memory_resource/unsynchronized_pool_resource.h \
-  /Users/krishgupta/Projects/bop/core/engine.hpp \
-  /Users/krishgupta/Projects/bop/core/database.hpp \
-  /Users/krishgupta/Projects/bop/core/order_tracker.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/engine.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/database.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/order_tracker.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/sqlite3.h \
-  /Users/krishgupta/Projects/bop/core/greek_engine.hpp \
-  /Users/krishgupta/Projects/bop/core/pricing.hpp \
-  /Users/krishgupta/Projects/bop/core/logic.hpp \
-  /Users/krishgupta/Projects/bop/core/streaming_backend.hpp \
-  /Users/krishgupta/Projects/bop/core/websocket.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/greek_engine.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/pricing.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/logic.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/streaming_backend.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/websocket.hpp \
   /opt/homebrew/include/boost/asio/connect.hpp \
   /opt/homebrew/include/boost/asio/detail/config.hpp \
   /opt/homebrew/include/boost/config.hpp \
@@ -1429,50 +1430,50 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /opt/homebrew/include/boost/asio/ssl/context.hpp \
   /opt/homebrew/include/boost/asio/ssl/context_base.hpp \
   /opt/homebrew/include/boost/asio/ssl/detail/openssl_types.hpp \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/conf.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/lhash.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/conferr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/conftypes.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ssl.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/e_ostime.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/comp.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/comperr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/x509.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/rsa.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/rsaerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/dsa.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/dh.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/dherr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/dsaerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/x509err.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/x509_vfy.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/pkcs7.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/pkcs7err.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/http.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/pem.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/pemerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/async.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/asyncerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ct.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/cterr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/sslerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/sslerr_legacy.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/prov_ssl.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ssl2.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ssl3.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/tls1.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/dtls1.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/srtp.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/quic.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/engine.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/rand.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/randerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/ui.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/uierr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/err.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/engineerr.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/x509v3.h \
-  /opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl/x509v3err.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/conf.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/lhash.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/conferr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/conftypes.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ssl.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/e_ostime.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/comp.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/comperr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/x509.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/rsa.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/rsaerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/dsa.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/dh.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/dherr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/dsaerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/x509err.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/x509_vfy.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/pkcs7.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/pkcs7err.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/http.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/pem.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/pemerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/async.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/asyncerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ct.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/cterr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/sslerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/sslerr_legacy.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/prov_ssl.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ssl2.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ssl3.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/tls1.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/dtls1.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/srtp.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/quic.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/engine.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/rand.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/randerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/ui.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/uierr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/err.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/engineerr.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/x509v3.h \
+  /opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl/x509v3err.h \
   /opt/homebrew/include/boost/asio/ssl/detail/openssl_init.hpp \
   /opt/homebrew/include/boost/asio/ssl/detail/impl/openssl_init.ipp \
   /opt/homebrew/include/boost/asio/ssl/detail/password_callback.hpp \
@@ -2153,7 +2154,7 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__stop_token/stop_token.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/thread.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/__thread/this_thread.h \
-  /Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.h \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/cfloat \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1/float.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/float.h \
@@ -2164,8 +2165,8 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/arm_neon.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/arm_bf16.h \
   /Library/Developer/CommandLineTools/usr/lib/clang/17/include/arm_vector_types.h \
-  /Users/krishgupta/Projects/bop/core/modifiers.hpp \
-  /Users/krishgupta/Projects/bop/core/network.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/modifiers.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/core/network.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/curl.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/curlver.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/system.h \
@@ -2176,7 +2177,7 @@ CMakeFiles/main.dir/main.cpp.o: /Users/krishgupta/Projects/bop/main.cpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/header.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/websockets.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl/mprintf.h \
-  /Users/krishgupta/Projects/bop/exchanges/kalshi/kalshi.hpp \
-  /Users/krishgupta/Projects/bop/exchanges/kalshi/../../core/streaming_backend.hpp \
-  /Users/krishgupta/Projects/bop/exchanges/polymarket/polymarket.hpp \
-  /Users/krishgupta/Projects/bop/exchanges/polymarket/../../core/streaming_backend.hpp
+  /Users/krishgupta/Projects/MuTerminal/engine/exchanges/kalshi/kalshi.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/exchanges/kalshi/../../core/streaming_backend.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/exchanges/polymarket/polymarket.hpp \
+  /Users/krishgupta/Projects/MuTerminal/engine/exchanges/polymarket/../../core/streaming_backend.hpp

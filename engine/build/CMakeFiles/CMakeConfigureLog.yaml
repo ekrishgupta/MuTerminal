@@ -22,6 +22,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -33,9 +34,12 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/uname"
       - "/opt/homebrew/bin/uname"
+      - "/opt/homebrew/sbin/uname"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/uname"
       - "/usr/local/bin/uname"
       - "/System/Cryptexes/App/usr/bin/uname"
@@ -44,6 +48,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -54,10 +59,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "message-v1"
     backtrace:
@@ -88,6 +92,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -99,9 +104,12 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/gmake"
       - "/opt/homebrew/bin/gmake"
+      - "/opt/homebrew/sbin/gmake"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/gmake"
       - "/usr/local/bin/gmake"
       - "/System/Cryptexes/App/usr/bin/gmake"
@@ -113,8 +121,11 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/gmake"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/gmake"
       - "/Users/krishgupta/.cargo/bin/gmake"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/gmake"
+      - "/Applications/Obsidian.app/Contents/MacOS/gmake"
       - "/Users/krishgupta/.antigravity/antigravity/bin/make"
       - "/opt/homebrew/bin/make"
+      - "/opt/homebrew/sbin/make"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/make"
       - "/usr/local/bin/make"
       - "/System/Cryptexes/App/usr/bin/make"
@@ -123,6 +134,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -133,10 +145,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -165,6 +176,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -176,9 +188,12 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/c++"
       - "/opt/homebrew/bin/c++"
+      - "/opt/homebrew/sbin/c++"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/c++"
       - "/usr/local/bin/c++"
       - "/System/Cryptexes/App/usr/bin/c++"
@@ -187,6 +202,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -197,10 +213,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -230,6 +245,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -240,10 +256,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "message-v1"
     backtrace:
@@ -264,7 +279,7 @@ events:
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
       
       The CXX compiler identification is AppleClang, found in:
-        /Users/krishgupta/Projects/bop/build/CMakeFiles/4.2.3/CompilerIdCXX/a.out
+        /Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/4.2.3/CompilerIdCXX/a.out
       
   -
     kind: "message-v1"
@@ -330,6 +345,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -340,11 +356,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/ar"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -355,10 +374,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -382,6 +400,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -392,11 +411,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/ranlib"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -407,10 +429,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -434,6 +455,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -444,11 +466,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/strip"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -459,10 +484,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -486,6 +510,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -496,11 +521,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/ld"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -511,10 +539,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -538,6 +565,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -548,11 +576,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/nm"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -563,10 +594,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -590,6 +620,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -600,11 +631,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/usr/bin/objdump"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -615,10 +649,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -642,6 +675,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -652,10 +686,13 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/usr/bin/objcopy"
       - "/Users/krishgupta/.antigravity/antigravity/bin/objcopy"
       - "/opt/homebrew/bin/objcopy"
+      - "/opt/homebrew/sbin/objcopy"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/objcopy"
       - "/usr/local/bin/objcopy"
       - "/System/Cryptexes/App/usr/bin/objcopy"
@@ -666,11 +703,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/objcopy"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/objcopy"
       - "/Users/krishgupta/.cargo/bin/objcopy"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/objcopy"
+      - "/Applications/Obsidian.app/Contents/MacOS/objcopy"
     found: false
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -681,10 +721,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -708,6 +747,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -718,10 +758,13 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/usr/bin/readelf"
       - "/Users/krishgupta/.antigravity/antigravity/bin/readelf"
       - "/opt/homebrew/bin/readelf"
+      - "/opt/homebrew/sbin/readelf"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/readelf"
       - "/usr/local/bin/readelf"
       - "/System/Cryptexes/App/usr/bin/readelf"
@@ -732,11 +775,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/readelf"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/readelf"
       - "/Users/krishgupta/.cargo/bin/readelf"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/readelf"
+      - "/Applications/Obsidian.app/Contents/MacOS/readelf"
     found: false
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -747,10 +793,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -774,6 +819,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -784,10 +830,13 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/usr/bin/dlltool"
       - "/Users/krishgupta/.antigravity/antigravity/bin/dlltool"
       - "/opt/homebrew/bin/dlltool"
+      - "/opt/homebrew/sbin/dlltool"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/dlltool"
       - "/usr/local/bin/dlltool"
       - "/System/Cryptexes/App/usr/bin/dlltool"
@@ -798,11 +847,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/dlltool"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/dlltool"
       - "/Users/krishgupta/.cargo/bin/dlltool"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/dlltool"
+      - "/Applications/Obsidian.app/Contents/MacOS/dlltool"
     found: false
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -813,10 +865,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -840,6 +891,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -850,10 +902,13 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/usr/bin/addr2line"
       - "/Users/krishgupta/.antigravity/antigravity/bin/addr2line"
       - "/opt/homebrew/bin/addr2line"
+      - "/opt/homebrew/sbin/addr2line"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/addr2line"
       - "/usr/local/bin/addr2line"
       - "/System/Cryptexes/App/usr/bin/addr2line"
@@ -864,11 +919,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/addr2line"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/addr2line"
       - "/Users/krishgupta/.cargo/bin/addr2line"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/addr2line"
+      - "/Applications/Obsidian.app/Contents/MacOS/addr2line"
     found: false
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -879,10 +937,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -906,6 +963,7 @@ events:
       - "/usr/bin/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -916,10 +974,13 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/usr/bin/tapi"
       - "/Users/krishgupta/.antigravity/antigravity/bin/tapi"
       - "/opt/homebrew/bin/tapi"
+      - "/opt/homebrew/sbin/tapi"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/tapi"
       - "/usr/local/bin/tapi"
       - "/System/Cryptexes/App/usr/bin/tapi"
@@ -930,11 +991,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/tapi"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/tapi"
       - "/Users/krishgupta/.cargo/bin/tapi"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/tapi"
+      - "/Applications/Obsidian.app/Contents/MacOS/tapi"
     found: false
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -945,10 +1009,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
   -
     kind: "find-v1"
     backtrace:
@@ -971,6 +1034,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -982,9 +1046,12 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/install_name_tool"
       - "/opt/homebrew/bin/install_name_tool"
+      - "/opt/homebrew/sbin/install_name_tool"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/install_name_tool"
       - "/usr/local/bin/install_name_tool"
       - "/System/Cryptexes/App/usr/bin/install_name_tool"
@@ -993,6 +1060,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1003,10 +1071,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
   -
     kind: "try_compile-v1"
@@ -1017,8 +1084,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g"
-      binary: "/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g"
+      source: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb"
+      binary: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_FLAGS_DEBUG: "-g"
@@ -1031,19 +1098,19 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g'
+        Change Dir: '/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb'
         
-        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_8942a/fast
-        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_8942a.dir/build.make CMakeFiles/cmTC_8942a.dir/build
-        Building CXX object CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_aaa2f/fast
+        /Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_aaa2f.dir/build.make CMakeFiles/cmTC_aaa2f.dir/build
+        Building CXX object CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -arch arm64   -v -Wl,-v -MD -MT CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         Apple clang version 17.0.0 (clang-1700.0.13.5)
         Target: arm64-apple-darwin24.6.0
         Thread model: posix
         InstalledDir: /Library/Developer/CommandLineTools/usr/bin
         clang++: warning: -Wl,-v: 'linker' input unused [-Wunused-command-line-argument]
         ignoring nonexistent directory "/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"
-         "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g -target-linker-version 1167.5 -v -fcoverage-compilation-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb -target-linker-version 1167.5 -v -fcoverage-compilation-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 17.0.0 (clang-1700.0.13.5) default target arm64-apple-darwin24.6.0
         ignoring nonexistent directory "/usr/local/include"
         ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include"
@@ -1057,13 +1124,13 @@ events:
          /Library/Developer/CommandLineTools/usr/include
          /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)
         End of search list.
-        Linking CXX executable cmTC_8942a
-        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8942a.dir/link.txt --verbose=1
+        Linking CXX executable cmTC_aaa2f
+        /opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aaa2f.dir/link.txt --verbose=1
         Apple clang version 17.0.0 (clang-1700.0.13.5)
         Target: arm64-apple-darwin24.6.0
         Thread model: posix
         InstalledDir: /Library/Developer/CommandLineTools/usr/bin
-         "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_8942a -L/usr/local/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
+         "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_aaa2f -L/usr/local/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a
         @(#)PROGRAM:ld PROJECT:ld-1167.5
         BUILD 01:45:05 Apr 30 2025
         configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
@@ -1075,7 +1142,7 @@ events:
         	/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/swift
         Framework search paths:
         	/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks
-        /usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_8942a
+        /usr/bin/c++  -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_aaa2f
         
       exitCode: 0
   -
@@ -1119,19 +1186,19 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g']
+        ignore line: [Change Dir: '/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_8942a/fast]
-        ignore line: [/Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_8942a.dir/build.make CMakeFiles/cmTC_8942a.dir/build]
-        ignore line: [Building CXX object CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/homebrew/bin/cmake -E env VERBOSE=1 /usr/bin/make -f Makefile cmTC_aaa2f/fast]
+        ignore line: [/Library/Developer/CommandLineTools/usr/bin/make  -f CMakeFiles/cmTC_aaa2f.dir/build.make CMakeFiles/cmTC_aaa2f.dir/build]
+        ignore line: [Building CXX object CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -arch arm64   -v -Wl -v -MD -MT CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -c /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Apple clang version 17.0.0 (clang-1700.0.13.5)]
         ignore line: [Target: arm64-apple-darwin24.6.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
         ignore line: [clang++: warning: -Wl -v: 'linker' input unused [-Wunused-command-line-argument]]
         ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"]
-        ignore line: [ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g -target-linker-version 1167.5 -v -fcoverage-compilation-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles/CMakeScratch/TryCompile-eEKa3g -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/Library/Developer/CommandLineTools/usr/bin/clang" -cc1 -triple arm64-apple-macosx15.0.0 -Wundef-prefix=TARGET_OS_ -Wdeprecated-objc-isa-usage -Werror=deprecated-objc-isa-usage -Werror=implicit-function-declaration -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=non-leaf -fno-strict-return -ffp-contract=on -fno-rounding-math -funwind-tables=1 -fobjc-msgsend-selector-stubs -target-sdk-version=15.5 -fvisibility-inlines-hidden-static-local-var -fdefine-target-os-macros -fno-assume-unique-vtables -fno-modulemap-allow-subdirectory-search -target-cpu apple-m1 -target-feature +zcm -target-feature +zcz -target-feature +v8.5a -target-feature +aes -target-feature +altnzcv -target-feature +ccdp -target-feature +complxnum -target-feature +crc -target-feature +dotprod -target-feature +fp-armv8 -target-feature +fp16fml -target-feature +fptoint -target-feature +fullfp16 -target-feature +jsconv -target-feature +lse -target-feature +neon -target-feature +pauth -target-feature +perfmon -target-feature +predres -target-feature +ras -target-feature +rcpc -target-feature +rdm -target-feature +sb -target-feature +sha2 -target-feature +sha3 -target-feature +specrestrict -target-feature +ssbs -target-abi darwinpcs -debugger-tuning=lldb -fdebug-compilation-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb -target-linker-version 1167.5 -v -fcoverage-compilation-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/CMakeScratch/TryCompile-Ry8ltb -resource-dir /Library/Developer/CommandLineTools/usr/lib/clang/17 -dependency-file CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o.d -skip-unused-modulemap-deps -MT CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -internal-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include -internal-isystem /Library/Developer/CommandLineTools/usr/lib/clang/17/include -internal-externc-isystem /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -internal-externc-isystem /Library/Developer/CommandLineTools/usr/include -Wno-reorder-init-list -Wno-implicit-int-float-conversion -Wno-c99-designator -Wno-final-dtor-non-final-class -Wno-extra-semi-stmt -Wno-misleading-indentation -Wno-quoted-include-in-framework-header -Wno-implicit-fallthrough -Wno-enum-enum-conversion -Wno-enum-float-conversion -Wno-elaborated-enum-base -Wno-reserved-identifier -Wno-gnu-folding-constant -fdeprecated-macro -ferror-limit 19 -stack-protector 1 -fstack-check -mdarwin-stkchk-strong-link -fblocks -fencode-extended-block-signature -fregister-global-dtors-with-atexit -fgnuc-version=4.2.1 -fno-cxx-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -fmax-type-align=16 -fcommon -clang-vendor-feature=+disableNonDependentMemberExprInCurrentInstantiation -fno-odr-hash-protocols -clang-vendor-feature=+enableAggressiveVLAFolding -clang-vendor-feature=+revert09abecef7bbf -clang-vendor-feature=+thisNoAlignAttr -clang-vendor-feature=+thisNoNullAttr -clang-vendor-feature=+disableAtImportPrivateFrameworkInImplementationError -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -x c++ /opt/homebrew/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 17.0.0 (clang-1700.0.13.5) default target arm64-apple-darwin24.6.0]
         ignore line: [ignoring nonexistent directory "/usr/local/include"]
         ignore line: [ignoring nonexistent directory "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/local/include"]
@@ -1145,13 +1212,13 @@ events:
         ignore line: [ /Library/Developer/CommandLineTools/usr/include]
         ignore line: [ /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks (framework directory)]
         ignore line: [End of search list.]
-        ignore line: [Linking CXX executable cmTC_8942a]
-        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8942a.dir/link.txt --verbose=1]
+        ignore line: [Linking CXX executable cmTC_aaa2f]
+        ignore line: [/opt/homebrew/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aaa2f.dir/link.txt --verbose=1]
         ignore line: [Apple clang version 17.0.0 (clang-1700.0.13.5)]
         ignore line: [Target: arm64-apple-darwin24.6.0]
         ignore line: [Thread model: posix]
         ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
-        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_8942a -L/usr/local/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
+        link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch arm64 -platform_version macos 15.0.0 15.5 -syslibroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -mllvm -enable-linkonceodr-outlining -o cmTC_aaa2f -L/usr/local/lib -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o -lc++ -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
           arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
           arg [-demangle] ==> ignore
           arg [-lto_library] ==> ignore, skip following value
@@ -1168,12 +1235,12 @@ events:
           arg [-mllvm] ==> ignore
           arg [-enable-linkonceodr-outlining] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_8942a] ==> ignore
+          arg [cmTC_aaa2f] ==> ignore
           arg [-L/usr/local/lib] ==> dir [/usr/local/lib]
           arg [-search_paths_first] ==> ignore
           arg [-headerpad_max_install_names] ==> ignore
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_8942a.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_aaa2f.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lc++] ==> lib [c++]
           arg [-lSystem] ==> lib [System]
           arg [/Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/17/lib/darwin/libclang_rt.osx.a]
@@ -1230,6 +1297,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -1241,6 +1309,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/bin/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/sbin/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
@@ -1280,6 +1350,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1290,10 +1361,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1334,12 +1404,13 @@ events:
     names:
       - "ssl"
     candidate_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/"
-    found: "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/libssl.dylib"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/"
+    found: "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/libssl.dylib"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1350,10 +1421,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1403,12 +1473,13 @@ events:
     names:
       - "crypto"
     candidate_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/"
-    found: "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/libcrypto.dylib"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/"
+    found: "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/libcrypto.dylib"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1419,10 +1490,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1468,12 +1538,14 @@ events:
     names:
       - "openssl/ssl.h"
     candidate_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/include/include/"
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/include/"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/include/include/"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/include/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/include/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/include/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/include/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/include/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/include/"
@@ -1496,6 +1568,10 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/include/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/include/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/include/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/include/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
@@ -1553,12 +1629,14 @@ events:
       - "/System/Library/Frameworks/include/"
       - "/System/Library/Frameworks/"
     searched_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/include/include/openssl.framework/Headers/ssl.h"
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/include/openssl.framework/Headers/ssl.h"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/include/include/openssl.framework/Headers/ssl.h"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/include/openssl.framework/Headers/ssl.h"
       - "/Users/krishgupta/.antigravity/antigravity/bin/include/openssl.framework/Headers/ssl.h"
       - "/Users/krishgupta/.antigravity/antigravity/bin/openssl.framework/Headers/ssl.h"
       - "/opt/homebrew/bin/include/openssl.framework/Headers/ssl.h"
       - "/opt/homebrew/bin/openssl.framework/Headers/ssl.h"
+      - "/opt/homebrew/sbin/include/openssl.framework/Headers/ssl.h"
+      - "/opt/homebrew/sbin/openssl.framework/Headers/ssl.h"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/include/openssl.framework/Headers/ssl.h"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/openssl.framework/Headers/ssl.h"
       - "/usr/local/bin/include/openssl.framework/Headers/ssl.h"
@@ -1581,6 +1659,10 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/openssl.framework/Headers/ssl.h"
       - "/Users/krishgupta/.cargo/bin/include/openssl.framework/Headers/ssl.h"
       - "/Users/krishgupta/.cargo/bin/openssl.framework/Headers/ssl.h"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/include/openssl.framework/Headers/ssl.h"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/openssl.framework/Headers/ssl.h"
+      - "/Applications/Obsidian.app/Contents/MacOS/include/openssl.framework/Headers/ssl.h"
+      - "/Applications/Obsidian.app/Contents/MacOS/openssl.framework/Headers/ssl.h"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/include/openssl.framework/Headers/ssl.h"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/openssl.framework/Headers/ssl.h"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/openssl.framework/Headers/ssl.h"
@@ -1637,12 +1719,13 @@ events:
       - "/Network/Library/Frameworks/openssl.framework/Headers/ssl.h"
       - "/System/Library/Frameworks/include/openssl.framework/Headers/ssl.h"
       - "/System/Library/Frameworks/openssl.framework/Headers/ssl.h"
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/include/include/openssl/ssl.h"
-    found: "/opt/homebrew/Cellar/openssl@3/3.6.1/include/"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/include/include/openssl/ssl.h"
+    found: "/opt/homebrew/Cellar/openssl@3/3.6.2/include/"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1653,10 +1736,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1704,9 +1786,10 @@ events:
       - "ssleay32"
       - "ssleay32MD"
     candidate_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -1715,6 +1798,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
@@ -1730,11 +1815,12 @@ events:
       - "/Library/Developer/CommandLineTools/Library/Frameworks/"
       - "/Library/Frameworks/"
       - "/System/Library/Frameworks/"
-    found: "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/libssl.dylib"
+    found: "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/libssl.dylib"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1745,10 +1831,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1794,9 +1879,10 @@ events:
     names:
       - "crypto"
     candidate_directories:
-      - "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/"
+      - "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -1805,6 +1891,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
@@ -1820,11 +1908,12 @@ events:
       - "/Library/Developer/CommandLineTools/Library/Frameworks/"
       - "/Library/Frameworks/"
       - "/System/Library/Frameworks/"
-    found: "/opt/homebrew/Cellar/openssl@3/3.6.1/lib/libcrypto.dylib"
+    found: "/opt/homebrew/Cellar/openssl@3/3.6.2/lib/libcrypto.dylib"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -1835,10 +1924,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -1902,11 +1990,11 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/CURLConfig.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/CURLConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/curl-config.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/curl-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -1971,6 +2059,22 @@ events:
         reason: "no_exist"
       -
         path: "/Users/krishgupta/.cargo/curl-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Applications/iTerm.app/Contents/Resources/utilities/CURLConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Applications/iTerm.app/Contents/Resources/utilities/curl-config.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Applications/Obsidian.app/Contents/MacOS/CURLConfig.cmake"
+        mode: "config"
+        reason: "no_exist"
+      -
+        path: "/Applications/Obsidian.app/Contents/MacOS/curl-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -2042,6 +2146,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2052,10 +2157,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2111,6 +2215,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2121,10 +2226,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2176,6 +2280,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -2184,6 +2289,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/lib/"
@@ -2199,6 +2306,7 @@ events:
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -2207,11 +2315,14 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libcurl.tbd"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2222,10 +2333,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2273,6 +2383,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -2284,6 +2395,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/include/"
@@ -2315,6 +2428,7 @@ events:
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/curl.framework/Headers/curl.h"
       - "/opt/homebrew/bin/curl.framework/Headers/curl.h"
+      - "/opt/homebrew/sbin/curl.framework/Headers/curl.h"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/curl.framework/Headers/curl.h"
       - "/usr/local/bin/curl.framework/Headers/curl.h"
       - "/System/Cryptexes/App/usr/bin/curl.framework/Headers/curl.h"
@@ -2326,6 +2440,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/curl.framework/Headers/curl.h"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/curl.framework/Headers/curl.h"
       - "/Users/krishgupta/.cargo/bin/curl.framework/Headers/curl.h"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/curl.framework/Headers/curl.h"
+      - "/Applications/Obsidian.app/Contents/MacOS/curl.framework/Headers/curl.h"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/curl.framework/Headers/curl.h"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/curl.framework/Headers/curl.h"
       - "/opt/homebrew/include/curl.framework/Headers/curl.h"
@@ -2356,6 +2472,7 @@ events:
       - "/System/Library/Frameworks/curl.framework/Headers/curl.h"
       - "/Users/krishgupta/.antigravity/antigravity/bin/curl/curl.h"
       - "/opt/homebrew/bin/curl/curl.h"
+      - "/opt/homebrew/sbin/curl/curl.h"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/curl/curl.h"
       - "/usr/local/bin/curl/curl.h"
       - "/System/Cryptexes/App/usr/bin/curl/curl.h"
@@ -2367,11 +2484,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/curl/curl.h"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/curl/curl.h"
       - "/Users/krishgupta/.cargo/bin/curl/curl.h"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/curl/curl.h"
+      - "/Applications/Obsidian.app/Contents/MacOS/curl/curl.h"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2382,10 +2502,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2439,6 +2558,7 @@ events:
       - "/usr/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -2447,6 +2567,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/lib/"
@@ -2478,6 +2600,12 @@ events:
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
@@ -2526,11 +2654,24 @@ events:
       - "/Users/krishgupta/.cargo/bin/"
       - "/Users/krishgupta/.cargo/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libcurl.tbd"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2541,10 +2682,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2594,6 +2734,7 @@ events:
       - "/usr/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -2602,6 +2743,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/lib/"
@@ -2621,6 +2764,8 @@ events:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
@@ -2637,6 +2782,10 @@ events:
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
@@ -2666,6 +2815,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2676,10 +2826,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2749,11 +2898,11 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/boost_headersConfig.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/boost_headersConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/boost_headers-config.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/boost_headers-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -2776,6 +2925,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -2786,10 +2936,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -2851,11 +3000,11 @@ events:
         CMAKE_FIND_ROOT_PATH_MODE: "BOTH"
     candidates:
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/BoostConfig.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/BoostConfig.cmake"
         mode: "config"
         reason: "no_exist"
       -
-        path: "/Users/krishgupta/Projects/bop/build/CMakeFiles/pkgRedirects/boost-config.cmake"
+        path: "/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/pkgRedirects/boost-config.cmake"
         mode: "config"
         reason: "no_exist"
       -
@@ -3234,6 +3383,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3244,10 +3394,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3302,6 +3451,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3312,10 +3462,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3373,6 +3522,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3383,10 +3533,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3438,6 +3587,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3446,6 +3596,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/lib/"
@@ -3461,6 +3613,7 @@ events:
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3469,11 +3622,14 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libsqlite3.tbd"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3484,10 +3640,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3535,6 +3690,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3546,6 +3702,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/include/"
@@ -3577,6 +3735,7 @@ events:
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/sqlite3.h"
       - "/opt/homebrew/bin/sqlite3.h"
+      - "/opt/homebrew/sbin/sqlite3.h"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/sqlite3.h"
       - "/usr/local/bin/sqlite3.h"
       - "/System/Cryptexes/App/usr/bin/sqlite3.h"
@@ -3588,11 +3747,14 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/sqlite3.h"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/sqlite3.h"
       - "/Users/krishgupta/.cargo/bin/sqlite3.h"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/sqlite3.h"
+      - "/Applications/Obsidian.app/Contents/MacOS/sqlite3.h"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3603,10 +3765,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3656,6 +3817,7 @@ events:
       - "/usr/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3664,6 +3826,8 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
       - "/opt/homebrew/lib/"
@@ -3680,6 +3844,7 @@ events:
       - "/usr/lib/"
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3688,11 +3853,14 @@ events:
       - "/usr/sbin/"
       - "/sbin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
     found: "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/lib/libsqlite3.tbd"
     search_context:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3703,10 +3871,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"
@@ -3753,6 +3920,7 @@ events:
     candidate_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/"
       - "/opt/homebrew/bin/"
+      - "/opt/homebrew/sbin/"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/"
       - "/usr/local/bin/"
       - "/System/Cryptexes/App/usr/bin/"
@@ -3764,6 +3932,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/"
       - "/Users/krishgupta/.cargo/bin/"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/"
+      - "/Applications/Obsidian.app/Contents/MacOS/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/bin/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/sbin/"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/"
@@ -3798,6 +3968,7 @@ events:
     searched_directories:
       - "/Users/krishgupta/.antigravity/antigravity/bin/clang-tidy"
       - "/opt/homebrew/bin/clang-tidy"
+      - "/opt/homebrew/sbin/clang-tidy"
       - "/Library/Frameworks/Python.framework/Versions/3.13/bin/clang-tidy"
       - "/usr/local/bin/clang-tidy"
       - "/System/Cryptexes/App/usr/bin/clang-tidy"
@@ -3809,6 +3980,8 @@ events:
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin/clang-tidy"
       - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin/clang-tidy"
       - "/Users/krishgupta/.cargo/bin/clang-tidy"
+      - "/Applications/iTerm.app/Contents/Resources/utilities/clang-tidy"
+      - "/Applications/Obsidian.app/Contents/MacOS/clang-tidy"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/bin/clang-tidy"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/sbin/clang-tidy"
       - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/clang-tidy"
@@ -3845,6 +4018,7 @@ events:
       ENV{PATH}:
         - "/Users/krishgupta/.antigravity/antigravity/bin"
         - "/opt/homebrew/bin"
+        - "/opt/homebrew/sbin"
         - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/usr/local/bin"
         - "/System/Cryptexes/App/usr/bin"
@@ -3855,10 +4029,9 @@ events:
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin"
         - "/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin"
-        - "/opt/homebrew/bin"
-        - "/Users/krishgupta/.antigravity/antigravity/bin"
-        - "/Library/Frameworks/Python.framework/Versions/3.13/bin"
         - "/Users/krishgupta/.cargo/bin"
+        - "/Applications/iTerm.app/Contents/Resources/utilities"
+        - "/Applications/Obsidian.app/Contents/MacOS"
       CMAKE_INSTALL_PREFIX: "/usr/local"
       CMAKE_SYSTEM_PREFIX_PATH:
         - "/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr"

@@ -45,6 +45,10 @@ target_link_libraries(bop_core PUBLIC OpenSSL::SSL OpenSSL::Crypto CURL::libcurl
 add_executable(main main.cpp)
 target_link_libraries(main PRIVATE bop_core)
 
+# Sidecar Server for Tauri
+add_executable(sidecar sidecar.cpp)
+target_link_libraries(sidecar PRIVATE bop_core)
+
 # Tests
 add_executable(test_dsl tests/test_dsl.cpp)
 target_link_libraries(test_dsl PRIVATE bop_core)

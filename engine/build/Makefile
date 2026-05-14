@@ -57,10 +57,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/krishgupta/Projects/bop
+CMAKE_SOURCE_DIR = /Users/krishgupta/Projects/MuTerminal/engine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/krishgupta/Projects/bop/build
+CMAKE_BINARY_DIR = /Users/krishgupta/Projects/MuTerminal/engine/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/krishgupta/Projects/bop/build/CMakeFiles /Users/krishgupta/Projects/bop/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles /Users/krishgupta/Projects/MuTerminal/engine/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/krishgupta/Projects/bop/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -141,6 +141,19 @@ main: cmake_check_build_system
 main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
+
+#=============================================================================
+# Target rules for targets named sidecar
+
+# Build rule for target.
+sidecar: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 sidecar
+.PHONY : sidecar
+
+# fast build rule for target.
+sidecar/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sidecar.dir/build.make CMakeFiles/sidecar.dir/build
+.PHONY : sidecar/fast
 
 #=============================================================================
 # Target rules for targets named test_dsl
@@ -412,6 +425,30 @@ main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+sidecar.o: sidecar.cpp.o
+.PHONY : sidecar.o
+
+# target to build an object file
+sidecar.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sidecar.dir/build.make CMakeFiles/sidecar.dir/sidecar.cpp.o
+.PHONY : sidecar.cpp.o
+
+sidecar.i: sidecar.cpp.i
+.PHONY : sidecar.i
+
+# target to preprocess a source file
+sidecar.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sidecar.dir/build.make CMakeFiles/sidecar.dir/sidecar.cpp.i
+.PHONY : sidecar.cpp.i
+
+sidecar.s: sidecar.cpp.s
+.PHONY : sidecar.s
+
+# target to generate assembly for a file
+sidecar.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/sidecar.dir/build.make CMakeFiles/sidecar.dir/sidecar.cpp.s
+.PHONY : sidecar.cpp.s
+
 tests/test_dsl.o: tests/test_dsl.cpp.o
 .PHONY : tests/test_dsl.o
 
@@ -496,6 +533,7 @@ help:
 	@echo "... bop_core"
 	@echo "... dsl_advanced_example"
 	@echo "... main"
+	@echo "... sidecar"
 	@echo "... test_dsl"
 	@echo "... test_risk_gates"
 	@echo "... test_stateful_strategy"
@@ -524,6 +562,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... sidecar.o"
+	@echo "... sidecar.i"
+	@echo "... sidecar.s"
 	@echo "... tests/test_dsl.o"
 	@echo "... tests/test_dsl.i"
 	@echo "... tests/test_dsl.s"

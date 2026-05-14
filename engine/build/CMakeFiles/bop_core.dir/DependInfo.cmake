@@ -8,10 +8,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/krishgupta/Projects/bop/core/algo.cpp" "CMakeFiles/bop_core.dir/core/algo.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/algo.cpp.o.d"
-  "/Users/krishgupta/Projects/bop/core/database.cpp" "CMakeFiles/bop_core.dir/core/database.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/database.cpp.o.d"
-  "/Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.cpp" "CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o.d"
-  "/Users/krishgupta/Projects/bop/core/impl.cpp" "CMakeFiles/bop_core.dir/core/impl.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/impl.cpp.o.d"
+  "/Users/krishgupta/Projects/MuTerminal/engine/core/algo.cpp" "CMakeFiles/bop_core.dir/core/algo.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/algo.cpp.o.d"
+  "/Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp" "CMakeFiles/bop_core.dir/core/database.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/database.cpp.o.d"
+  "/Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.cpp" "CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o.d"
+  "/Users/krishgupta/Projects/MuTerminal/engine/core/impl.cpp" "CMakeFiles/bop_core.dir/core/impl.cpp.o" "gcc" "CMakeFiles/bop_core.dir/core/impl.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

@@ -4,9 +4,9 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/Users/krishgupta/Projects/bop -I/Users/krishgupta/Projects/bop/core -I/Users/krishgupta/Projects/bop/core/external -I/Users/krishgupta/Projects/bop/exchanges -I/Users/krishgupta/Projects/bop/include -I/Users/krishgupta/Projects/bop/core/external/simdjson -isystem /opt/homebrew/Cellar/openssl@3/3.6.1/include -isystem /opt/homebrew/include
+CXX_INCLUDES = -I/Users/krishgupta/Projects/MuTerminal/engine -I/Users/krishgupta/Projects/MuTerminal/engine/core -I/Users/krishgupta/Projects/MuTerminal/engine/core/external -I/Users/krishgupta/Projects/MuTerminal/engine/exchanges -I/Users/krishgupta/Projects/MuTerminal/engine/include -I/Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson -isystem /opt/homebrew/Cellar/openssl@3/3.6.2/include -isystem /opt/homebrew/include
 
-CXX_FLAGSarm64 = -Wno-deprecated-declarations -std=gnu++20 -arch arm64
+CXX_FLAGSarm64 = -std=gnu++20 -arch arm64
 
-CXX_FLAGS = -Wno-deprecated-declarations -std=gnu++20 -arch arm64
+CXX_FLAGS = -std=gnu++20 -arch arm64
 

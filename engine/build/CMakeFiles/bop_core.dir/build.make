@@ -53,10 +53,10 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/krishgupta/Projects/bop
+CMAKE_SOURCE_DIR = /Users/krishgupta/Projects/MuTerminal/engine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/krishgupta/Projects/bop/build
+CMAKE_BINARY_DIR = /Users/krishgupta/Projects/MuTerminal/engine/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/bop_core.dir/depend.make
@@ -73,60 +73,60 @@ CMakeFiles/bop_core.dir/codegen:
 .PHONY : CMakeFiles/bop_core.dir/codegen
 
 CMakeFiles/bop_core.dir/core/impl.cpp.o: CMakeFiles/bop_core.dir/flags.make
-CMakeFiles/bop_core.dir/core/impl.cpp.o: /Users/krishgupta/Projects/bop/core/impl.cpp
+CMakeFiles/bop_core.dir/core/impl.cpp.o: /Users/krishgupta/Projects/MuTerminal/engine/core/impl.cpp
 CMakeFiles/bop_core.dir/core/impl.cpp.o: CMakeFiles/bop_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bop_core.dir/core/impl.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/impl.cpp.o -MF CMakeFiles/bop_core.dir/core/impl.cpp.o.d -o CMakeFiles/bop_core.dir/core/impl.cpp.o -c /Users/krishgupta/Projects/bop/core/impl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/bop_core.dir/core/impl.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/impl.cpp.o -MF CMakeFiles/bop_core.dir/core/impl.cpp.o.d -o CMakeFiles/bop_core.dir/core/impl.cpp.o -c /Users/krishgupta/Projects/MuTerminal/engine/core/impl.cpp
 
 CMakeFiles/bop_core.dir/core/impl.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/bop_core.dir/core/impl.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/bop/core/impl.cpp > CMakeFiles/bop_core.dir/core/impl.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/MuTerminal/engine/core/impl.cpp > CMakeFiles/bop_core.dir/core/impl.cpp.i
 
 CMakeFiles/bop_core.dir/core/impl.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/bop_core.dir/core/impl.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/bop/core/impl.cpp -o CMakeFiles/bop_core.dir/core/impl.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/MuTerminal/engine/core/impl.cpp -o CMakeFiles/bop_core.dir/core/impl.cpp.s
 
 CMakeFiles/bop_core.dir/core/algo.cpp.o: CMakeFiles/bop_core.dir/flags.make
-CMakeFiles/bop_core.dir/core/algo.cpp.o: /Users/krishgupta/Projects/bop/core/algo.cpp
+CMakeFiles/bop_core.dir/core/algo.cpp.o: /Users/krishgupta/Projects/MuTerminal/engine/core/algo.cpp
 CMakeFiles/bop_core.dir/core/algo.cpp.o: CMakeFiles/bop_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bop_core.dir/core/algo.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/algo.cpp.o -MF CMakeFiles/bop_core.dir/core/algo.cpp.o.d -o CMakeFiles/bop_core.dir/core/algo.cpp.o -c /Users/krishgupta/Projects/bop/core/algo.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/bop_core.dir/core/algo.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/algo.cpp.o -MF CMakeFiles/bop_core.dir/core/algo.cpp.o.d -o CMakeFiles/bop_core.dir/core/algo.cpp.o -c /Users/krishgupta/Projects/MuTerminal/engine/core/algo.cpp
 
 CMakeFiles/bop_core.dir/core/algo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/bop_core.dir/core/algo.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/bop/core/algo.cpp > CMakeFiles/bop_core.dir/core/algo.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/MuTerminal/engine/core/algo.cpp > CMakeFiles/bop_core.dir/core/algo.cpp.i
 
 CMakeFiles/bop_core.dir/core/algo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/bop_core.dir/core/algo.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/bop/core/algo.cpp -o CMakeFiles/bop_core.dir/core/algo.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/MuTerminal/engine/core/algo.cpp -o CMakeFiles/bop_core.dir/core/algo.cpp.s
 
 CMakeFiles/bop_core.dir/core/database.cpp.o: CMakeFiles/bop_core.dir/flags.make
-CMakeFiles/bop_core.dir/core/database.cpp.o: /Users/krishgupta/Projects/bop/core/database.cpp
+CMakeFiles/bop_core.dir/core/database.cpp.o: /Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp
 CMakeFiles/bop_core.dir/core/database.cpp.o: CMakeFiles/bop_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bop_core.dir/core/database.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/database.cpp.o -MF CMakeFiles/bop_core.dir/core/database.cpp.o.d -o CMakeFiles/bop_core.dir/core/database.cpp.o -c /Users/krishgupta/Projects/bop/core/database.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/bop_core.dir/core/database.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/database.cpp.o -MF CMakeFiles/bop_core.dir/core/database.cpp.o.d -o CMakeFiles/bop_core.dir/core/database.cpp.o -c /Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp
 
 CMakeFiles/bop_core.dir/core/database.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/bop_core.dir/core/database.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/bop/core/database.cpp > CMakeFiles/bop_core.dir/core/database.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp > CMakeFiles/bop_core.dir/core/database.cpp.i
 
 CMakeFiles/bop_core.dir/core/database.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/bop_core.dir/core/database.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/bop/core/database.cpp -o CMakeFiles/bop_core.dir/core/database.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/MuTerminal/engine/core/database.cpp -o CMakeFiles/bop_core.dir/core/database.cpp.s
 
 CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o: CMakeFiles/bop_core.dir/flags.make
-CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o: /Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.cpp
+CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o: /Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.cpp
 CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o: CMakeFiles/bop_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o -MF CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o.d -o CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o -c /Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o -MF CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o.d -o CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o -c /Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.cpp
 
 CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.cpp > CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.cpp > CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.i
 
 CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/bop/core/external/simdjson/simdjson.cpp -o CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/krishgupta/Projects/MuTerminal/engine/core/external/simdjson/simdjson.cpp -o CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.s
 
 # Object files for target bop_core
 bop_core_OBJECTS = \
@@ -144,7 +144,7 @@ libbop_core.a: CMakeFiles/bop_core.dir/core/database.cpp.o
 libbop_core.a: CMakeFiles/bop_core.dir/core/external/simdjson/simdjson.cpp.o
 libbop_core.a: CMakeFiles/bop_core.dir/build.make
 libbop_core.a: CMakeFiles/bop_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/krishgupta/Projects/bop/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libbop_core.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libbop_core.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/bop_core.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/bop_core.dir/link.txt --verbose=$(VERBOSE)
 
@@ -157,6 +157,6 @@ CMakeFiles/bop_core.dir/clean:
 .PHONY : CMakeFiles/bop_core.dir/clean
 
 CMakeFiles/bop_core.dir/depend:
-	cd /Users/krishgupta/Projects/bop/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/krishgupta/Projects/bop /Users/krishgupta/Projects/bop /Users/krishgupta/Projects/bop/build /Users/krishgupta/Projects/bop/build /Users/krishgupta/Projects/bop/build/CMakeFiles/bop_core.dir/DependInfo.cmake "--color=$(COLOR)" bop_core
+	cd /Users/krishgupta/Projects/MuTerminal/engine/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/krishgupta/Projects/MuTerminal/engine /Users/krishgupta/Projects/MuTerminal/engine /Users/krishgupta/Projects/MuTerminal/engine/build /Users/krishgupta/Projects/MuTerminal/engine/build /Users/krishgupta/Projects/MuTerminal/engine/build/CMakeFiles/bop_core.dir/DependInfo.cmake "--color=$(COLOR)" bop_core
 .PHONY : CMakeFiles/bop_core.dir/depend
 

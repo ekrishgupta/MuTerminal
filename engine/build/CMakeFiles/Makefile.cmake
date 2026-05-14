@@ -7,7 +7,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/Users/krishgupta/Projects/bop/CMakeLists.txt"
+  "/Users/krishgupta/Projects/MuTerminal/engine/CMakeLists.txt"
   "CMakeFiles/4.2.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.2.3/CMakeSystem.cmake"
   "/opt/homebrew/lib/cmake/Boost-1.90.0/BoostConfig.cmake"
@@ -62,6 +62,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/bop_core.dir/DependInfo.cmake"
   "CMakeFiles/main.dir/DependInfo.cmake"
+  "CMakeFiles/sidecar.dir/DependInfo.cmake"
   "CMakeFiles/test_dsl.dir/DependInfo.cmake"
   "CMakeFiles/backtest_example.dir/DependInfo.cmake"
   "CMakeFiles/universal_market_example.dir/DependInfo.cmake"

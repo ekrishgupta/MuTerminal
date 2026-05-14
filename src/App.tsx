@@ -1,9 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Terminal, Activity, BarChart3, TrendingUp, Shield, Zap } from "lucide-react";
+import { useBopBridge } from "./hooks/useBopBridge";
 import "./App.css";
 
 function App() {
   const [command, setCommand] = useState("");
+  const { isConnected, lastUpdate, sendCommand } = useBopBridge();
+  const [bids, setBids] = useState<[number, number][]>([]);
+  const [asks, setAsks] = useState<[number, number][]>([]);
+
+  useEffect(() => {
+    if (lastUpdate?.type === "depth") {
+      if (lastUpdate.bids) setBids(lastUpdate.bids);
+      if (lastUpdate.asks) setAsks(lastUpdate.asks);
+    }
+  }, [lastUpdate]);
+
+  const handleDispatch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!command.trim()) return;
+    sendCommand(command);
+    setCommand("");
+  };
 
   return (
     <div className="h-screen flex flex-col p-2 space-y-2 select-none">
@@ -22,9 +40,9 @@ function App() {
           </nav>
         </div>
         <div className="flex items-center space-x-4 text-[10px] uppercase font-bold tracking-tighter">
-          <div className="flex items-center space-x-1 text-mu-green">
-            <div className="w-1.5 h-1.5 bg-mu-green rounded-full animate-pulse" />
-            <span>BOP Engine Active</span>
+          <div className={`flex items-center space-x-1 ${isConnected ? 'text-mu-green' : 'text-mu-red'}`}>
+            <div className={`w-1.5 h-1.5 rounded-full ${isConnected ? 'bg-mu-green animate-pulse' : 'bg-mu-red'}`} />
+            <span>BOP Engine {isConnected ? 'Active' : 'Offline'}</span>
           </div>
           <div className="flex items-center space-x-1 text-mu-dim">
             <Shield size={12} />
@@ -46,26 +64,36 @@ function App() {
                 <BarChart3 size={16} className="text-mu-cyan" />
                 <h2 className="text-xs font-bold uppercase tracking-widest">Unified Order Book</h2>
               </div>
-              <div className="text-[10px] text-mu-dim font-mono">MU:TRUMP_WIN_2024</div>
+              <div className="text-[10px] text-mu-dim font-mono">{lastUpdate?.ticker || "MU:TRUMP_WIN_2024"}</div>
             </div>
             
-            {/* Mock Order Book */}
+            {/* Real-time Order Book from Sidecar */}
             <div className="flex-1 grid grid-cols-2 gap-4 font-mono text-xs overflow-hidden">
               {/* ASKS (Sellers) */}
               <div className="flex flex-col-reverse justify-end mu-scrollbar overflow-y-auto">
-                {[...Array(15)].map((_, i) => (
+                {asks.length > 0 ? asks.map((ask, i) => (
                   <div key={i} className="flex justify-between px-2 py-0.5 hover:bg-mu-red/5 group">
-                    <span className="text-mu-red mu-glow">{(0.62 + i * 0.001).toFixed(3)}</span>
-                    <span className="text-mu-dim group-hover:text-mu-text">{(Math.random() * 5000).toFixed(0)}</span>
+                    <span className="text-mu-red mu-glow">{ask[0].toFixed(3)}</span>
+                    <span className="text-mu-dim group-hover:text-mu-text">{ask[1].toFixed(0)}</span>
+                  </div>
+                )) : [...Array(15)].map((_, i) => (
+                  <div key={i} className="flex justify-between px-2 py-0.5 opacity-20">
+                    <span>---</span>
+                    <span>---</span>
                   </div>
                 ))}
               </div>
               {/* BIDS (Buyers) */}
               <div className="flex flex-col justify-start mu-scrollbar overflow-y-auto">
-                {[...Array(15)].map((_, i) => (
+                {bids.length > 0 ? bids.map((bid, i) => (
                   <div key={i} className="flex justify-between px-2 py-0.5 hover:bg-mu-green/5 group">
-                    <span className="text-mu-green mu-glow">{(0.61 - i * 0.001).toFixed(3)}</span>
-                    <span className="text-mu-dim group-hover:text-mu-text">{(Math.random() * 5000).toFixed(0)}</span>
+                    <span className="text-mu-green mu-glow">{bid[0].toFixed(3)}</span>
+                    <span className="text-mu-dim group-hover:text-mu-text">{bid[1].toFixed(0)}</span>
+                  </div>
+                )) : [...Array(15)].map((_, i) => (
+                  <div key={i} className="flex justify-between px-2 py-0.5 opacity-20">
+                    <span>---</span>
+                    <span>---</span>
                   </div>
                 ))}
               </div>
@@ -121,20 +149,22 @@ function App() {
       </main>
 
       {/* BOP Command Line */}
-      <footer className="mu-panel bg-mu-bg border-mu-cyan/30 flex items-center px-4 py-2 space-x-4">
-        <Terminal size={18} className="text-mu-cyan mu-glow" />
-        <span className="text-mu-cyan font-bold font-mono text-sm leading-none pt-0.5 mr-2">μT&gt;</span>
-        <input
-          type="text"
-          value={command}
-          onChange={(e) => setCommand(e.target.value)}
-          placeholder="ENTER BOP COMMAND OR SCRIPT..."
-          className="flex-1 bg-transparent border-none outline-none text-mu-cyan font-mono text-sm placeholder:text-mu-dim/50 uppercase"
-          autoFocus
-        />
-        <div className="text-[10px] text-mu-dim font-bold tracking-widest">
-          PRESS [ENTER] TO DISPATCH
-        </div>
+      <footer className="mu-panel bg-mu-bg border-mu-cyan/30 px-4 py-2">
+        <form onSubmit={handleDispatch} className="flex items-center space-x-4">
+          <Terminal size={18} className="text-mu-cyan mu-glow" />
+          <span className="text-mu-cyan font-bold font-mono text-sm leading-none pt-0.5 mr-2">μT&gt;</span>
+          <input
+            type="text"
+            value={command}
+            onChange={(e) => setCommand(e.target.value)}
+            placeholder="ENTER BOP COMMAND OR SCRIPT..."
+            className="flex-1 bg-transparent border-none outline-none text-mu-cyan font-mono text-sm placeholder:text-mu-dim/50 uppercase"
+            autoFocus
+          />
+          <div className="text-[10px] text-mu-dim font-bold tracking-widest">
+            PRESS [ENTER] TO DISPATCH
+          </div>
+        </form>
       </footer>
     </div>
   );
