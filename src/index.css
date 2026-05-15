@@ -1,101 +1,358 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700;1,800&display=swap");
 
 @theme {
-  --color-mu-bg: #0d0d0f;
-  --color-mu-surface: #141417;
-  --color-mu-surface-high: #1c1c21;
-  --color-mu-border: #26262c;
-  --color-mu-border-high: #3a3a42;
-  
-  --color-mu-text: #f0f0f2;
-  --color-mu-text-dim: #94949e;
-  --color-mu-text-muted: #52525b;
+  /* Core Backgrounds - very dark, near-black */
+  --color-mu-bg:          #080a0c;
+  --color-mu-surface:     #0d1014;
+  --color-mu-surface-mid: #111519;
+  --color-mu-surface-high:#171c22;
+  --color-mu-surface-top: #1e242d;
 
-  --color-mu-green: #22c55e;
-  --color-mu-green-glow: rgba(34, 197, 94, 0.4);
-  --color-mu-red: #ef4444;
-  --color-mu-red-glow: rgba(239, 68, 68, 0.4);
-  --color-mu-amber: #f59e0b;
-  --color-mu-cyan: #06b6d4;
-  --color-mu-cyan-glow: rgba(6, 182, 212, 0.4);
+  /* Borders - subtle, professional */
+  --color-mu-border:      #1e2530;
+  --color-mu-border-high: #2a3341;
+  --color-mu-border-focus:#3b4a5e;
 
-  --font-mu: "JetBrains Mono", "Inter", "Menlo", monospace;
+  /* Text hierarchy */
+  --color-mu-text:        #d4dce8;
+  --color-mu-text-bright: #eef2f7;
+  --color-mu-text-dim:    #7a8899;
+  --color-mu-text-muted:  #3e4d5e;
+  --color-mu-text-ghost:  #232e3a;
+
+  /* Accent - Bloomberg yellow / "amber" as primary accent */
+  --color-mu-accent:      #e8a020;
+  --color-mu-accent-glow: rgba(232, 160, 32, 0.3);
+
+  /* Status colors - more desaturated than before, professional */
+  --color-mu-green:       #2cb67d;
+  --color-mu-green-dim:   #1a6b4a;
+  --color-mu-green-glow:  rgba(44, 182, 125, 0.25);
+  --color-mu-red:         #e05252;
+  --color-mu-red-dim:     #7a2424;
+  --color-mu-red-glow:    rgba(224, 82, 82, 0.25);
+  --color-mu-amber:       #d97706;
+  --color-mu-amber-dim:   #6b3700;
+  --color-mu-cyan:        #3b9eca;
+  --color-mu-cyan-dim:    #1d4f66;
+  --color-mu-cyan-glow:   rgba(59, 158, 202, 0.25);
+  --color-mu-purple:      #7c5cbf;
+
+  /* Font */
+  --font-mu: "JetBrains Mono", "Menlo", "Consolas", monospace;
 }
 
 @layer base {
-  body {
-    @apply bg-mu-bg text-mu-text font-mu antialiased selection:bg-mu-cyan/30;
-    overflow: hidden;
-    font-size: 13px;
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
 
-  /* Scanline effect - more subtle for professional look */
-  body::before {
-    content: " ";
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background: linear-gradient(
-      rgba(18, 16, 16, 0) 50%,
-      rgba(0, 0, 0, 0.05) 50%
-    );
-    z-index: 1000;
-    background-size: 100% 4px;
-    pointer-events: none;
-    opacity: 0.2;
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--color-mu-bg);
+    color: var(--color-mu-text);
+    font-family: var(--font-mu);
+    font-size: 11px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow: hidden;
+    user-select: none;
+  }
+
+
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-mu-border-high);
+    border-radius: 2px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-mu-border-focus);
+  }
+
+  ::selection {
+    background: rgba(59, 158, 202, 0.25);
   }
 }
 
 @layer utilities {
+  /* --- Layout Panels --- */
   .mu-panel {
-    @apply bg-mu-surface border border-mu-border rounded-md shadow-sm;
+    background: var(--color-mu-surface);
+    border: 1px solid var(--color-mu-border);
+    border-radius: 2px;
   }
-
+  .mu-panel-mid {
+    background: var(--color-mu-surface-mid);
+    border: 1px solid var(--color-mu-border);
+    border-radius: 2px;
+  }
   .mu-panel-high {
-    @apply bg-mu-surface-high border border-mu-border-high rounded-md shadow-md;
+    background: var(--color-mu-surface-high);
+    border: 1px solid var(--color-mu-border-high);
+    border-radius: 2px;
+  }
+  .mu-panel-top {
+    background: var(--color-mu-surface-top);
+    border: 1px solid var(--color-mu-border-focus);
+    border-radius: 2px;
   }
 
-  .mu-glow-cyan {
-    filter: drop-shadow(0 0 4px var(--color-mu-cyan-glow));
+  /* --- Typography --- */
+  .mu-label {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-mu-text-muted);
+  }
+  .mu-heading {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-mu-text-dim);
+  }
+  .mu-value {
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-mu-text);
+  }
+  .mu-value-lg {
+    font-size: 20px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    color: var(--color-mu-text-bright);
+  }
+  .mu-mono {
+    font-family: var(--font-mu);
+    font-variant-numeric: tabular-nums;
   }
 
-  .mu-glow-green {
-    filter: drop-shadow(0 0 4px var(--color-mu-green-glow));
-  }
-
-  .mu-glow-red {
-    filter: drop-shadow(0 0 4px var(--color-mu-red-glow));
-  }
-
-  .mu-scrollbar::-webkit-scrollbar {
-    width: 3px;
-    height: 3px;
-  }
-
-  .mu-scrollbar::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  .mu-scrollbar::-webkit-scrollbar-thumb {
-    @apply bg-mu-border-high rounded-full hover:bg-mu-text-muted transition-colors;
-  }
-
+  /* --- Tabs --- */
   .mu-tab-active {
-    @apply text-mu-text border-b-2 border-mu-red px-1 py-4 -mb-[2px] transition-all;
+    color: var(--color-mu-text-bright);
+    border-bottom: 2px solid var(--color-mu-accent);
+    padding: 0 4px 14px;
+    margin-bottom: -2px;
+    font-weight: 800;
+    transition: all 0.1s;
   }
-
   .mu-tab-inactive {
-    @apply text-mu-text-dim hover:text-mu-text px-1 py-4 border-b-2 border-transparent transition-all;
+    color: var(--color-mu-text-dim);
+    border-bottom: 2px solid transparent;
+    padding: 0 4px 14px;
+    margin-bottom: -2px;
+    font-weight: 600;
+    transition: all 0.1s;
+  }
+  .mu-tab-inactive:hover {
+    color: var(--color-mu-text);
+    border-bottom-color: var(--color-mu-border-high);
   }
 
-  .mu-stat-label {
-    @apply text-[10px] uppercase font-bold tracking-wider text-mu-text-muted;
+  /* --- Status Colors --- */
+  .mu-bull { color: var(--color-mu-green); }
+  .mu-bear { color: var(--color-mu-red); }
+  .mu-warn { color: var(--color-mu-amber); }
+  .mu-info { color: var(--color-mu-cyan); }
+  .mu-accent { color: var(--color-mu-accent); }
+
+  /* --- Glows --- */
+  .mu-glow-green { text-shadow: 0 0 8px var(--color-mu-green-glow); }
+  .mu-glow-red   { text-shadow: 0 0 8px var(--color-mu-red-glow); }
+  .mu-glow-cyan  { text-shadow: 0 0 8px var(--color-mu-cyan-glow); }
+  .mu-glow-accent { text-shadow: 0 0 8px var(--color-mu-accent-glow); }
+
+  /* --- Input --- */
+  .mu-input {
+    background: var(--color-mu-surface);
+    border: 1px solid var(--color-mu-border-high);
+    border-radius: 2px;
+    color: var(--color-mu-text);
+    font-family: var(--font-mu);
+    font-size: 11px;
+    padding: 6px 8px;
+    outline: none;
+    transition: border-color 0.1s;
+  }
+  .mu-input:focus {
+    border-color: var(--color-mu-cyan);
+    box-shadow: 0 0 0 1px rgba(59, 158, 202, 0.2);
   }
 
-  .mu-stat-value {
-    @apply text-sm font-semibold tracking-tight;
+  /* --- Buttons --- */
+  .mu-btn {
+    font-family: var(--font-mu);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: 2px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.1s;
+    border: 1px solid transparent;
   }
+  .mu-btn-buy {
+    background: var(--color-mu-green);
+    color: #000;
+    border-color: var(--color-mu-green);
+  }
+  .mu-btn-buy:hover { filter: brightness(1.1); }
+  .mu-btn-sell {
+    background: var(--color-mu-red);
+    color: #fff;
+    border-color: var(--color-mu-red);
+  }
+  .mu-btn-sell:hover { filter: brightness(1.1); }
+  .mu-btn-primary {
+    background: var(--color-mu-cyan);
+    color: var(--color-mu-bg);
+    border-color: var(--color-mu-cyan);
+  }
+  .mu-btn-primary:hover { filter: brightness(1.1); }
+  .mu-btn-ghost {
+    background: transparent;
+    color: var(--color-mu-text-dim);
+    border-color: var(--color-mu-border-high);
+  }
+  .mu-btn-ghost:hover {
+    color: var(--color-mu-text);
+    border-color: var(--color-mu-border-focus);
+  }
+  .mu-btn-danger {
+    background: rgba(224, 82, 82, 0.1);
+    color: var(--color-mu-red);
+    border-color: var(--color-mu-red-dim);
+  }
+  .mu-btn-danger:hover {
+    background: var(--color-mu-red);
+    color: #fff;
+  }
+
+  /* --- Table --- */
+  .mu-table-header {
+    position: sticky;
+    top: 0;
+    background: var(--color-mu-surface-mid);
+    border-bottom: 1px solid var(--color-mu-border-high);
+    z-index: 10;
+  }
+  .mu-table-header th {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-mu-text-muted);
+    padding: 8px 12px;
+    white-space: nowrap;
+  }
+  .mu-table-row {
+    border-bottom: 1px solid var(--color-mu-border);
+    transition: background 0.08s;
+    cursor: pointer;
+  }
+  .mu-table-row:hover {
+    background: var(--color-mu-surface-mid);
+  }
+  .mu-table-row td {
+    padding: 7px 12px;
+    font-size: 11px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* --- Depth Bar --- */
+  .mu-depth-bar-bid {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(44, 182, 125, 0.08);
+    border-left: 1px solid rgba(44, 182, 125, 0.15);
+    transition: width 0.3s ease;
+  }
+  .mu-depth-bar-ask {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(224, 82, 82, 0.08);
+    border-left: 1px solid rgba(224, 82, 82, 0.15);
+    transition: width 0.3s ease;
+  }
+
+  /* --- Price Flash --- */
+  @keyframes flash-green {
+    0% { background: rgba(44, 182, 125, 0.35); }
+    100% { background: transparent; }
+  }
+  @keyframes flash-red {
+    0% { background: rgba(224, 82, 82, 0.35); }
+    100% { background: transparent; }
+  }
+  .mu-flash-green { animation: flash-green 0.6s ease-out forwards; }
+  .mu-flash-red   { animation: flash-red 0.6s ease-out forwards; }
+
+  /* --- Ticker Tape --- */
+  @keyframes ticker-scroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .mu-ticker-scroll {
+    display: flex;
+    animation: ticker-scroll 40s linear infinite;
+  }
+
+  /* --- Animations --- */
+  @keyframes mu-fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes mu-slide-left {
+    from { transform: translateX(12px); opacity: 0; }
+    to   { transform: translateX(0); opacity: 1; }
+  }
+  @keyframes mu-pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+  .mu-fade-in { animation: mu-fade-in 0.2s ease-out; }
+  .mu-slide-left { animation: mu-slide-left 0.2s ease-out; }
+  .mu-pulse-dot { animation: mu-pulse-dot 1.5s ease-in-out infinite; }
+
+  /* --- Kill Switch --- */
+  @keyframes kill-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(224, 82, 82, 0); }
+    50%       { box-shadow: 0 0 0 4px rgba(224, 82, 82, 0.3); }
+  }
+  .mu-kill-btn {
+    animation: kill-pulse 2s ease-in-out infinite;
+  }
+  .mu-kill-btn:hover {
+    animation: none;
+    box-shadow: 0 0 0 2px rgba(224, 82, 82, 0.5);
+  }
+
+  /* --- No scrollbar utility --- */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
