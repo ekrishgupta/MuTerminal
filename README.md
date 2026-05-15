@@ -11,10 +11,11 @@
 ## 🚀 Key Features
 
 - **Unified Liquidity Aggregator (ULA):** Real-time side-by-side order books for Kalshi, Polymarket, and other major venues.
-- **BOP DSL Integration:** Execute complex, programmed trading strategies using the *Generalized Outcome Protocol* directly from the terminal command line.
-- **Cyber-Industrial UI:** A high-density, TUI-inspired dashboard optimized for information awareness and sub-millisecond reaction times.
+- **BOP Strategy Lab:** Full built-in IDE for writing, compiling, and deploying `.bop` algorithmic execution strategies.
+- **Portfolio Manager:** High-density tracking of Net Liquidation Value, Margin Utilization, and live position PnL.
+- **Cyber-Industrial UI:** A strict, zero-animation TUI-inspired dashboard optimized for high-density information awareness.
 - **Alpha Monitor:** Real-time "Squawk" feed and whale-watching notifications for institutional-grade market intelligence.
-- **Keyboard-First Workflow:** Full command palette (`Cmd+K`) and rapid view-switching (`Alt+1-7`) for mouse-less operation.
+- **Keyboard-First Workflow:** Full command palette (`Cmd+K`), instant Trade execution (`B`/`S`), and rapid view-switching (`F1`-`F6`).
 
 ## 🏗 Architecture
 
@@ -75,13 +76,11 @@ MuTerminal/
 
 | Key | Action |
 | :--- | :--- |
-| `Cmd + K` | Open Command Palette / Focus μT_CMD |
-| `Alt + 1` | Switch to **Discovery** |
-| `Alt + 2` | Switch to **Trade** |
-| `Alt + 3` | Switch to **News Feed** |
-| `Alt + 4` | Switch to **Analytics** |
-| `Alt + 5` | Switch to **Top Traders** |
-| `ESC` | Close Overlays / Reset Focus |
+| `Cmd + K` | Open Command Palette |
+| `Cmd + L` | Focus terminal command line |
+| `F1` - `F6` | Switch Workspaces (Discover, Trade, Strategies, News, Top Traders, Portfolio) |
+| `B` / `S` | Instant Trade snap (Focuses execution panel, sets Buy/Sell) |
+| `ESC` | Close Overlays / Reset Focus / Blur Inputs |
 
 ## ⚖️ License
 
