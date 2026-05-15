@@ -1,51 +1,232 @@
-import { Radio, MessageSquare, ExternalLink } from "lucide-react";
+/**
+ * NewsFeed - Professional news squawk with live-updating headlines,
+ * keyword highlighting, and one-click trade execution.
+ */
+import { useState, useEffect } from "react";
+import { Radio, Zap, ExternalLink } from "lucide-react";
 
-export const NewsFeed = () => {
-  const news = [
-    { title: "Trump leads Harris by 2% in latest Michigan poll", source: "Decision Desk HQ", time: "2m ago", sentiment: "positive", ticker: "MU:TRUMP" },
-    { title: "Fed meeting minutes hint at potential June pause", source: "WSJ", time: "12m ago", sentiment: "neutral", ticker: "MU:FED_JUNE" },
-    { title: "California court rules in favor of gig-work legality", source: "Reuters", time: "45m ago", sentiment: "positive", ticker: "MU:UBER_LYFT" },
-    { title: "New York jury begins deliberations in civil trial", source: "AP News", time: "1h ago", sentiment: "neutral", ticker: "MU:NY_VERDICT" },
-    { title: "Bitcoin hits new 30-day high amid ETF inflows", source: "Bloomberg", time: "2h ago", sentiment: "positive", ticker: "MU:BTC_70K" },
-  ];
+interface NewsItem {
+  id: string;
+  title: string;
+  source: string;
+  time: number;
+  sentiment: "bull" | "bear" | "neutral";
+  ticker: string;
+  keywords: string[];
+  isBreaking?: boolean;
+}
+
+const SEED_NEWS: Omit<NewsItem, "id" | "time">[] = [
+  { title: "BREAKING: Fed Chair signals potential pause in June rate cycle amid cooling CPI", source: "Bloomberg", sentiment: "bull", ticker: "MU:FED_CUT_JUNE", keywords: ["FED", "CPI", "RATE"], isBreaking: true },
+  { title: "Trump leads Harris by 4pts in new Pennsylvania survey — Decision Desk HQ", source: "DDHQ", sentiment: "bull", ticker: "MU:TRUMP_WIN_2026", keywords: ["POLL", "TRUMP"], isBreaking: false },
+  { title: "SCOTUS agrees to hear Chevron-related regulatory challenge", source: "Reuters", sentiment: "neutral", ticker: "MU:SCOTUS_RULING", keywords: ["RULING", "SCOTUS"], isBreaking: false },
+  { title: "Bitcoin spot ETFs see $480M inflow — largest since March", source: "CoinDesk", sentiment: "bull", ticker: "MU:BTC_USD_100K", keywords: ["ETF", "BTC"], isBreaking: false },
+  { title: "OPEC+ emergency call scheduled; Saudi Arabia expected to signal further cuts", source: "WSJ", sentiment: "bull", ticker: "MU:OPEC_CUT_Q3", keywords: ["OPEC"], isBreaking: false },
+  { title: "Ukraine peace talks stall after Moscow rejects latest framework", source: "AP", sentiment: "bear", ticker: "MU:UKRAINE_PEACE", keywords: ["UKRAINE", "PEACE"], isBreaking: false },
+  { title: "NVDA announces $40B share buyback, raises guidance for FY27", source: "SEC", sentiment: "bull", ticker: "MU:NVDA_200_JUL", keywords: ["NVDA", "EARNINGS"], isBreaking: false },
+  { title: "California gig-work ruling reversed — Prop 22 reinstated by appeals court", source: "Reuters", sentiment: "neutral", ticker: "MU:HARRIS_CA_GOV", keywords: ["RULING", "CALIFORNIA"], isBreaking: false },
+];
+
+let newsId = 0;
+
+const KEYWORD_COLORS: Record<string, string> = {
+  FED:     "var(--color-mu-cyan)",
+  CPI:     "var(--color-mu-cyan)",
+  RATE:    "var(--color-mu-cyan)",
+  POLL:    "var(--color-mu-accent)",
+  TRUMP:   "var(--color-mu-accent)",
+  RULING:  "var(--color-mu-purple)",
+  SCOTUS:  "var(--color-mu-purple)",
+  ETF:     "var(--color-mu-green)",
+  BTC:     "var(--color-mu-green)",
+  OPEC:    "var(--color-mu-amber)",
+  UKRAINE: "var(--color-mu-red)",
+  PEACE:   "var(--color-mu-red)",
+  NVDA:    "var(--color-mu-green)",
+  EARNINGS:"var(--color-mu-green)",
+  CALIFORNIA: "var(--color-mu-text-dim)",
+};
+
+function highlightKeywords(title: string, keywords: string[]) {
+  let remaining = title;
+
+  // Simple word-boundary highlight
+  keywords.forEach((kw) => {
+    const idx = remaining.toUpperCase().indexOf(kw);
+    if (idx !== -1) {
+      // just store for reference — we'll render with spans
+    }
+  });
+
+  // Tokenize by word, highlight matching keywords
+  return title.split(" ").map((word, i) => {
+    const clean = word.toUpperCase().replace(/[^A-Z]/g, "");
+    const match = keywords.find((k) => clean === k || clean.startsWith(k));
+    if (match) {
+      return (
+        <span
+          key={i}
+          className="font-black"
+          style={{ color: KEYWORD_COLORS[match] || "var(--color-mu-accent)" }}
+        >
+          {word}{" "}
+        </span>
+      );
+    }
+    return <span key={i}>{word} </span>;
+  });
+}
+
+const SENTIMENT_STYLE = {
+  bull:    { bar: "var(--color-mu-green)", badge: "rgba(44,182,125,0.15)", color: "var(--color-mu-green)", label: "BULL" },
+  bear:    { bar: "var(--color-mu-red)",   badge: "rgba(224,82,82,0.12)",  color: "var(--color-mu-red)",   label: "BEAR" },
+  neutral: { bar: "var(--color-mu-text-muted)", badge: "var(--color-mu-surface-high)", color: "var(--color-mu-text-muted)", label: "NTRL" },
+};
+
+export function NewsFeed() {
+  const [items, setItems] = useState<NewsItem[]>(() =>
+    SEED_NEWS.map((n, i) => ({ ...n, id: `n-${++newsId}`, time: Date.now() - i * 4 * 60000 }))
+  );
+
+  // Occasionally surface a new headline
+  useEffect(() => {
+    const id = setInterval(() => {
+      if (Math.random() > 0.7) {
+        const template = SEED_NEWS[Math.floor(Math.random() * SEED_NEWS.length)];
+        setItems((prev) => [
+          { ...template, id: `n-${++newsId}`, time: Date.now(), isBreaking: Math.random() > 0.85 },
+          ...prev,
+        ].slice(0, 40));
+      }
+    }, 8000);
+    return () => clearInterval(id);
+  }, []);
+
+  const formatAge = (t: number) => {
+    const secs = Math.floor((Date.now() - t) / 1000);
+    if (secs < 60) return `${secs}s`;
+    if (secs < 3600) return `${Math.floor(secs / 60)}m`;
+    return `${Math.floor(secs / 3600)}h`;
+  };
 
   return (
-    <div className="flex-1 flex flex-col p-4 space-y-4 overflow-hidden">
-       <div className="flex items-center justify-between border-b border-mu-border pb-4">
-          <div className="flex items-center space-x-2 text-mu-red mu-glow-red">
-             <Radio size={20} className="animate-pulse" />
-             <h2 className="font-black uppercase tracking-widest text-lg italic">Live Squawk</h2>
-          </div>
-          <div className="flex items-center space-x-2 text-[10px] font-bold text-mu-text-muted">
-             <span>ACTIVE SOURCES: 12</span>
-             <span className="w-1.5 h-1.5 bg-mu-green rounded-full shadow-[0_0_5px_var(--color-mu-green-glow)]"></span>
-          </div>
-       </div>
+    <div className="flex-1 flex flex-col overflow-hidden ">
+      {/* Header */}
+      <div
+        className="flex items-center justify-between px-4 py-2.5 border-b"
+        style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)" }}
+      >
+        <div className="flex items-center gap-2">
+          <Radio size={14} style={{ color: "var(--color-mu-red)" }} className="" />
+          <span className="mu-heading text-[12px]" style={{ color: "var(--color-mu-text)" }}>Live Squawk</span>
+        </div>
+        <div className="flex items-center gap-4">
+          <span className="mu-label">12 Active Sources</span>
+          <span
+            className="w-1.5 h-1.5 rounded-full"
+            style={{ background: "var(--color-mu-green)", display: "inline-block" }}
+          />
+        </div>
+      </div>
 
-       <div className="flex-1 overflow-y-auto mu-scrollbar space-y-3">
-          {news.map((item, i) => (
-            <div key={i} className="mu-panel-high p-4 hover:border-mu-cyan/30 transition-all group cursor-pointer border-l-4 border-l-mu-border-high hover:border-l-mu-cyan">
-               <div className="flex justify-between items-start mb-2">
-                  <div className="flex items-center space-x-2">
-                     <span className="text-[9px] font-black bg-mu-surface px-1.5 py-0.5 rounded text-mu-text-muted border border-mu-border uppercase">{item.source}</span>
-                     <span className="text-[9px] font-bold text-mu-text-muted">{item.time}</span>
-                  </div>
-                  <ExternalLink size={14} className="text-mu-text-muted opacity-0 group-hover:opacity-100 transition-opacity" />
-               </div>
-               <h3 className="text-sm font-bold leading-tight group-hover:text-mu-cyan transition-colors mb-3 tracking-tight">{item.title}</h3>
-               <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
-                     <div className="text-[10px] font-mono bg-mu-cyan/10 text-mu-cyan px-2 py-0.5 rounded border border-mu-cyan/20">{item.ticker}</div>
-                     <button className="text-[9px] font-black uppercase text-mu-cyan border-b border-mu-cyan/20 hover:border-mu-cyan transition-all">Quick Trade</button>
-                  </div>
-                  <div className="flex items-center space-x-3 text-mu-text-muted">
-                     <MessageSquare size={12} className="hover:text-mu-text" />
-                     <div className={`w-2 h-2 rounded-full ${item.sentiment === 'positive' ? 'bg-mu-green' : 'bg-mu-amber'}`} />
-                  </div>
-               </div>
+      {/* Feed */}
+      <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col divide-y"
+        style={{ '--tw-divide-opacity': 1 } as any}
+      >
+        {items.map((item) => {
+          const s = SENTIMENT_STYLE[item.sentiment];
+          return (
+            <div
+              key={item.id}
+              className="flex gap-3 px-4 py-3 group cursor-pointer "
+              style={{ borderColor: "var(--color-mu-border)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-mu-surface-mid)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+            >
+              {/* Sentiment bar */}
+              <div
+                className="w-0.5 rounded-full shrink-0 self-stretch"
+                style={{ background: s.bar, minHeight: 40 }}
+              />
+
+              <div className="flex-1 min-w-0">
+                {/* Meta row */}
+                <div className="flex items-center gap-2 mb-1">
+                  {item.isBreaking && (
+                    <span
+                      className="text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider "
+                      style={{
+                        background: "rgba(224,82,82,0.15)",
+                        color: "var(--color-mu-red)",
+                        border: "1px solid rgba(224,82,82,0.3)",
+                      }}
+                    >
+                      BREAKING
+                    </span>
+                  )}
+                  <span
+                    className="text-[9px] font-bold px-1.5 py-0.5 rounded"
+                    style={{
+                      background: "var(--color-mu-surface-high)",
+                      color: "var(--color-mu-text-muted)",
+                      border: "1px solid var(--color-mu-border)",
+                    }}
+                  >
+                    {item.source}
+                  </span>
+                  <span className="text-[9px]" style={{ color: "var(--color-mu-text-muted)" }}>
+                    {formatAge(item.time)} ago
+                  </span>
+                  <span
+                    className="text-[8px] font-black px-1 py-0.5 rounded ml-auto"
+                    style={{
+                      background: s.badge,
+                      color: s.color,
+                      border: `1px solid ${s.bar}40`,
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                </div>
+
+                {/* Title with keyword highlights */}
+                <p className="text-[11px] font-bold leading-snug mb-2"
+                  style={{ color: "var(--color-mu-text)" }}>
+                  {highlightKeywords(item.title, item.keywords)}
+                </p>
+
+                {/* Action row */}
+                <div className="flex items-center gap-2">
+                  <span
+                    className="font-mono text-[9px] px-1.5 py-0.5 rounded"
+                    style={{
+                      color: "var(--color-mu-cyan)",
+                      background: "rgba(59,158,202,0.08)",
+                      border: "1px solid rgba(59,158,202,0.2)",
+                    }}
+                  >
+                    {item.ticker}
+                  </span>
+                  <button
+                    className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider "
+                    style={{ color: "var(--color-mu-text-muted)" }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-mu-accent)")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-mu-text-muted)")}
+                  >
+                    <Zap size={9} />
+                    Quick Trade
+                  </button>
+                  <ExternalLink
+                    size={10}
+                    className="ml-auto opacity-0 group-hover:opacity-60 "
+                    style={{ color: "var(--color-mu-text-muted)" }}
+                  />
+                </div>
+              </div>
             </div>
-          ))}
-       </div>
+          );
+        })}
+      </div>
     </div>
   );
-};
+}
