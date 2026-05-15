@@ -1,4 +1,4 @@
-import { Radio, Newspaper, MessageSquare, ExternalLink } from "lucide-react";
+import { Radio, MessageSquare, ExternalLink } from "lucide-react";
 
 export const NewsFeed = () => {
   const news = [

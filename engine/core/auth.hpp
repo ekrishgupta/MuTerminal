@@ -11,6 +11,8 @@
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/obj_mac.h>
+#include <openssl/pem.h>
+#include <openssl/rsa.h>
 #include <openssl/sha.h>
 #include <sstream>
 #include <string>
@@ -297,47 +299,57 @@ struct KalshiSigner {
                           const std::string &timestamp,
                           const std::string &method, const std::string &path,
                           const std::string &body = "") {
-    unsigned char hash[EVP_MAX_MD_SIZE];
-    unsigned int len = 0;
-#if OPENSSL_VERSION_NUMBER >= 0x30000000L
-    EVP_MAC *mac = EVP_MAC_fetch(NULL, "HMAC", NULL);
-    EVP_MAC_CTX *ctx = EVP_MAC_CTX_new(mac);
-    OSSL_PARAM params[2];
-    params[0] = OSSL_PARAM_construct_utf8_string("digest", (char *)"SHA256", 0);
-    params[1] = OSSL_PARAM_construct_end();
-    EVP_MAC_init(ctx, reinterpret_cast<const unsigned char *>(secret.c_str()),
-                 secret.length(), params);
-    EVP_MAC_update(ctx,
-                   reinterpret_cast<const unsigned char *>(timestamp.c_str()),
-                   timestamp.length());
-    EVP_MAC_update(ctx, reinterpret_cast<const unsigned char *>(method.c_str()),
-                   method.length());
-    EVP_MAC_update(ctx, reinterpret_cast<const unsigned char *>(path.c_str()),
-                   path.length());
-    if (!body.empty())
-      EVP_MAC_update(ctx, reinterpret_cast<const unsigned char *>(body.c_str()),
-                     body.length());
-    size_t out_len = 0;
-    EVP_MAC_final(ctx, hash, &out_len, sizeof(hash));
-    len = out_len;
-    EVP_MAC_CTX_free(ctx);
-    EVP_MAC_free(mac);
-#else
-    HMAC_CTX *ctx = HMAC_CTX_new();
-    HMAC_Init_ex(ctx, secret.c_str(), secret.length(), EVP_sha256(), NULL);
-    HMAC_Update(ctx, reinterpret_cast<const unsigned char *>(timestamp.c_str()),
-                timestamp.length());
-    HMAC_Update(ctx, reinterpret_cast<const unsigned char *>(method.c_str()),
-                method.length());
-    HMAC_Update(ctx, reinterpret_cast<const unsigned char *>(path.c_str()),
-                path.length());
-    if (!body.empty())
-      HMAC_Update(ctx, reinterpret_cast<const unsigned char *>(body.c_str()),
-                  body.length());
-    HMAC_Final(ctx, hash, &len);
-    HMAC_CTX_free(ctx);
-#endif
-    return to_base64(hash, len);
+    if (secret.empty()) return "";
+    std::string message = timestamp + method + path + body;
+
+    BIO *keybio = BIO_new_mem_buf(secret.c_str(), -1);
+    if (!keybio) return "";
+    EVP_PKEY *pkey = PEM_read_bio_PrivateKey(keybio, NULL, NULL, NULL);
+    BIO_free(keybio);
+
+    if (!pkey) return "";
+
+    EVP_MD_CTX *ctx = EVP_MD_CTX_new();
+    EVP_PKEY_CTX *pctx = NULL;
+
+    if (EVP_DigestSignInit(ctx, &pctx, EVP_sha256(), NULL, pkey) <= 0) {
+      EVP_MD_CTX_free(ctx);
+      EVP_PKEY_free(pkey);
+      return "";
+    }
+
+    if (EVP_PKEY_CTX_set_rsa_padding(pctx, RSA_PKCS1_PSS_PADDING) <= 0) {
+      EVP_MD_CTX_free(ctx);
+      EVP_PKEY_free(pkey);
+      return "";
+    }
+
+    if (EVP_DigestSignUpdate(ctx, message.c_str(), message.length()) <= 0) {
+      EVP_MD_CTX_free(ctx);
+      EVP_PKEY_free(pkey);
+      return "";
+    }
+
+    size_t siglen;
+    if (EVP_DigestSignFinal(ctx, NULL, &siglen) <= 0) {
+      EVP_MD_CTX_free(ctx);
+      EVP_PKEY_free(pkey);
+      return "";
+    }
+
+    std::vector<unsigned char> sig(siglen);
+    if (EVP_DigestSignFinal(ctx, sig.data(), &siglen) <= 0) {
+      EVP_MD_CTX_free(ctx);
+      EVP_PKEY_free(pkey);
+      return "";
+    }
+
+    std::string res = bop::auth::to_base64(sig.data(), siglen);
+
+    EVP_MD_CTX_free(ctx);
+    EVP_PKEY_free(pkey);
+
+    return res;
   }
 };
 

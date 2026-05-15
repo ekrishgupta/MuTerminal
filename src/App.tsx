@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { 
-  Zap, Search, Bell, ChevronDown, ListFilter, Wallet,
-  Newspaper, Gavel, Radio, MessageSquare, ExternalLink, ArrowUpRight,
-  TrendingUp, Activity, BarChart3, Shield, Terminal, Settings, X, Command
+  Zap, Search, ChevronDown, ListFilter, Wallet,
+  Gavel, Radio, ExternalLink, ArrowUpRight,
+  TrendingUp, Activity, BarChart3, Shield, Settings, Command
 } from "lucide-react";
 import { useBopBridge } from "./hooks/useBopBridge";
 import { useTerminalStore, AppView } from "./store/useTerminalStore";
@@ -49,17 +49,41 @@ const MarketFilterBtn = ({ name }: { name: string }) => {
 const CommandPalette = () => {
    const { isCommandPaletteOpen, toggleCommandPalette, setActiveView } = useTerminalStore();
    const [query, setQuery] = useState("");
-
-   if (!isCommandPaletteOpen) return null;
+   const [selectedIndex, setSelectedIndex] = useState(0);
 
    const options = [
       { name: "Trade: US Elections", shortcut: "G T", action: () => setActiveView("Trade") },
       { name: "Market Discovery", shortcut: "G D", action: () => setActiveView("Discover") },
-      { name: "Global Analytics", shortcut: "G A", action: () => setActiveView("Analytics") },
       { name: "Live News Squawk", shortcut: "G N", action: () => setActiveView("News") },
+      { name: "Global Analytics", shortcut: "G A", action: () => setActiveView("Analytics") },
       { name: "Portfolio & PnL", shortcut: "G P", action: () => setActiveView("Portfolio") },
+      { name: "Arbitrage Monitor", shortcut: "G R", action: () => setActiveView("Arbitrage") },
       { name: "Settings & API Keys", shortcut: ",", action: () => {} },
    ];
+
+   const filteredOptions = options.filter(o => o.name.toLowerCase().includes(query.toLowerCase()));
+
+   useEffect(() => {
+      setSelectedIndex(0);
+   }, [query]);
+
+   const handleKeyDown = (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+         e.preventDefault();
+         setSelectedIndex(prev => (prev + 1) % filteredOptions.length);
+      } else if (e.key === "ArrowUp") {
+         e.preventDefault();
+         setSelectedIndex(prev => (prev - 1 + filteredOptions.length) % filteredOptions.length);
+      } else if (e.key === "Enter") {
+         e.preventDefault();
+         if (filteredOptions[selectedIndex]) {
+            filteredOptions[selectedIndex].action();
+            toggleCommandPalette();
+         }
+      }
+   };
+
+   if (!isCommandPaletteOpen) return null;
 
    return (
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-mu-bg/80 backdrop-blur-sm animate-in fade-in zoom-in-95 duration-200" onClick={toggleCommandPalette}>
@@ -73,21 +97,31 @@ const CommandPalette = () => {
                   className="flex-1 bg-transparent border-none outline-none text-sm font-bold text-mu-text uppercase tracking-tight placeholder:text-mu-text-muted/30"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
                />
                <kbd className="bg-mu-bg border border-mu-border px-1.5 py-0.5 rounded text-[10px] font-black text-mu-text-muted">ESC</kbd>
             </div>
             <div className="p-2 space-y-1">
-               {options.filter(o => o.name.toLowerCase().includes(query.toLowerCase())).map((opt, i) => (
-                  <button key={i} onClick={() => { opt.action(); toggleCommandPalette(); }} className="w-full flex items-center justify-between p-3 rounded hover:bg-mu-cyan/10 group transition-all">
-                     <span className="text-xs font-bold uppercase tracking-widest text-mu-text-dim group-hover:text-mu-text">{opt.name}</span>
-                     <span className="text-[10px] font-black text-mu-text-muted group-hover:text-mu-cyan">{opt.shortcut}</span>
+               {filteredOptions.map((opt, i) => (
+                  <button 
+                     key={i} 
+                     onClick={() => { opt.action(); toggleCommandPalette(); }} 
+                     className={`w-full flex items-center justify-between p-3 rounded transition-all group ${i === selectedIndex ? 'bg-mu-cyan/20 ring-1 ring-mu-cyan/30' : 'hover:bg-mu-cyan/10'}`}
+                  >
+                     <span className={`text-xs font-bold uppercase tracking-widest ${i === selectedIndex ? 'text-mu-cyan' : 'text-mu-text-dim group-hover:text-mu-text'}`}>{opt.name}</span>
+                     <span className={`text-[10px] font-black ${i === selectedIndex ? 'text-mu-cyan' : 'text-mu-text-muted group-hover:text-mu-cyan'}`}>{opt.shortcut}</span>
                   </button>
                ))}
+               {filteredOptions.length === 0 && (
+                  <div className="p-8 text-center text-mu-text-muted font-black text-[10px] uppercase tracking-[0.2em]">
+                     No results found for "{query}"
+                  </div>
+               )}
             </div>
             <div className="p-3 border-t border-mu-border-high bg-mu-bg flex items-center justify-between">
                <div className="flex items-center space-x-4 text-[9px] font-black text-mu-text-muted uppercase">
                   <div className="flex items-center space-x-1"><ChevronDown size={10} /> <span>Navigate</span></div>
-                  <div className="flex items-center space-x-1"><X size={10} /> <span>Select</span></div>
+                  <div className="flex items-center space-x-1"><Command size={10} /> <span>Execute</span></div>
                </div>
                <div className="text-[9px] font-black text-mu-text-muted uppercase italic">μT_KERNEL_v0.1</div>
             </div>
@@ -98,19 +132,51 @@ const CommandPalette = () => {
 
 // --- Views ---
 
-const TradeView = ({ lastUpdate }: { lastUpdate: any }) => {
+const TradeView = ({ lastUpdate, isConnected }: { lastUpdate: any, isConnected: boolean }) => {
   const [bids, setBids] = useState<[number, number][]>([]);
   const [asks, setAsks] = useState<[number, number][]>([]);
+  const [flash, setFlash] = useState<{ price: number, type: 'up' | 'down' } | null>(null);
+  const alphaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (lastUpdate?.type === "depth") {
       if (lastUpdate.bids) setBids(lastUpdate.bids);
       if (lastUpdate.asks) setAsks(lastUpdate.asks);
+      
+      // Flash animation logic
+      if (lastUpdate.price) {
+         const type = Math.random() > 0.5 ? 'up' : 'down'; // Mock direction if not provided
+         setFlash({ price: lastUpdate.price, type });
+         setTimeout(() => setFlash(null), 500);
+      }
+    }
+  }, [lastUpdate]);
+
+  useEffect(() => {
+    if (alphaRef.current) {
+      alphaRef.current.scrollTop = alphaRef.current.scrollHeight;
     }
   }, [lastUpdate]);
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2 duration-300">
+    <div className="flex-1 flex flex-col overflow-hidden animate-in slide-in-from-bottom-2 duration-300 relative">
+      {!isConnected && (
+         <div className="absolute inset-0 z-50 bg-mu-bg/60 backdrop-blur-[2px] flex items-center justify-center">
+            <div className="mu-panel-high p-8 flex flex-col items-center space-y-4 border-t-4 border-t-mu-red animate-in zoom-in-95 duration-300">
+               <Activity size={48} className="text-mu-red animate-pulse" />
+               <div className="text-center">
+                  <h3 className="text-lg font-black uppercase tracking-[0.2em] italic">Link Interrupted</h3>
+                  <p className="text-[10px] text-mu-text-muted font-bold uppercase tracking-widest mt-1">Re-establishing BOP Protocol uplink...</p>
+               </div>
+               <div className="flex space-x-2">
+                  {[...Array(3)].map((_, i) => (
+                     <div key={i} className="w-1.5 h-1.5 bg-mu-red rounded-full animate-bounce" style={{ animationDelay: `${i * 0.1}s` }} />
+                  ))}
+               </div>
+            </div>
+         </div>
+      )}
+
       <div className="grid grid-cols-12 gap-2 flex-1 p-2 overflow-hidden">
         {/* Aggregated Order Book */}
         <div className="col-span-8 mu-panel flex flex-col p-3">
@@ -119,8 +185,12 @@ const TradeView = ({ lastUpdate }: { lastUpdate: any }) => {
               <BarChart3 size={16} className="text-mu-cyan" />
               <h2 className="text-xs font-bold uppercase tracking-widest">Unified Order Book</h2>
             </div>
-            <div className="text-[10px] font-mono text-mu-cyan px-2 py-0.5 bg-mu-cyan/10 rounded border border-mu-cyan/20">
-              {lastUpdate?.ticker || "MU:TRUMP_WIN_2024"}
+            <div className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-all duration-500 ${
+               flash?.type === 'up' ? 'bg-mu-green/20 border-mu-green text-mu-green mu-glow-green' :
+               flash?.type === 'down' ? 'bg-mu-red/20 border-mu-red text-mu-red mu-glow-red' :
+               'bg-mu-cyan/10 border-mu-cyan/20 text-mu-cyan'
+            }`}>
+              {lastUpdate?.ticker || "MU:TRUMP_WIN_2024"} @ {lastUpdate?.price?.toFixed(3) || "0.612"}
             </div>
           </div>
           
@@ -163,8 +233,8 @@ const TradeView = ({ lastUpdate }: { lastUpdate: any }) => {
             </div>
             <div className="space-y-4">
                <div className="grid grid-cols-2 gap-2">
-                  <button className="bg-mu-green border border-mu-green/50 text-mu-bg text-[11px] font-black py-2.5 rounded hover:bg-green-400 transition-all uppercase shadow-lg shadow-mu-green/20">BUY / YES</button>
-                  <button className="bg-mu-red border border-mu-red/50 text-mu-bg text-[11px] font-black py-2.5 rounded hover:bg-red-400 transition-all uppercase shadow-lg shadow-mu-red/20">SELL / NO</button>
+                  <button className="bg-mu-green border border-mu-green/50 text-mu-bg text-[11px] font-black py-2.5 rounded hover:bg-green-400 transition-all uppercase shadow-lg shadow-mu-green/20 hover:scale-[1.02] active:scale-[0.98]">BUY / YES</button>
+                  <button className="bg-mu-red border border-mu-red/50 text-mu-bg text-[11px] font-black py-2.5 rounded hover:bg-red-400 transition-all uppercase shadow-lg shadow-mu-red/20 hover:scale-[1.02] active:scale-[0.98]">SELL / NO</button>
                </div>
                <div className="space-y-1">
                   <div className="flex justify-between items-center"><label className="mu-stat-label">Quantity</label><span className="text-[9px] font-bold text-mu-cyan">MAX: 5.2K</span></div>
@@ -177,7 +247,10 @@ const TradeView = ({ lastUpdate }: { lastUpdate: any }) => {
                     <button className="bg-mu-surface-high border border-mu-border-high px-4 py-3 text-[10px] font-black rounded hover:text-mu-cyan transition-colors">MID</button>
                   </div>
                </div>
-               <button className="w-full bg-mu-cyan text-mu-bg text-[11px] font-black py-4 rounded shadow-lg shadow-mu-cyan/30 hover:scale-[1.01] active:scale-[0.99] transition-all uppercase tracking-widest">Execute BOP Protocol</button>
+               <button className="w-full bg-mu-cyan text-mu-bg text-[11px] font-black py-4 rounded shadow-lg shadow-mu-cyan/30 hover:scale-[1.01] active:scale-[0.99] transition-all uppercase tracking-widest relative overflow-hidden group">
+                  <span className="relative z-10">Execute BOP Protocol</span>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+               </button>
             </div>
           </div>
           
@@ -186,11 +259,13 @@ const TradeView = ({ lastUpdate }: { lastUpdate: any }) => {
               <TrendingUp size={16} className="text-mu-amber" />
               <h2 className="text-xs font-bold uppercase tracking-widest">Alpha Monitor</h2>
             </div>
-            <div className="flex-1 mu-scrollbar overflow-y-auto text-[10px] font-mono space-y-1 opacity-80">
-               <div className="text-mu-green animate-in fade-in duration-500">[INFO] Arb Loop detected: POLY(0.58) vs KALSHI(0.61) | Spread: 3c</div>
+            <div ref={alphaRef} className="flex-1 mu-scrollbar overflow-y-auto text-[10px] font-mono space-y-1.5 opacity-80">
+               <div className="text-mu-green animate-in fade-in duration-500 border-l-2 border-mu-green pl-2 bg-mu-green/5 py-1">[ALPHA] Arb Loop detected: POLY(0.58) vs KALSHI(0.61) | Spread: 3c</div>
                <div className="text-mu-text-muted">[10:24:02] Syncing tickers for US_ELECTIONS...</div>
-               <div className="text-mu-amber">[WARN] Low liquidity on Kalshi:TRUMP_NO</div>
+               <div className="text-mu-amber border-l-2 border-mu-amber pl-2 bg-mu-amber/5 py-1">[SIGNAL] High relative volume detected on TRUMP_WIN</div>
                <div className="text-mu-cyan">[TRADE] Bought 500 shares @ 0.585 (Polymarket)</div>
+               <div className="text-mu-text-dim italic">--- Listening for BOP engine signals ---</div>
+               {lastUpdate?.msg && <div className="text-mu-text animate-in slide-in-from-left-2 duration-300">[{new Date().toLocaleTimeString()}] {lastUpdate.msg}</div>}
             </div>
           </div>
         </div>
@@ -237,6 +312,128 @@ const AnalyticsView = () => (
   </div>
 );
 
+const PortfolioView = () => (
+  <div className="flex-1 p-4 flex flex-col space-y-4 animate-in slide-in-from-bottom-2 duration-300 overflow-hidden">
+    <div className="grid grid-cols-3 gap-4">
+      <div className="mu-panel p-4 flex flex-col space-y-2 border-l-4 border-l-mu-cyan">
+        <span className="mu-stat-label">Total Equity</span>
+        <span className="text-3xl font-black tracking-tight">$124,502.82</span>
+        <div className="flex items-center space-x-2 text-[10px] font-bold text-mu-green">
+          <ArrowUpRight size={12} />
+          <span>+$1,240.21 (1.02%) TODAY</span>
+        </div>
+      </div>
+      <div className="mu-panel p-4 flex flex-col space-y-2">
+        <span className="mu-stat-label">Available Margin</span>
+        <span className="text-3xl font-black tracking-tight text-mu-text-dim">$82,100.00</span>
+        <span className="text-[10px] font-black text-mu-text-muted uppercase tracking-widest">Efficiency: 88.2%</span>
+      </div>
+      <div className="mu-panel p-4 flex flex-col space-y-2">
+        <span className="mu-stat-label">Active Positions</span>
+        <span className="text-3xl font-black tracking-tight text-mu-amber">12</span>
+        <span className="text-[10px] font-black text-mu-text-muted uppercase tracking-widest">3 Pending Orders</span>
+      </div>
+    </div>
+
+    <div className="flex-1 mu-panel flex flex-col overflow-hidden">
+      <div className="px-4 py-3 border-b border-mu-border bg-mu-surface/50 flex items-center justify-between">
+        <h2 className="text-xs font-black uppercase tracking-widest">Active Positions</h2>
+        <ListFilter size={14} className="text-mu-text-muted cursor-pointer hover:text-mu-text" />
+      </div>
+      <div className="flex-1 overflow-y-auto mu-scrollbar">
+        <table className="w-full text-left border-collapse">
+          <thead className="sticky top-0 bg-mu-surface text-[9px] font-black uppercase text-mu-text-muted border-b border-mu-border z-10">
+            <tr>
+              <th className="px-4 py-3">Asset / Market</th>
+              <th className="px-4 py-3">Side</th>
+              <th className="px-4 py-3">Size</th>
+              <th className="px-4 py-3">Entry</th>
+              <th className="px-4 py-3">Mark</th>
+              <th className="px-4 py-3 text-right">Unrealized PnL</th>
+            </tr>
+          </thead>
+          <tbody className="text-[11px] font-bold divide-y divide-mu-border/30">
+            {[
+              { asset: "TRUMP_WIN_2024", side: "LONG", size: "10,000", entry: "0.582", mark: "0.612", pnl: "+$300.00", color: "text-mu-green" },
+              { asset: "FED_RATE_CUT_JUNE", side: "SHORT", size: "5,000", entry: "0.221", mark: "0.198", pnl: "+$115.00", color: "text-mu-green" },
+              { asset: "BTC_USD_70K_JUNE", side: "LONG", size: "2,500", entry: "0.450", mark: "0.412", pnl: "-$95.00", color: "text-mu-red" },
+              { asset: "NVDA_3000_2025", side: "LONG", size: "1,200", entry: "0.125", mark: "0.132", pnl: "+$8.40", color: "text-mu-green" },
+            ].map((pos, i) => (
+              <tr key={i} className="hover:bg-mu-surface/50 transition-colors group cursor-pointer">
+                <td className="px-4 py-4 font-mono text-mu-cyan">{pos.asset}</td>
+                <td className="px-4 py-4"><span className={`px-1.5 py-0.5 rounded text-[9px] ${pos.side === 'LONG' ? 'bg-mu-green/10 text-mu-green' : 'bg-mu-red/10 text-mu-red'}`}>{pos.side}</span></td>
+                <td className="px-4 py-4 tabular-nums">{pos.size}</td>
+                <td className="px-4 py-4 tabular-nums text-mu-text-muted">{pos.entry}</td>
+                <td className="px-4 py-4 tabular-nums">{pos.mark}</td>
+                <td className={`px-4 py-4 text-right tabular-nums ${pos.color}`}>{pos.pnl}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+);
+
+const ArbitrageView = () => (
+  <div className="flex-1 p-4 flex flex-col space-y-4 animate-in slide-in-from-left-2 duration-300 overflow-hidden">
+    <div className="mu-panel-high p-4 flex items-center justify-between bg-mu-amber/5 border-l-4 border-l-mu-amber">
+      <div className="flex items-center space-x-3">
+        <div className="p-2 bg-mu-amber/20 rounded-full animate-pulse">
+          <Zap size={20} className="text-mu-amber" />
+        </div>
+        <div>
+          <h2 className="text-sm font-black uppercase tracking-tight text-mu-amber">High Confidence Arbitrage Opportunity</h2>
+          <p className="text-[10px] text-mu-text-dim uppercase font-bold tracking-widest">Cross-venue discrepancy detected in TRUMP_WIN_2024</p>
+        </div>
+      </div>
+      <button className="bg-mu-amber text-mu-bg px-6 py-2.5 rounded font-black text-[11px] uppercase tracking-tighter hover:bg-amber-400 transition-all shadow-lg shadow-mu-amber/20">Execute Atomic Loop</button>
+    </div>
+
+    <div className="flex-1 mu-panel flex flex-col overflow-hidden">
+      <div className="px-4 py-3 border-b border-mu-border bg-mu-surface/50 flex items-center justify-between">
+        <h2 className="text-xs font-black uppercase tracking-widest">Live Price Discrepancies</h2>
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-1.5 text-[9px] font-black text-mu-text-muted uppercase">
+             <span>Refresh Rate: 50ms</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex-1 overflow-y-auto mu-scrollbar">
+        <table className="w-full text-left border-collapse">
+          <thead className="sticky top-0 bg-mu-surface text-[9px] font-black uppercase text-mu-text-muted border-b border-mu-border z-10">
+            <tr>
+              <th className="px-4 py-3">Market</th>
+              <th className="px-4 py-3">Venue A (Ask)</th>
+              <th className="px-4 py-3">Venue B (Bid)</th>
+              <th className="px-4 py-3">Gross Spread</th>
+              <th className="px-4 py-3">Est. Profit (1k)</th>
+              <th className="px-4 py-3 text-right">Status</th>
+            </tr>
+          </thead>
+          <tbody className="text-[11px] font-bold divide-y divide-mu-border/30">
+            {[
+              { market: "TRUMP_WIN_2024", vA: "Poly (0.582)", vB: "Kalshi (0.612)", spread: "3.0c", profit: "$29.40", status: "READY", statusColor: "text-mu-green" },
+              { market: "FED_RATE_CUT", vA: "PredictIt (0.22)", vB: "Poly (0.24)", spread: "2.0c", profit: "$18.20", status: "READY", statusColor: "text-mu-green" },
+              { market: "BTC_USD_70K", vA: "Limitless (0.45)", vB: "Kalshi (0.46)", spread: "1.0c", profit: "$8.50", status: "LOW_LIQ", statusColor: "text-mu-amber" },
+              { market: "NY_VERDICT", vA: "Opinion (0.72)", vB: "Poly (0.71)", spread: "-1.0c", profit: "-$12.00", status: "NO_ARB", statusColor: "text-mu-red" },
+            ].map((arb, i) => (
+              <tr key={i} className="hover:bg-mu-surface/50 transition-colors group cursor-pointer">
+                <td className="px-4 py-4 font-mono text-mu-cyan">{arb.market}</td>
+                <td className="px-4 py-4 text-mu-text-dim">{arb.vA}</td>
+                <td className="px-4 py-4 text-mu-text-dim">{arb.vB}</td>
+                <td className="px-4 py-4 tabular-nums text-mu-text">{arb.spread}</td>
+                <td className="px-4 py-4 tabular-nums text-mu-green">{arb.profit}</td>
+                <td className={`px-4 py-4 text-right font-black text-[9px] tracking-widest ${arb.statusColor}`}>{arb.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+);
+
 // --- Main App Component ---
 
 function App() {
@@ -251,6 +448,11 @@ function App() {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         toggleCommandPalette();
+      }
+      // Cmd+L: Focus Command Input
+      if ((e.metaKey || e.ctrlKey) && e.key === "l") {
+        e.preventDefault();
+        document.getElementById("main-cmd-input")?.focus();
       }
       // ESC: Close Palette
       if (e.key === "Escape" && isCommandPaletteOpen) {
@@ -363,11 +565,13 @@ function App() {
 
             {/* Viewport */}
             <section className="flex-1 flex flex-col min-w-0 bg-mu-bg overflow-hidden relative">
-               {activeView === "Trade" && <TradeView lastUpdate={lastUpdate} />}
+               {activeView === "Trade" && <TradeView lastUpdate={lastUpdate} isConnected={isConnected} />}
                {activeView === "Discover" && <MarketTable />}
                {activeView === "News" && <NewsFeed />}
                {activeView === "Analytics" && <AnalyticsView />}
-               {(activeView === "Portfolio" || activeView === "Top Traders" || activeView === "Arbitrage") && (
+               {activeView === "Portfolio" && <PortfolioView />}
+               {activeView === "Arbitrage" && <ArbitrageView />}
+               {(activeView === "Top Traders") && (
                  <div className="flex-1 flex flex-col items-center justify-center space-y-6 opacity-40 animate-pulse">
                     <Activity size={64} className="text-mu-red" />
                     <div className="flex flex-col items-center">
