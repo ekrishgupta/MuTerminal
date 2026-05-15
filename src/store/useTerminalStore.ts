@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type AppView = 'Discover' | 'Trade' | 'News' | 'Analytics' | 'Top Traders' | 'Arbitrage' | 'Portfolio';
+export type AppView = 'Discover' | 'Trade' | 'Strategies' | 'News' | 'Analytics' | 'Top Traders' | 'Arbitrage' | 'Portfolio';
 
 interface TerminalState {
   activeView: AppView;
