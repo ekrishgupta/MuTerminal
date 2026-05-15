@@ -4,18 +4,22 @@
 [![Tauri](https://img.shields.io/badge/Framework-Tauri%20v2-blue.svg)](https://tauri.app/)
 [![React](https://img.shields.io/badge/Frontend-React%20v19-cyan.svg)](https://react.dev/)
 
-**MuTerminal (μT)** is a professional-grade execution environment and high-frequency aggregator for prediction markets. Built for "Alpha Hunters," it combines a low-latency C++20 trading engine with a high-density, keyboard-first industrial interface.
+**MuTerminal (μT)** is a professional-grade execution environment and high-frequency aggregator for prediction markets. 
+
+At its core, MuTerminal leverages the [BOP (Generalized Outcome Protocol)](https://github.com/ekrishgupta/bop) to provide a unified language for prediction market trading. This makes it radically easier to write, test, and deploy automated algorithms. By abstracting away venue-specific APIs, MuTerminal enables seamless cross-exchange arbitrage (e.g. Kalshi vs. Polymarket) using a single, cohesive `.bop` script.
+
+*Coming Soon:* Premium users will have access to proprietary, Bloomberg-style fundamental data on every market, providing unparalleled institutional-grade intelligence.
 
 ---
 
-## 🚀 Key Features
+## 🚀 Key Capabilities
 
-- **Unified Liquidity Aggregator (ULA):** Real-time side-by-side order books for Kalshi, Polymarket, and other major venues.
-- **BOP Strategy Lab:** Full built-in IDE for writing, compiling, and deploying `.bop` algorithmic execution strategies.
+- **Algorithmic Execution:** Write and instantly deploy automated trading strategies using the [BOP Protocol](https://github.com/ekrishgupta/bop).
+- **Cross-Venue Arbitrage:** Exploit price discrepancies across Kalshi, Polymarket, and other venues with a unified liquidity pool.
+- **Unified Liquidity Aggregator (ULA):** Real-time side-by-side order books and consolidated market depth.
 - **Portfolio Manager:** High-density tracking of Net Liquidation Value, Margin Utilization, and live position PnL.
-- **Cyber-Industrial UI:** A strict, zero-animation TUI-inspired dashboard optimized for high-density information awareness.
-- **Alpha Monitor:** Real-time "Squawk" feed and whale-watching notifications for institutional-grade market intelligence.
-- **Keyboard-First Workflow:** Full command palette (`Cmd+K`), instant Trade execution (`B`/`S`), and rapid view-switching (`F1`-`F6`).
+- **Alpha Monitor:** Real-time "Squawk" feed and whale-watching notifications.
+- **Keyboard-First Workflow:** Full command palette (`Cmd+K`), instant Trade execution (`B`/`S`), and rapid workspace switching (`F1`-`F6`).
 
 ## 🏗 Architecture
 
