@@ -88,7 +88,7 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 ### Phase 3: Trading & Execution
 - [x] Kalshi v2 Auth implementation.
 - [x] Polymarket CLOB integration.
-- [ ] First "Universal Market" trade via μT.
+- [x] First "Universal Market" trade via μT.
 
 ### Phase 4: Intelligence
 - [x] News-to-Ticker mapping.

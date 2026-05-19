@@ -184,8 +184,35 @@ function App() {
     setCommand("");
   };
 
+  const handleOrderSubmit = (order: any) => {
+    console.log("[App] Order Submitted via BOP:", order);
+    // In a real app this sends IPC to sidecar
+    window.dispatchEvent(new CustomEvent("mu-notification", { 
+      detail: `EXECUTED: ${order.side} ${order.qty} ${order.ticker} @ ${order.price.toFixed(3)} via BOP ULA`
+    }));
+  };
+
+  const [notification, setNotification] = useState<string | null>(null);
+  
+  useEffect(() => {
+    const handleNotif = (e: Event) => {
+      const msg = (e as CustomEvent).detail;
+      setNotification(msg);
+      setTimeout(() => setNotification(null), 4000);
+    };
+    window.addEventListener("mu-notification", handleNotif);
+    return () => window.removeEventListener("mu-notification", handleNotif);
+  }, []);
+
   return (
     <div className="h-screen flex flex-col selection:bg-[rgba(232,160,32,0.3)]">
+      {notification && (
+        <div className="fixed top-16 right-4 z-[200] px-4 py-2 rounded shadow-2xl border flex items-center gap-2" 
+             style={{ background: 'var(--color-mu-green)', color: 'black', borderColor: 'rgba(255,255,255,0.2)' }}>
+          <Zap size={14} />
+          <span className="font-mono text-[11px] font-black tracking-widest">{notification}</span>
+        </div>
+      )}
       <CommandPalette />
 
       {/* Top Ticker Tape */}
@@ -317,6 +344,7 @@ function App() {
                     ticker={marketData.ticker.ticker}
                     bidPrice={marketData.ticker.bidPrice}
                     askPrice={marketData.ticker.askPrice}
+                    onOrder={handleOrderSubmit}
                   />
                 </div>
               </div>
