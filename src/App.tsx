@@ -16,6 +16,7 @@ import { WhaleTracker } from "./components/WhaleTracker";
 import { TopTradersView } from "./components/TopTradersView";
 import { StrategyLab } from "./components/StrategyLab";
 import { PortfolioView } from "./components/PortfolioView";
+import { LiveChart } from "./components/LiveChart";
 
 import "./App.css";
 
@@ -280,12 +281,12 @@ function App() {
               <div className="flex-1 flex overflow-hidden p-1 gap-1">
                 {/* Center / Chart placeholder + Whale tracker */}
                 <div className="flex-1 flex flex-col gap-1 overflow-hidden">
-                  <div className="flex-[2] mu-panel overflow-hidden relative group">
-                    <div className="absolute top-2 left-2 mu-label">Live Chart (Placeholder)</div>
-                    {/* Fake chart graphic */}
-                    <div className="absolute inset-0 opacity-10 flex items-center justify-center font-black uppercase text-4xl tracking-widest italic" style={{ color: "var(--color-mu-cyan)" }}>
-                      Chart View
-                    </div>
+                  <div className="flex-[2] mu-panel overflow-hidden relative group p-0">
+                    <div className="absolute top-2 left-2 mu-label z-10 bg-[var(--color-mu-surface)]/80 px-1 rounded backdrop-blur">Live Chart (Mock)</div>
+                    <LiveChart 
+                      data={marketData.priceHistory} 
+                      color={marketData.ticker.change24h >= 0 ? "var(--color-mu-green)" : "var(--color-mu-red)"} 
+                    />
                   </div>
                   <div className="flex-1 mu-panel overflow-hidden min-h-[200px]">
                     <WhaleTracker />
