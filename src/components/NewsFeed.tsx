@@ -4,6 +4,7 @@
  */
 import { useState, useEffect } from "react";
 import { Radio, Zap, ExternalLink } from "lucide-react";
+import { TickerMapper } from "../utils/TickerMapper";
 
 interface NewsItem {
   id: string;
@@ -93,8 +94,14 @@ export function NewsFeed() {
     const id = setInterval(() => {
       if (Math.random() > 0.7) {
         const template = SEED_NEWS[Math.floor(Math.random() * SEED_NEWS.length)];
+        
+        // Add dynamic mapping via TickerMapper
+        const mapping = TickerMapper.mapHeadline(template.title);
+        const dynamicTicker = mapping ? mapping.ticker : template.ticker;
+        const dynamicKeywords = mapping ? Array.from(new Set([...template.keywords, ...mapping.keywords])) : template.keywords;
+        
         setItems((prev) => [
-          { ...template, id: `n-${++newsId}`, time: Date.now(), isBreaking: Math.random() > 0.85 },
+          { ...template, id: `n-${++newsId}`, time: Date.now(), isBreaking: Math.random() > 0.85, ticker: dynamicTicker, keywords: dynamicKeywords },
           ...prev,
         ].slice(0, 40));
       }

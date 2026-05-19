@@ -91,5 +91,5 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 - [ ] First "Universal Market" trade via μT.
 
 ### Phase 4: Intelligence
-- [ ] News-to-Ticker mapping.
+- [x] News-to-Ticker mapping.
 - [x] Whale Tracking Dashboard.
