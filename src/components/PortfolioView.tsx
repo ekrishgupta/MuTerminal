@@ -3,7 +3,20 @@
  */
 import { ArrowUpRight, Wallet, ShieldAlert } from "lucide-react";
 
+import { useState } from "react";
+import { ArrowUpRight, Wallet, ShieldAlert, AlertOctagon, Flame } from "lucide-react";
+
 export function PortfolioView() {
+  const [killSwitchEngaged, setKillSwitchEngaged] = useState(false);
+
+  const handleKillSwitch = () => {
+    if (confirm("WARNING: Engaing the Global Kill Switch will HALT all algorithmic execution and attempt to LIQUIDATE all open positions at market price. Proceed?")) {
+      setKillSwitchEngaged(true);
+      window.dispatchEvent(new CustomEvent("mu-notification", { 
+        detail: "GLOBAL KILL SWITCH ENGAGED. HALTING ALL STRATEGIES AND LIQUIDATING POSITIONS." 
+      }));
+    }
+  };
   return (
     <div className="flex-1 flex flex-col p-4 gap-4 overflow-hidden  bg-[var(--color-mu-bg)]">
       {/* Top Equities Row */}
@@ -24,11 +37,14 @@ export function PortfolioView() {
           </div>
         </div>
         <div className="mu-panel p-4 flex flex-col gap-1">
-          <span className="mu-label">Active Risk</span>
+          <span className="mu-label">Active Risk (Delta)</span>
           <span className="mu-value-lg" style={{ color: "var(--color-mu-amber)" }}>$60,492.80</span>
-          <div className="flex items-center gap-1 text-[10px] font-bold mt-1" style={{ color: "var(--color-mu-text-dim)" }}>
-            <ShieldAlert size={10} />
-            <span>VAR (95%): $4,200</span>
+          <div className="flex items-center justify-between text-[10px] font-bold mt-1" style={{ color: "var(--color-mu-text-dim)" }}>
+            <div className="flex items-center gap-1">
+              <ShieldAlert size={10} />
+              <span>VAR (95%): $4,200</span>
+            </div>
+            <span style={{ color: "var(--color-mu-cyan)" }}>Δ +0.45</span>
           </div>
         </div>
         <div className="mu-panel p-4 flex flex-col gap-1">
@@ -44,11 +60,27 @@ export function PortfolioView() {
       {/* Positions Table */}
       <div className="flex-1 mu-panel flex flex-col overflow-hidden">
         <div className="px-4 py-3 border-b flex items-center justify-between" style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface-mid)" }}>
-          <div className="flex items-center gap-2">
-            <Wallet size={14} style={{ color: "var(--color-mu-cyan)" }} />
-            <h2 className="mu-heading">Open Positions</h2>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Wallet size={14} style={{ color: "var(--color-mu-cyan)" }} />
+              <h2 className="mu-heading">Open Positions</h2>
+            </div>
+            <span className="mu-label">4 Active Markets</span>
           </div>
-          <span className="mu-label">4 Active Markets</span>
+          
+          <button 
+            onClick={handleKillSwitch}
+            disabled={killSwitchEngaged}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-[10px] font-black uppercase tracking-widest transition-all ${killSwitchEngaged ? 'opacity-50 cursor-not-allowed' : 'mu-glow-red hover:scale-105'}`}
+            style={{ 
+              background: killSwitchEngaged ? "var(--color-mu-surface-high)" : "rgba(224,82,82,0.15)", 
+              color: killSwitchEngaged ? "var(--color-mu-text-muted)" : "var(--color-mu-red)", 
+              border: `1px solid ${killSwitchEngaged ? "var(--color-mu-border)" : "var(--color-mu-red)"}` 
+            }}
+          >
+            {killSwitchEngaged ? <Flame size={12} /> : <AlertOctagon size={12} />}
+            {killSwitchEngaged ? "LIQUIDATING..." : "GLOBAL KILL SWITCH"}
+          </button>
         </div>
         
         <div className="flex-1 overflow-y-auto no-scrollbar">
@@ -64,14 +96,19 @@ export function PortfolioView() {
                 <th className="text-right py-3 pr-4">Unrealized PnL</th>
               </tr>
             </thead>
-            <tbody className="divide-y" style={{ borderColor: "var(--color-mu-border)" }}>
+            <tbody className="divide-y" style={{ borderColor: "var(--color-mu-border)", opacity: killSwitchEngaged ? 0.3 : 1 }}>
               {[
                 { asset: "TRUMP_WIN_2026", side: "LONG", size: 50000, entry: 0.582, mark: 0.612, notional: 30600, pnl: 1500 },
                 { asset: "FED_CUT_JUNE", side: "SHORT", size: 25000, entry: 0.441, mark: 0.420, notional: 10500, pnl: 525 },
                 { asset: "BTC_USD_100K", side: "LONG", size: 10000, entry: 0.280, mark: 0.328, notional: 3280, pnl: 480 },
                 { asset: "OPEC_CUT_Q3", side: "LONG", size: 15000, entry: 0.420, mark: 0.374, notional: 5610, pnl: -690 },
               ].map((pos, i) => (
-                <tr key={i} className="mu-table-row">
+                <tr key={i} className="mu-table-row relative">
+                  {killSwitchEngaged && (
+                    <td colSpan={7} className="absolute inset-0 z-10 flex items-center justify-center">
+                      <span className="text-[12px] font-black uppercase tracking-widest mu-pulse-dot" style={{ color: "var(--color-mu-red)" }}>CLOSING...</span>
+                    </td>
+                  )}
                   <td className="pl-4 py-3 font-mono text-[11px] font-bold" style={{ color: "var(--color-mu-cyan)" }}>
                     {pos.asset}
                   </td>

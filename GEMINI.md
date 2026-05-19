@@ -96,5 +96,5 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 
 ### Phase 5: Advanced Analytics & Risk (Next Steps)
 - [x] Cross-Venue Arbitrage Scanner (Unlocking locked module).
-- [ ] Portfolio & Margin Dashboard (Delta exposure, Kill Switch UI).
+- [x] Portfolio & Margin Dashboard (Delta exposure, Kill Switch UI).
 - [ ] Visual BOP Script Builder (No-code strategy deployment).
