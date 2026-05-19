@@ -81,8 +81,8 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 - [ ] Secure Local Key-Vault for API keys.
 
 ### Phase 2: The UI Shell
-- [ ] Cyber-Industrial Tailwind Theme.
-- [ ] Aggregated Order Book Component (UOB).
+- [x] Cyber-Industrial Tailwind Theme.
+- [x] Aggregated Order Book Component (UOB).
 - [ ] Real-time data streaming via local WS.
 
 ### Phase 3: Trading & Execution
@@ -92,4 +92,4 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 
 ### Phase 4: Intelligence
 - [ ] News-to-Ticker mapping.
-- [ ] Whale Tracking Dashboard.
+- [x] Whale Tracking Dashboard.
