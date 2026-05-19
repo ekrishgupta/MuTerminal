@@ -17,6 +17,7 @@ import { TopTradersView } from "./components/TopTradersView";
 import { StrategyLab } from "./components/StrategyLab";
 import { PortfolioView } from "./components/PortfolioView";
 import { LiveChart } from "./components/LiveChart";
+import { ArbitrageMonitor } from "./components/ArbitrageMonitor";
 
 import "./App.css";
 
@@ -356,8 +357,9 @@ function App() {
           {activeView === "News" && <NewsFeed />}
           {activeView === "Top Traders" && <TopTradersView />}
           {activeView === "Portfolio" && <PortfolioView />}
+          {activeView === "Arbitrage" && <ArbitrageMonitor />}
           
-          {(activeView === "Analytics" || activeView === "Arbitrage") && (
+          {(activeView === "Analytics") && (
             <div className="flex-1 flex flex-col items-center justify-center gap-4 opacity-40 ">
               <Activity size={48} style={{ color: "var(--color-mu-accent)" }} />
               <div className="text-center">
