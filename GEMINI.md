@@ -78,7 +78,7 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 ### Phase 1: Foundation (Current)
 - [x] Initial Tauri + React + BOP Scaffold.
 - [ ] Implement C++ Sidecar IPC (Tauri -> BOP communication).
-- [ ] Secure Local Key-Vault for API keys.
+- [x] Secure Local Key-Vault for API keys.
 
 ### Phase 2: The UI Shell
 - [x] Cyber-Industrial Tailwind Theme.
