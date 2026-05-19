@@ -86,8 +86,8 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 - [ ] Real-time data streaming via local WS.
 
 ### Phase 3: Trading & Execution
-- [ ] Kalshi v2 Auth implementation.
-- [ ] Polymarket CLOB integration.
+- [x] Kalshi v2 Auth implementation.
+- [x] Polymarket CLOB integration.
 - [ ] First "Universal Market" trade via μT.
 
 ### Phase 4: Intelligence
