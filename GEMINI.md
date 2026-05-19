@@ -77,13 +77,13 @@ A CLI-style input at the base of the UI that accepts BOP syntax for instant exec
 
 ### Phase 1: Foundation (Current)
 - [x] Initial Tauri + React + BOP Scaffold.
-- [ ] Implement C++ Sidecar IPC (Tauri -> BOP communication).
+- [x] Implement C++ Sidecar IPC (Tauri -> BOP communication).
 - [x] Secure Local Key-Vault for API keys.
 
 ### Phase 2: The UI Shell
 - [x] Cyber-Industrial Tailwind Theme.
 - [x] Aggregated Order Book Component (UOB).
-- [ ] Real-time data streaming via local WS.
+- [x] Real-time data streaming via local WS.
 
 ### Phase 3: Trading & Execution
 - [x] Kalshi v2 Auth implementation.
