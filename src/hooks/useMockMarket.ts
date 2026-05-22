@@ -3,6 +3,7 @@
  * Provides realistic-looking streaming data without an actual BOP engine connection.
  */
 import { useEffect, useRef, useState, useCallback } from "react";
+import { useBopBridge } from "./useBopBridge";
 
 export interface DepthLevel {
   price: number;
@@ -137,10 +138,58 @@ export function useMockMarket(selectedTicker = "TRUMP_WIN_2026") {
     });
   }, []);
 
+  const { isConnected, lastUpdate } = useBopBridge();
+
   useEffect(() => {
+    if (!lastUpdate) return;
+    
+    if (lastUpdate.type === 'depth' && lastUpdate.ticker === selectedTicker) {
+      setMarketData(prev => {
+        let bidTotal = 0;
+        const bids = (lastUpdate.bids || []).map(([p, q]) => {
+          bidTotal += q;
+          return { price: p, size: q, total: bidTotal };
+        });
+        
+        let askTotal = 0;
+        const asks = (lastUpdate.asks || []).map(([p, q]) => {
+          askTotal += q;
+          return { price: p, size: q, total: askTotal };
+        });
+
+        const newTicker = { ...prev.ticker };
+        if (bids.length > 0 && asks.length > 0) {
+          newTicker.bidPrice = bids[0].price;
+          newTicker.askPrice = asks[0].price;
+          newTicker.spread = parseFloat((asks[0].price - bids[0].price).toFixed(3));
+          newTicker.lastPrice = parseFloat(((bids[0].price + asks[0].price) / 2).toFixed(3));
+        }
+
+        return { ...prev, bids, asks, ticker: newTicker };
+      });
+    } else if (lastUpdate.type === 'trade' && lastUpdate.ticker === selectedTicker) {
+      setMarketData(prev => {
+        const newTrade: Trade = {
+          id: `t-live-${++tradeIdRef.current}`,
+          price: lastUpdate.price || 0,
+          size: lastUpdate.qty || 0,
+          side: (lastUpdate.price || 0) > prev.ticker.lastPrice ? "buy" : "sell",
+          time: Date.now(),
+          venue: "POLY", // Fallback, could be extracted if sidecar provides it
+        };
+        const trades = [newTrade, ...prev.trades].slice(0, 60);
+        return { ...prev, trades };
+      });
+    }
+  }, [lastUpdate, selectedTicker]);
+
+  useEffect(() => {
+    // Only run mock generator if we aren't connected to the live sidecar
+    if (isConnected) return;
+    
     const intervalId = setInterval(tick, 600);
     return () => clearInterval(intervalId);
-  }, [tick]);
+  }, [tick, isConnected]);
 
   return marketData;
 }
