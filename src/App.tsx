@@ -18,6 +18,7 @@ import { StrategyLab } from "./components/StrategyLab";
 import { PortfolioView } from "./components/PortfolioView";
 import { LiveChart } from "./components/LiveChart";
 import { ArbitrageMonitor } from "./components/ArbitrageMonitor";
+import { SettingsView } from "./components/SettingsView";
 
 import "./App.css";
 
@@ -242,7 +243,7 @@ function App() {
             <div className="flex items-center gap-1.5"><Shield size={12} style={{ color: "var(--color-mu-green)" }} /> <span>SECURE</span></div>
           </div>
           <div className="flex items-center gap-1">
-            <button className="p-1.5 text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-text)] "><Settings size={16} /></button>
+            <button className="p-1.5 text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-text)] " onClick={() => setActiveView("Settings")}><Settings size={16} /></button>
             <button className="p-1.5 text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-text)] " onClick={toggleCommandPalette}><Command size={16} /></button>
           </div>
         </div>
@@ -358,6 +359,7 @@ function App() {
           {activeView === "Top Traders" && <TopTradersView />}
           {activeView === "Portfolio" && <PortfolioView />}
           {activeView === "Arbitrage" && <ArbitrageMonitor />}
+          {activeView === "Settings" && <SettingsView />}
           
           {(activeView === "Analytics") && (
             <div className="flex-1 flex flex-col items-center justify-center gap-4 opacity-40 ">
