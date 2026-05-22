@@ -14,11 +14,12 @@ At its core, MuTerminal leverages the [BOP (Generalized Outcome Protocol)](https
 
 ## 🚀 Key Capabilities
 
-- **Algorithmic Execution:** Write and instantly deploy automated trading strategies using the [BOP Protocol](https://github.com/ekrishgupta/bop).
-- **Cross-Venue Arbitrage:** Exploit price discrepancies across Kalshi, Polymarket, and other venues with a unified liquidity pool.
+- **Algorithmic Execution:** Write and instantly deploy automated trading strategies using the [BOP Protocol](https://github.com/ekrishgupta/bop). 
+- **Visual Script Builder:** Construct complex trading bots visually without writing a single line of `.bop` DSL.
+- **Cross-Venue Arbitrage Scanner:** An automated monitor that tracks and captures live Kalshi vs Polymarket inefficiencies.
 - **Unified Liquidity Aggregator (ULA):** Real-time side-by-side order books and consolidated market depth.
-- **Portfolio Manager:** High-density tracking of Net Liquidation Value, Margin Utilization, and live position PnL.
-- **Alpha Monitor:** Real-time "Squawk" feed and whale-watching notifications.
+- **Portfolio Manager & Risk Gates:** High-density tracking of Net Liquidation Value, Delta Exposure, and a **Global Kill Switch** to instantly halt algorithms and liquidate positions.
+- **OS-Level Key Vault:** Encrypted, offline storage for exchange API credentials via native OS Keychains (`tauri-plugin-store`).
 - **Keyboard-First Workflow:** Full command palette (`Cmd+K`), instant Trade execution (`B`/`S`), and rapid workspace switching (`F1`-`F6`).
 
 ## 🏗 Architecture
@@ -69,6 +70,7 @@ MuTerminal/
    ```bash
    cd engine && mkdir build && cd build
    cmake .. && make sidecar -j4
+   cp sidecar ../../src-tauri/bin/sidecar-aarch64-apple-darwin # Rename for Tauri bindings
    ```
 
 4. **Run the Terminal:**
