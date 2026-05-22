@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Play, Square, Code, FileText, Save, Terminal, CheckCircle2 } from "lucide-react";
+import { Play, Square, Code, FileText, Save, Terminal, CheckCircle2, Network } from "lucide-react";
 import { useBopBridge } from "../hooks/useBopBridge";
+import { VisualBuilder } from "./VisualBuilder";
 
 interface ScriptFile {
   name: string;
@@ -75,6 +76,7 @@ on WhaleTrade(target_wallet) {
 ];
 
 export function StrategyLab() {
+  const [editorMode, setEditorMode] = useState<"code" | "visual">("code");
   const [scripts, setScripts] = useState<ScriptFile[]>(DEFAULT_SCRIPTS);
   const [activeScriptIdx, setActiveScriptIdx] = useState(0);
   const [consoleOutput, setConsoleOutput] = useState<string[]>([
@@ -159,6 +161,31 @@ export function StrategyLab() {
             <span className="font-mono text-[13px] font-black" style={{ color: "var(--color-mu-accent)" }}>
               {activeScript.name}
             </span>
+            {/* Mode Toggle */}
+            <div className="flex items-center rounded overflow-hidden" style={{ background: "var(--color-mu-surface)", border: "1px solid var(--color-mu-border)" }}>
+              <button 
+                onClick={() => setEditorMode("code")}
+                className="px-3 py-1 flex items-center gap-1.5 text-[10px] font-bold uppercase transition-colors"
+                style={{ 
+                  background: editorMode === "code" ? "var(--color-mu-surface-high)" : "transparent",
+                  color: editorMode === "code" ? "var(--color-mu-text)" : "var(--color-mu-text-dim)"
+                }}
+              >
+                <Code size={12} /> Code
+              </button>
+              <button 
+                onClick={() => setEditorMode("visual")}
+                className="px-3 py-1 flex items-center gap-1.5 text-[10px] font-bold uppercase transition-colors"
+                style={{ 
+                  background: editorMode === "visual" ? "var(--color-mu-surface-high)" : "transparent",
+                  color: editorMode === "visual" ? "var(--color-mu-text)" : "var(--color-mu-text-dim)",
+                  borderLeft: "1px solid var(--color-mu-border)"
+                }}
+              >
+                <Network size={12} /> Visual
+              </button>
+            </div>
+            
             {activeScript.status === "running" ? (
               <span className="flex items-center gap-1.5 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest" style={{ background: "rgba(44,182,125,0.1)", color: "var(--color-mu-green)", border: "1px solid rgba(44,182,125,0.2)" }}>
                 <CheckCircle2 size={10} /> Deployed & Active
@@ -193,25 +220,31 @@ export function StrategyLab() {
           </div>
         </div>
 
-        {/* Code Editor Area */}
+        {/* Workspace Area */}
         <div className="flex-1 flex overflow-hidden relative">
-          {/* Line Numbers Fake Rail */}
-          <div className="w-10 h-full border-r flex flex-col pt-4 items-center shrink-0 font-mono text-[11px]" style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)", color: "var(--color-mu-text-ghost)" }}>
-            {Array.from({ length: 30 }).map((_, i) => (
-              <div key={i} className="leading-6">{i + 1}</div>
-            ))}
-          </div>
-          <textarea
-            value={activeScript.content}
-            onChange={handleEditorChange}
-            className="flex-1 h-full resize-none outline-none p-4 font-mono text-[13px] leading-6 whitespace-pre"
-            spellCheck={false}
-            style={{ 
-              background: "var(--color-mu-bg)", 
-              color: "var(--color-mu-text-bright)",
-              tabSize: 2
-            }}
-          />
+          {editorMode === "code" ? (
+            <>
+              {/* Line Numbers Fake Rail */}
+              <div className="w-10 h-full border-r flex flex-col pt-4 items-center shrink-0 font-mono text-[11px]" style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)", color: "var(--color-mu-text-ghost)" }}>
+                {Array.from({ length: 30 }).map((_, i) => (
+                  <div key={i} className="leading-6">{i + 1}</div>
+                ))}
+              </div>
+              <textarea
+                value={activeScript.content}
+                onChange={handleEditorChange}
+                className="flex-1 h-full resize-none outline-none p-4 font-mono text-[13px] leading-6 whitespace-pre"
+                spellCheck={false}
+                style={{ 
+                  background: "var(--color-mu-bg)", 
+                  color: "var(--color-mu-text-bright)",
+                  tabSize: 2
+                }}
+              />
+            </>
+          ) : (
+            <VisualBuilder />
+          )}
         </div>
 
         {/* BOP Terminal Console */}
