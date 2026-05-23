@@ -3,165 +3,105 @@ import React, { useEffect, useRef } from 'react';
 interface LiveChartProps {
   data: number[];
   color?: string;
-  mode?: "line" | "heatmap";
 }
 
-export const LiveChart: React.FC<LiveChartProps> = ({ data, color = 'var(--color-mu-cyan)', mode = "line" }) => {
-  if (data.length < 2) {
-    return (
-      <div className="w-full h-full flex items-center justify-center opacity-30 font-black tracking-widest text-xs" style={{ color: 'var(--color-mu-text-dim)' }}>
-        AWAITING TICK DATA...
-      </div>
-    );
-  }
-
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const lastPrice = data[data.length - 1];
-
-  if (mode === "heatmap") {
-    // Generate simulated heatmap blocks
-    const heatBlocks = Array.from({ length: 40 }).map((_, i) => {
-      const isAsk = i < 20;
-      const distFromMid = isAsk ? 20 - i : i - 19;
-      // Closer to mid = higher intensity, but add some noise
-      const intensity = Math.max(0.1, 1 - (distFromMid * 0.05) + (Math.random() * 0.3 - 0.15));
-      const opacity = Math.min(1, Math.max(0, intensity));
-      const c = isAsk ? "var(--color-mu-red)" : "var(--color-mu-green)";
-      return (
-        <div 
-          key={i} 
-          className="w-full border-b"
-          style={{ 
-            height: '2.5%', 
-            background: c, 
-            opacity: opacity * 0.6,
-            borderColor: "rgba(0,0,0,0.2)"
-          }}
-        />
-      );
-    });
-
-    return (
-      <div className="w-full h-full relative group bg-black overflow-hidden flex">
-        <div className="w-full h-full flex flex-col">
-          {heatBlocks}
-        </div>
-        <div className="absolute inset-0 pointer-events-none flex flex-col justify-center items-center">
-          <div className="w-full border-t-2 border-dashed border-white/50" />
-          <div className="bg-black/80 px-2 py-1 rounded text-[10px] font-black tracking-widest text-white backdrop-blur">
-            MID: {lastPrice.toFixed(3)}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+export const LiveChart: React.FC<LiveChartProps> = ({ data, color = '#00c087' }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // High-performance Canvas Rendering
   useEffect(() => {
-    if (mode !== "line" || !canvasRef.current || data.length < 2) return;
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+    if (!canvas || data.length < 2) return;
+
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Handle high-DPI displays
-    const rect = canvas.parentElement?.getBoundingClientRect();
-    if (!rect) return;
-    
-    // Set actual size in memory (scaled to account for extra pixel density)
     const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);
 
-    const w = rect.width;
-    const h = rect.height;
+    const width = rect.width;
+    const height = rect.height;
 
-    ctx.clearRect(0, 0, w, h);
+    ctx.clearRect(0, 0, width, height);
 
     const min = Math.min(...data);
     const max = Math.max(...data);
-    const range = max - min || 1;
+    const range = max - min || 0.001;
+    const padding = height * 0.1;
+    const chartHeight = height - padding * 2;
 
-    // Draw Line
+    const getX = (i: number) => (i / (data.length - 1)) * width;
+    const getY = (val: number) => height - padding - ((val - min) / range) * chartHeight;
+
+    // Create gradient
+    const gradient = ctx.createLinearGradient(0, getY(max), 0, height);
+    gradient.addColorStop(0, color.startsWith('var') ? 'rgba(0, 192, 135, 0.15)' : color.replace(')', ', 0.15)'));
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    // Draw area
     ctx.beginPath();
-    ctx.lineWidth = 1.5;
-    ctx.strokeStyle = color;
-    ctx.lineJoin = "round";
-
-    data.forEach((val, i) => {
-      const x = (i / (data.length - 1)) * w;
-      const y = h - ((val - min) / range) * h;
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-
-    // Draw Gradient Fill under line
-    const gradient = ctx.createLinearGradient(0, 0, 0, h);
-    // Parse the color (assuming it's a CSS variable, we can't easily parse it in pure JS canvas unless we use getComputedStyle, 
-    // but for now we'll just use the raw color if it's hex, or fallback to a hardcoded cyan if it's a var)
-    let fillBase = color;
-    if (color.startsWith("var")) {
-       fillBase = color.includes("green") ? "44, 182, 125" : color.includes("red") ? "224, 82, 82" : "59, 158, 202";
-       gradient.addColorStop(0, `rgba(${fillBase}, 0.4)`);
-       gradient.addColorStop(1, `rgba(${fillBase}, 0.0)`);
-    } else {
-       gradient.addColorStop(0, color);
-       gradient.addColorStop(1, "transparent");
+    ctx.moveTo(getX(0), getY(data[0]));
+    
+    // Bezier curve approximation
+    for (let i = 0; i < data.length - 1; i++) {
+      const x1 = getX(i);
+      const y1 = getY(data[i]);
+      const x2 = getX(i + 1);
+      const y2 = getY(data[i + 1]);
+      const cx = (x1 + x2) / 2;
+      ctx.bezierCurveTo(cx, y1, cx, y2, x2, y2);
     }
-
-    ctx.lineTo(w, h);
-    ctx.lineTo(0, h);
+    
+    ctx.lineTo(width, height);
+    ctx.lineTo(0, height);
     ctx.closePath();
     ctx.fillStyle = gradient;
     ctx.fill();
 
-    // Draw Current Price Dot
-    const lastX = w;
-    const lastY = h - ((data[data.length - 1] - min) / range) * h;
-    
+    // Draw line
     ctx.beginPath();
-    ctx.arc(lastX, lastY, 3, 0, 2 * Math.PI);
-    ctx.fillStyle = color;
-    ctx.fill();
+    ctx.moveTo(getX(0), getY(data[0]));
+    for (let i = 0; i < data.length - 1; i++) {
+      const x1 = getX(i);
+      const y1 = getY(data[i]);
+      const x2 = getX(i + 1);
+      const y2 = getY(data[i + 1]);
+      const cx = (x1 + x2) / 2;
+      ctx.bezierCurveTo(cx, y1, cx, y2, x2, y2);
+    }
+    ctx.strokeStyle = color.startsWith('var') ? '#00c087' : color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
 
-  }, [data, color, mode]);
+    // Draw last price dot
+    const lastX = getX(data.length - 1);
+    const lastY = getY(data[data.length - 1]);
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
+    ctx.fillStyle = color.startsWith('var') ? '#00c087' : color;
+    ctx.fill();
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+  }, [data, color]);
+
+  if (data.length < 2) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center opacity-20 gap-3">
+         <div className="w-12 h-12 rounded-full border-2 border-mu-text-dim border-t-transparent animate-spin" />
+         <span className="text-[11px] font-bold tracking-widest uppercase">Initializing Stream...</span>
+      </div>
+    );
+  }
 
   return (
-    <div className="w-full h-full relative group">
-      {/* Background Grid Lines */}
-      <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: 'linear-gradient(var(--color-mu-surface-high) 1px, transparent 1px), linear-gradient(90deg, var(--color-mu-surface-high) 1px, transparent 1px)', backgroundSize: '20px 20px', opacity: 0.1 }}></div>
-      
-      {/* Price Labels */}
-      <div className="absolute right-2 top-2 text-[9px] font-mono font-bold" style={{ color: 'var(--color-mu-text-dim)' }}>
-        {max.toFixed(3)}
-      </div>
-      <div className="absolute right-2 bottom-2 text-[9px] font-mono font-bold" style={{ color: 'var(--color-mu-text-dim)' }}>
-        {min.toFixed(3)}
-      </div>
-
-      <canvas 
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ width: "100%", height: "100%", display: "block" }}
-      />
-      
-      {/* Last Price Tag */}
-      <div className="absolute right-0 flex items-center shadow-lg" style={{ 
-        top: `${Math.max(5, Math.min(95, ((max - lastPrice) / (max - min || 1)) * 100))}%`,
-        transform: 'translateY(-50%)',
-        background: color,
-        color: 'black',
-        padding: '2px 4px',
-        fontSize: '9px',
-        fontWeight: '900',
-        fontFamily: 'monospace'
-      }}>
-        {lastPrice.toFixed(3)}
-      </div>
+    <div className="w-full h-full overflow-hidden bg-mu-bg">
+       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
   );
 };
