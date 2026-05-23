@@ -126,7 +126,7 @@ function App() {
   const [command, setCommand] = useState("");
   const { isConnected } = useBopBridge();
   const { activeView, setActiveView, toggleCommandPalette, isCommandPaletteOpen } = useTerminalStore();
-  const marketData = useMockMarket("TRUMP_WIN_2026");
+  const marketData = useMockMarket();
   const [chartMode, setChartMode] = useState<"line" | "heatmap">("line");
 
   useEffect(() => {

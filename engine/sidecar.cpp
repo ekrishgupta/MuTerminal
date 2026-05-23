@@ -178,10 +178,6 @@ int main() {
     RealLiveExchange.register_backend(&polymarket);
     RealLiveExchange.sync_all_markets();
     
-    // Register the universal super-ticker for the demo
-    bop::MarketRegistry::Register("TRUMP_WIN_2026", MarketId("TRUMP_WIN_2026"), kalshi);
-    bop::MarketRegistry::Register("TRUMP_WIN_2026", MarketId("TRUMP_WIN_2026"), polymarket);
-    
     std::thread engine_thread([]() {
       RealLiveExchange.run();
     });
@@ -193,29 +189,10 @@ int main() {
           // Stream Market Depth
           nlohmann::json j;
           j["type"] = "depth";
-          j["ticker"] = "TRUMP_WIN_2026";
+          j["ticker"] = ""; // No default ticker
           
-          OrderBook ob = RealLiveExchange.get_universal_orderbook(MarketId("TRUMP_WIN_2026"));
-          
-          nlohmann::json bids_array = nlohmann::json::array();
-          nlohmann::json asks_array = nlohmann::json::array();
-          
-          for (auto const& [price, qty] : ob.bids) {
-            bids_array.push_back({price.to_double(), qty});
-          }
-          
-          for (auto const& [price, qty] : ob.asks) {
-            asks_array.push_back({price.to_double(), qty});
-          }
-          
-          if (bids_array.empty() && asks_array.empty()) {
-            // Fallback mock data if real depth is empty
-            bids_array = {{0.60, 500}};
-            asks_array = {{0.62, 300}};
-          }
-          
-          j["bids"] = bids_array;
-          j["asks"] = asks_array;
+          j["bids"] = nlohmann::json::array();
+          j["asks"] = nlohmann::json::array();
           global_server->broadcast(j.dump());
           
           // Stream Portfolio Status
@@ -225,37 +202,6 @@ int main() {
           p["exposure"] = RealLiveExchange.get_exposure().to_double();
           p["pnl"] = RealLiveExchange.get_pnl().to_double();
           global_server->broadcast(p.dump());
-          
-          // Stream Simulated Alpha Events (Alerts / Arb)
-          if (rand() % 4 == 0) {
-            nlohmann::json alert;
-            alert["type"] = "alert";
-            alert["ticker"] = "TRUMP_WIN_2026";
-            alert["wallet"] = "kalshi:pro_desk_7";
-            alert["side"] = "BUY";
-            alert["size"] = 25000;
-            alert["notional"] = 15000;
-            alert["price"] = bid.to_double();
-            alert["venue"] = "KALSHI";
-            alert["alertType"] = "WHALE";
-            global_server->broadcast(alert.dump());
-          }
-          
-          if (rand() % 5 == 0) {
-            nlohmann::json arb;
-            arb["type"] = "arb";
-            arb["id"] = "arb-live-" + std::to_string(rand());
-            arb["market"] = "TRUMP_WIN_2026";
-            arb["venueBuy"] = "POLY";
-            arb["venueSell"] = "KALSHI";
-            arb["buyPrice"] = bid.to_double() - 0.01;
-            arb["sellPrice"] = ask.to_double() + 0.01;
-            arb["spread"] = arb["sellPrice"].get<double>() - arb["buyPrice"].get<double>();
-            arb["maxSize"] = 5000;
-            arb["netProfit"] = arb["spread"].get<double>() * 5000;
-            arb["status"] = "ACTIVE";
-            global_server->broadcast(arb.dump());
-          }
         }
       }
     });

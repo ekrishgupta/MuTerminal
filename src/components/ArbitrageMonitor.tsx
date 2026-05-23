@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, ArrowRight, ArrowDownUp } from "lucide-react";
+import { ArrowRight, ArrowDownUp } from "lucide-react";
 import { useBopBridge } from "../hooks/useBopBridge";
 
 interface ArbOpportunity {
@@ -15,28 +15,16 @@ interface ArbOpportunity {
   status: "ACTIVE" | "EXECUTING" | "MISSED";
 }
 
-const SEED_OPPS: Omit<ArbOpportunity, "id" | "status">[] = [
-  { market: "TRUMP_WIN_2026", venueBuy: "POLY", venueSell: "KALSHI", buyPrice: 0.612, sellPrice: 0.635, spread: 0.023, maxSize: 5000, netProfit: 115 },
-  { market: "FED_CUT_JUNE", venueBuy: "KALSHI", venueSell: "POLY", buyPrice: 0.280, sellPrice: 0.295, spread: 0.015, maxSize: 12000, netProfit: 180 },
-  { market: "SCOTUS_RULING", venueBuy: "POLY", venueSell: "PI", buyPrice: 0.450, sellPrice: 0.461, spread: 0.011, maxSize: 2500, netProfit: 27.5 },
-  { market: "BTC_USD_100K", venueBuy: "POLY", venueSell: "KALSHI", buyPrice: 0.880, sellPrice: 0.892, spread: 0.012, maxSize: 8000, netProfit: 96 },
-];
-
-let arbId = 0;
-
 export function ArbitrageMonitor() {
-  const [opps, setOpps] = useState<ArbOpportunity[]>(() => 
-    SEED_OPPS.map(o => ({ ...o, id: `arb-${++arbId}`, status: "ACTIVE" }))
-  );
+  const [opps, setOpps] = useState<ArbOpportunity[]>([]);
 
-  const { isConnected, lastUpdate } = useBopBridge();
+  const { lastUpdate } = useBopBridge();
 
   useEffect(() => {
     if (!lastUpdate || (lastUpdate as any).type !== 'arb') return;
     
     const arb = lastUpdate as any;
     setOpps(prev => {
-      // Find if we already have this opp
       const existing = prev.find(o => o.id === arb.id);
       if (existing) {
         return prev.map(o => o.id === arb.id ? { ...o, ...arb } : o);
@@ -52,38 +40,10 @@ export function ArbitrageMonitor() {
           maxSize: arb.maxSize || 0,
           netProfit: arb.netProfit || 0,
           status: arb.status || "ACTIVE",
-        }, ...prev].slice(0, 10); // Keep last 10
+        }, ...prev].slice(0, 10);
       }
     });
   }, [lastUpdate]);
-
-  // Simulate spread fluctuations
-  useEffect(() => {
-    if (isConnected) return;
-    const id = setInterval(() => {
-      setOpps(prev => prev.map(opp => {
-        if (opp.status !== "ACTIVE") return opp;
-        const drift = (Math.random() - 0.5) * 0.004;
-        const newBuy = Math.max(0.01, opp.buyPrice + drift);
-        const newSell = Math.max(0.01, opp.sellPrice + drift * 0.8);
-        const newSpread = newSell - newBuy;
-        
-        // If spread closes, mark missed
-        if (newSpread <= 0.002) {
-          return { ...opp, status: "MISSED", buyPrice: newBuy, sellPrice: newSell, spread: newSpread, netProfit: 0 };
-        }
-        
-        return { 
-          ...opp, 
-          buyPrice: newBuy, 
-          sellPrice: newSell, 
-          spread: newSpread,
-          netProfit: newSpread * opp.maxSize 
-        };
-      }));
-    }, 1500);
-    return () => clearInterval(id);
-  }, []);
 
   const handleExecute = (id: string) => {
     setOpps(prev => prev.map(o => o.id === id ? { ...o, status: "EXECUTING" } : o));
@@ -97,6 +57,15 @@ export function ArbitrageMonitor() {
     }, 800);
   };
 
+  if (opps.length === 0) {
+    return (
+      <div className="flex-1 flex flex-col items-center justify-center bg-[var(--color-mu-bg)] opacity-30 gap-3">
+        <ArrowDownUp size={48} style={{ color: "var(--color-mu-purple)" }} />
+        <div className="mu-label text-[12px] tracking-[0.3em]">Scanning Cross-Venue Inefficiencies...</div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex-1 flex flex-col overflow-hidden bg-[var(--color-mu-bg)]">
       <div className="px-4 py-3 border-b flex items-center justify-between shrink-0" style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)" }}>
@@ -108,19 +77,13 @@ export function ArbitrageMonitor() {
         <div className="flex items-center gap-4">
           <div className="text-right">
             <div className="mu-label">Total Arb PnL (24h)</div>
-            <div className="font-mono text-[13px] font-black" style={{ color: "var(--color-mu-green)" }}>+$1,284.50</div>
+            <div className="font-mono text-[13px] font-black" style={{ color: "var(--color-mu-green)" }}>+$0.00</div>
           </div>
         </div>
       </div>
 
       <div className="flex-1 p-4 overflow-y-auto no-scrollbar">
         <div className="grid gap-3">
-          {opps.length === 0 && (
-            <div className="text-center py-12 opacity-50">
-              <Activity size={32} className="mx-auto mb-3 animate-pulse" style={{ color: "var(--color-mu-purple)" }} />
-              <div className="mu-label">Scanning venues for inefficiencies...</div>
-            </div>
-          )}
           {opps.map(opp => (
             <div key={opp.id} className="mu-panel p-0 overflow-hidden flex flex-col group relative" style={{ opacity: opp.status === "MISSED" ? 0.4 : 1 }}>
               {opp.status === "EXECUTING" && (

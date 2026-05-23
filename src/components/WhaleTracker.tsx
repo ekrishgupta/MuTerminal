@@ -19,40 +19,7 @@ interface WhaleEvent {
   type: "WHALE" | "SIGNAL" | "ARB" | "INFO";
 }
 
-const MARKETS = [
-  "TRUMP_WIN_2026", "FED_CUT_JUNE", "BTC_USD_100K",
-  "NVDA_200_JUL", "SPX_6K_DEC", "UKRAINE_PEACE", "SCOTUS_RULING"
-];
-
-const WALLETS = [
-  "0x3f...8a2d", "0xa1...c44f", "0x91...e12b",
-  "0x2d...7f30", "kalshi:pro_desk_7", "kalshi:apex_mm",
-];
-
 let eventId = 0;
-
-function generateEvent(): WhaleEvent {
-  const size = Math.round(Math.random() * 40000 + 5000);
-  const price = parseFloat((Math.random() * 0.7 + 0.15).toFixed(3));
-  const notional = size * price;
-  const type: WhaleEvent["type"] =
-    notional > 30000 ? "WHALE" :
-    Math.random() > 0.7 ? "ARB" :
-    Math.random() > 0.5 ? "SIGNAL" : "INFO";
-
-  return {
-    id: `w-${++eventId}`,
-    time: Date.now(),
-    wallet: WALLETS[Math.floor(Math.random() * WALLETS.length)],
-    market: MARKETS[Math.floor(Math.random() * MARKETS.length)],
-    side: Math.random() > 0.5 ? "BUY" : "SELL",
-    size,
-    notional,
-    price,
-    venue: ["POLY", "KALSHI", "PI"][Math.floor(Math.random() * 3)] as WhaleEvent["venue"],
-    type,
-  };
-}
 
 const TYPE_STYLE: Record<WhaleEvent["type"], { color: string; bg: string; border: string; label: string }> = {
   WHALE:  { color: "var(--color-mu-accent)", bg: "rgba(232,160,32,0.08)", border: "rgba(232,160,32,0.3)", label: "WHALE" },
@@ -62,11 +29,9 @@ const TYPE_STYLE: Record<WhaleEvent["type"], { color: string; bg: string; border
 };
 
 export function WhaleTracker() {
-  const [events, setEvents] = useState<WhaleEvent[]>(() =>
-    Array.from({ length: 6 }, generateEvent).sort((a, b) => b.time - a.time)
-  );
+  const [events, setEvents] = useState<WhaleEvent[]>([]);
 
-  const { isConnected, lastUpdate } = useBopBridge();
+  const { lastUpdate } = useBopBridge();
 
   useEffect(() => {
     if (!lastUpdate || (lastUpdate as any).type !== 'alert') return;
@@ -86,16 +51,14 @@ export function WhaleTracker() {
     }, ...prev].slice(0, 50));
   }, [lastUpdate]);
 
-  useEffect(() => {
-    if (isConnected) return;
-    const roll = () => {
-      if (Math.random() < 0.35) {
-        setEvents((prev) => [generateEvent(), ...prev].slice(0, 50));
-      }
-    };
-    const id = setInterval(roll, 2200);
-    return () => clearInterval(id);
-  }, [isConnected]);
+  if (events.length === 0) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center opacity-30 gap-2">
+        <Activity size={24} style={{ color: "var(--color-mu-text-dim)" }} />
+        <span className="text-[10px] font-black uppercase tracking-[0.2em]">Awaiting Alpha Stream...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
