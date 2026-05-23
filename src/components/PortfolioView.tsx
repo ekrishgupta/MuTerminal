@@ -1,10 +1,8 @@
 /**
  * PortfolioView - Professional asset management and open positions interface.
  */
-import { ArrowUpRight, Wallet, ShieldAlert } from "lucide-react";
-
 import { useState } from "react";
-import { ArrowUpRight, Wallet, ShieldAlert, AlertOctagon, Flame } from "lucide-react";
+import { ArrowUpRight, Wallet, ShieldAlert, AlertOctagon, Flame, Percent, Activity, RefreshCw } from "lucide-react";
 
 export function PortfolioView() {
   const [killSwitchEngaged, setKillSwitchEngaged] = useState(false);
@@ -54,6 +52,43 @@ export function PortfolioView() {
             <ArrowUpRight size={10} />
             <span>WIN RATE: 64%</span>
           </div>
+        </div>
+      </div>
+
+      {/* Capital Efficiency Row */}
+      <div className="grid grid-cols-2 gap-4 shrink-0">
+        <div className="mu-panel p-4 flex flex-col gap-1 border-l-4" style={{ borderLeftColor: "var(--color-mu-purple)" }}>
+          <div className="flex items-center gap-2 mb-1">
+            <Percent size={12} style={{ color: "var(--color-mu-purple)" }} />
+            <span className="mu-label">Yield-Bearing Collateral</span>
+          </div>
+          <div className="flex justify-between items-end">
+            <div>
+              <span className="mu-value-lg">$82,100.00</span>
+              <div className="flex items-center gap-2 text-[10px] font-bold mt-1" style={{ color: "var(--color-mu-green)" }}>
+                <span>BLENDED APY: 5.12%</span>
+              </div>
+            </div>
+            <div className="text-[10px] font-bold text-right flex flex-col gap-1" style={{ color: "var(--color-mu-text-dim)" }}>
+              <div className="flex justify-between gap-4"><span>Poly (USDC)</span><span className="text-[var(--color-mu-cyan)]">8.4%</span></div>
+              <div className="flex justify-between gap-4"><span>Kalshi (USD)</span><span className="text-[var(--color-mu-green)]">4.8%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mu-panel p-4 flex items-center justify-between border-l-4" style={{ borderLeftColor: "var(--color-mu-cyan)" }}>
+          <div className="flex flex-col gap-1">
+            <div className="flex items-center gap-2 mb-1">
+              <Activity size={12} style={{ color: "var(--color-mu-cyan)" }} />
+              <span className="mu-label">Cross-Venue Margin Rebalancer</span>
+            </div>
+            <span className="text-[12px] font-mono font-bold" style={{ color: "var(--color-mu-text-bright)" }}>Poly: $12k | Kalshi: $70k</span>
+            <span className="text-[9px] font-bold text-[var(--color-mu-amber)]">Warning: Polymarket Liquidity Low</span>
+          </div>
+          <button className="flex items-center gap-2 px-4 py-2 rounded text-[10px] font-black uppercase tracking-widest transition-colors hover:bg-[var(--color-mu-surface-high)]" style={{ border: "1px solid var(--color-mu-cyan)", color: "var(--color-mu-cyan)" }}>
+            <RefreshCw size={12} />
+            Flash Rebalance
+          </button>
         </div>
       </div>
 
