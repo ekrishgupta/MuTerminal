@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface LiveChartProps {
   data: number[];
@@ -7,19 +7,6 @@ interface LiveChartProps {
 }
 
 export const LiveChart: React.FC<LiveChartProps> = ({ data, color = 'var(--color-mu-cyan)', mode = "line" }) => {
-  const points = useMemo(() => {
-    if (data.length === 0) return '';
-    const min = Math.min(...data);
-    const max = Math.max(...data);
-    const range = max - min || 1;
-    
-    return data.map((val, i) => {
-      const x = (i / (data.length - 1 || 1)) * 100;
-      const y = 100 - ((val - min) / range) * 100;
-      return `${x},${y}`;
-    }).join(' ');
-  }, [data]);
-
   if (data.length < 2) {
     return (
       <div className="w-full h-full flex items-center justify-center opacity-30 font-black tracking-widest text-xs" style={{ color: 'var(--color-mu-text-dim)' }}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useMockMarket } from "../hooks/useMockMarket";
 import { LiveChart } from "./LiveChart";
 import { WhaleTracker } from "./WhaleTracker";

@@ -99,7 +99,7 @@ export function NewsFeed() {
     SEED_NEWS.map((n, i) => ({ ...n, id: `n-${++newsId}`, time: Date.now() - i * 4 * 60000 }))
   );
   
-  const [legalItems, setLegalItems] = useState<NewsItem[]>(() =>
+  const [legalItems] = useState<NewsItem[]>(() =>
     SEED_LEGAL.map((n, i) => ({ ...n, id: `l-${++newsId}`, time: Date.now() - i * 15 * 60000 }))
   );
 

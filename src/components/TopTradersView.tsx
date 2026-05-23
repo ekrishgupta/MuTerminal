@@ -16,7 +16,6 @@ interface Trader {
   roi: number;
   topMarket: string;
   isFollowing: boolean;
-  isFollowing: boolean;
   verified: boolean;
 }
 

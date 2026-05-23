@@ -9,7 +9,7 @@ export class CryptoKeyVault {
   
   private static async getStore() {
     try {
-      return await load(this.STORE_PATH, { autoSave: true });
+      return await load(this.STORE_PATH, { autoSave: false, defaults: {} });
     } catch (e) {
       console.warn("[KeyVault] Tauri store not available, using fallback", e);
       return null;

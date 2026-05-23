@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Key, Save, Lock, Server } from "lucide-react";
+import { Save, Lock, Server } from "lucide-react";
 import { CryptoKeyVault } from "../utils/CryptoKeyVault";
 
 export function SettingsView() {

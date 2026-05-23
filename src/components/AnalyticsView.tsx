@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { Play, Activity, TrendingUp, TrendingDown, Target, Zap, BarChart2, ShieldAlert } from "lucide-react";
+import { useState } from "react";
+import { Play, Activity, TrendingUp, Target, Zap, BarChart2 } from "lucide-react";
 
 interface BacktestResult {
   pnl: number;

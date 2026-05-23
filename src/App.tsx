@@ -9,14 +9,17 @@ import { useMockMarket } from "./hooks/useMockMarket";
 import { MarketTable } from "./components/MarketTable";
 import { NewsFeed } from "./components/NewsFeed";
 import { TickerTape } from "./components/TickerTape";
+import { OrderBook } from "./components/OrderBook";
+import { TimeAndSales } from "./components/TimeAndSales";
+import { ExecutionPanel } from "./components/ExecutionPanel";
 import { WhaleTracker } from "./components/WhaleTracker";
 import { TopTradersView } from "./components/TopTradersView";
 import { StrategyLab } from "./components/StrategyLab";
 import { PortfolioView } from "./components/PortfolioView";
+import { LiveChart } from "./components/LiveChart";
 import { ArbitrageMonitor } from "./components/ArbitrageMonitor";
 import { SettingsView } from "./components/SettingsView";
 import { AnalyticsView } from "./components/AnalyticsView";
-import { TradeView } from "./components/TradeView";
 
 import "./App.css";
 
@@ -74,8 +77,8 @@ const CommandPalette = () => {
   if (!isCommandPaletteOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm   " onClick={toggleCommandPalette}>
-      <div className="w-full max-w-xl mu-panel-high shadow-2xl overflow-hidden   " onClick={e => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={toggleCommandPalette}>
+      <div className="w-full max-w-xl mu-panel-high shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
         <div className="flex items-center p-4 border-b border-mu-border-high" style={{ background: "var(--color-mu-surface)" }}>
           <Search size={18} style={{ color: "var(--color-mu-accent)" }} className="mr-3" />
           <input
@@ -95,7 +98,7 @@ const CommandPalette = () => {
             <button
               key={i}
               onClick={() => { opt.action(); toggleCommandPalette(); }}
-              className={`w-full flex items-center justify-between p-3 rounded  ${i === selectedIndex ? "bg-[var(--color-mu-surface-high)]" : "hover:bg-[var(--color-mu-surface-mid)]"}`}
+              className={`w-full flex items-center justify-between p-3 rounded ${i === selectedIndex ? "bg-[var(--color-mu-surface-high)]" : "hover:bg-[var(--color-mu-surface-mid)]"}`}
             >
               <span className={`text-[11px] font-bold uppercase tracking-widest ${i === selectedIndex ? "text-[var(--color-mu-accent)]" : "text-[var(--color-mu-text-dim)]"}`}>{opt.name}</span>
               <span className={`text-[9px] font-black ${i === selectedIndex ? "text-[var(--color-mu-accent)]" : "text-[var(--color-mu-text-muted)]"}`}>{opt.shortcut}</span>
@@ -119,24 +122,19 @@ const CommandPalette = () => {
   );
 };
 
-// --- Main App Layout ---
-
 function App() {
   const [command, setCommand] = useState("");
-  const { activeView, setActiveView, toggleCommandPalette, isCommandPaletteOpen } = useTerminalStore();
   const { isConnected } = useBopBridge();
+  const { activeView, setActiveView, toggleCommandPalette, isCommandPaletteOpen } = useTerminalStore();
+  const marketData = useMockMarket("TRUMP_WIN_2026");
+  const [chartMode, setChartMode] = useState<"line" | "heatmap">("line");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if typing in an input or textarea
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
-        if (e.key === "Escape") {
-          e.target.blur();
-        }
+        if (e.key === "Escape") e.target.blur();
         return;
       }
-
-      // Mac uses 'metaKey', Windows uses 'ctrlKey'
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         toggleCommandPalette();
@@ -148,18 +146,12 @@ function App() {
       if (e.key === "Escape" && isCommandPaletteOpen) {
         toggleCommandPalette();
       }
-      
-      // Bloomberg/ToS Function Keys
       if (e.key >= "F1" && e.key <= "F6") {
         e.preventDefault();
         const views: AppView[] = ["Discover", "Trade", "Strategies", "News", "Top Traders", "Portfolio"];
         const index = parseInt(e.key.substring(1)) - 1;
-        if (index >= 0 && index < views.length) {
-          setActiveView(views[index]);
-        }
+        if (index >= 0 && index < views.length) setActiveView(views[index]);
       }
-
-      // Standard Trader Hotkeys
       if (e.key.toLowerCase() === "b") {
         e.preventDefault();
         setActiveView("Trade");
@@ -171,8 +163,6 @@ function App() {
         window.dispatchEvent(new CustomEvent("mu-set-side", { detail: "SELL" }));
       }
     };
-    
-    // Attach to document to ensure it catches everything
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [setActiveView, toggleCommandPalette, isCommandPaletteOpen]);
@@ -181,6 +171,13 @@ function App() {
     e.preventDefault();
     if (!command.trim()) return;
     setCommand("");
+  };
+
+  const handleOrderSubmit = (order: any) => {
+    console.log("[App] Order Submitted via BOP:", order);
+    window.dispatchEvent(new CustomEvent("mu-notification", { 
+      detail: `EXECUTED: ${order.side} ${order.qty} ${order.ticker} @ ${order.price.toFixed(3)} via BOP ULA`
+    }));
   };
 
   const [notification, setNotification] = useState<string | null>(null);
@@ -205,15 +202,12 @@ function App() {
         </div>
       )}
       <CommandPalette />
-
-      {/* Top Ticker Tape */}
       <TickerTape />
 
-      {/* Primary Header */}
       <header className="flex items-center justify-between px-4 h-12 z-50 shrink-0" style={{ background: "var(--color-mu-surface)", borderBottom: "1px solid var(--color-mu-border)" }}>
         <div className="flex items-center gap-8 h-full">
           <div className="flex items-center gap-2 cursor-pointer group" onClick={() => setActiveView("Trade")}>
-            <Zap size={18} style={{ color: "var(--color-mu-accent)" }} className="mu-glow-accent group-hover:scale-110 " />
+            <Zap size={18} style={{ color: "var(--color-mu-accent)" }} className="mu-glow-accent group-hover:scale-110" />
             <span className="font-black text-[15px] tracking-tighter italic" style={{ color: "var(--color-mu-text-bright)" }}>
               <span className="lowercase">μ</span>TERMINAL
             </span>
@@ -238,10 +232,7 @@ function App() {
         </div>
       </header>
 
-      {/* Main Workspace Layout */}
       <main className="flex-1 flex overflow-hidden">
-        
-        {/* Left Sidebar - Context & Routing */}
         <aside className="w-56 flex flex-col shrink-0" style={{ background: "var(--color-mu-surface-mid)", borderRight: "1px solid var(--color-mu-border)" }}>
           <div className="p-3 border-b" style={{ borderColor: "var(--color-mu-border)" }}>
             <div className="mu-label mb-1">System Status</div>
@@ -272,8 +263,81 @@ function App() {
           </div>
         </aside>
 
-        {/* Viewport */}
         <section className="flex-1 flex flex-col overflow-hidden bg-[var(--color-mu-bg)]">
+          {activeView === "Trade" && (
+            <div className="flex-1 flex flex-col overflow-hidden">
+              <div className="h-14 flex items-center justify-between px-4 shrink-0" style={{ borderBottom: "1px solid var(--color-mu-border)" }}>
+                <div>
+                  <h1 className="text-lg font-black uppercase tracking-tight">{marketData.ticker.ticker}</h1>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <span className="text-[11px] font-bold" style={{ color: "var(--color-mu-text-dim)" }}>Vol: {(marketData.ticker.volume24h/1e6).toFixed(2)}M</span>
+                    <span className="text-[11px] font-bold" style={{ color: "var(--color-mu-text-dim)" }}>OI: ${(marketData.ticker.openInterest/1e6).toFixed(1)}M</span>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-black font-mono tracking-tighter" style={{ color: marketData.ticker.change24h >= 0 ? "var(--color-mu-green)" : "var(--color-mu-red)" }}>
+                    {marketData.ticker.lastPrice.toFixed(3)}
+                  </div>
+                  <div className="text-[11px] font-bold font-mono" style={{ color: marketData.ticker.change24h >= 0 ? "var(--color-mu-green)" : "var(--color-mu-red)" }}>
+                    {marketData.ticker.change24h >= 0 ? "+" : ""}{marketData.ticker.change24h.toFixed(3)} ({marketData.ticker.changePct24h > 0 ? "+" : ""}{marketData.ticker.changePct24h.toFixed(2)}%)
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex-1 flex overflow-hidden p-1 gap-1">
+                <div className="flex-1 flex flex-col gap-1 overflow-hidden">
+                  <div className="flex-[2] mu-panel overflow-hidden relative group p-0">
+                    <div className="absolute top-2 left-2 z-10 flex items-center gap-2">
+                      <div className="mu-label bg-[var(--color-mu-surface)]/80 px-1 rounded backdrop-blur">
+                        Live Chart (Mock)
+                      </div>
+                      <div className="flex items-center bg-black/80 rounded border overflow-hidden" style={{ borderColor: "var(--color-mu-border)" }}>
+                        <button 
+                          onClick={() => setChartMode("line")}
+                          className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest ${chartMode === "line" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-cyan)]" : "text-[var(--color-mu-text-dim)]"}`}
+                        >
+                          SVG
+                        </button>
+                        <button 
+                          onClick={() => setChartMode("heatmap")}
+                          className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest ${chartMode === "heatmap" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-red)]" : "text-[var(--color-mu-text-dim)]"}`}
+                        >
+                          DOM
+                        </button>
+                      </div>
+                    </div>
+                    <LiveChart 
+                      data={marketData.priceHistory} 
+                      color={marketData.ticker.change24h >= 0 ? "var(--color-mu-green)" : "var(--color-mu-red)"} 
+                      mode={chartMode}
+                    />
+                  </div>
+                  <div className="flex-1 mu-panel overflow-hidden min-h-[200px]">
+                    <WhaleTracker />
+                  </div>
+                </div>
+
+                <div className="w-[280px] flex flex-col gap-1 shrink-0 overflow-hidden">
+                  <div className="flex-[3] mu-panel overflow-hidden min-h-[300px]">
+                    <OrderBook 
+                      bids={marketData.bids} 
+                      asks={marketData.asks} 
+                      lastPrice={marketData.ticker.lastPrice}
+                      bidPrice={marketData.ticker.bidPrice}
+                      askPrice={marketData.ticker.askPrice}
+                      spread={marketData.ticker.spread}
+                      priceHistory={marketData.priceHistory}
+                    />
+                  </div>
+                  <div className="flex-[2] mu-panel overflow-hidden min-h-[200px]">
+                    <TimeAndSales trades={marketData.trades} />
+                  </div>
+                </div>
+
+                <div className="w-[240px] mu-panel overflow-hidden shrink-0">
+                  <ExecutionPanel 
+                    ticker={marketData.ticker.ticker}
+                    bidPrice={marketData.ticker.bidPrice}
                     askPrice={marketData.ticker.askPrice}
                     onOrder={handleOrderSubmit}
                   />
@@ -289,28 +353,23 @@ function App() {
           {activeView === "Portfolio" && <PortfolioView />}
           {activeView === "Arbitrage" && <ArbitrageMonitor />}
           {activeView === "Settings" && <SettingsView />}
-          
           {activeView === "Analytics" && <AnalyticsView />}
         </section>
       </main>
 
-      {/* Terminal Footer / CLI */}
       <footer className="h-9 border-t flex items-center shrink-0 z-50 shadow-[0_-4px_12px_rgba(0,0,0,0.5)]" style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface-top)" }}>
-        
-        {/* Left Quick Links */}
         <div className="flex items-center gap-6 px-4 h-full border-r" style={{ borderColor: "var(--color-mu-border)" }}>
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)] " onClick={() => setActiveView("Portfolio")}>
+          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)]" onClick={() => setActiveView("Portfolio")}>
             <Wallet size={10} /> <span>Assets</span>
           </button>
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)] " onClick={() => setActiveView("Strategies")}>
+          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)]" onClick={() => setActiveView("Strategies")}>
             <Code size={10} /> <span>Algos</span>
           </button>
-          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)] " onClick={() => setActiveView("News")}>
+          <button className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)]" onClick={() => setActiveView("News")}>
             <Radio size={10} /> <span>Squawk</span>
           </button>
         </div>
 
-        {/* CLI Input */}
         <form onSubmit={handleDispatch} className="flex-1 flex items-center h-full px-4 gap-3 bg-[var(--color-mu-bg)]">
           <span className="font-black text-[11px] italic tracking-tighter shrink-0" style={{ color: "var(--color-mu-accent)" }}>μT&gt;</span>
           <input
@@ -324,10 +383,9 @@ function App() {
           />
         </form>
 
-        {/* Right Status */}
         <div className="flex items-center h-full px-4 border-l" style={{ borderColor: "var(--color-mu-border)" }}>
           <div className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest" style={{ color: isConnected ? "var(--color-mu-green)" : "var(--color-mu-amber)" }}>
-            <div className={`w-1.5 h-1.5 rounded-full ${isConnected ? "" : ""}`} style={{ background: isConnected ? "var(--color-mu-green)" : "var(--color-mu-amber)" }} />
+            <div className={`w-1.5 h-1.5 rounded-full`} style={{ background: isConnected ? "var(--color-mu-green)" : "var(--color-mu-amber)" }} />
             <span>{isConnected ? "WS_OK" : "STANDBY"}</span>
           </div>
         </div>

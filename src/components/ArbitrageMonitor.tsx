@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Activity, Zap, ArrowRight, ShieldAlert, ArrowDownUp } from "lucide-react";
+import { Activity, ArrowRight, ArrowDownUp } from "lucide-react";
 import { useBopBridge } from "../hooks/useBopBridge";
 
 interface ArbOpportunity {
