@@ -19,6 +19,7 @@ import { PortfolioView } from "./components/PortfolioView";
 import { LiveChart } from "./components/LiveChart";
 import { ArbitrageMonitor } from "./components/ArbitrageMonitor";
 import { SettingsView } from "./components/SettingsView";
+import { AnalyticsView } from "./components/AnalyticsView";
 
 import "./App.css";
 
@@ -361,15 +362,7 @@ function App() {
           {activeView === "Arbitrage" && <ArbitrageMonitor />}
           {activeView === "Settings" && <SettingsView />}
           
-          {(activeView === "Analytics") && (
-            <div className="flex-1 flex flex-col items-center justify-center gap-4 opacity-40 ">
-              <Activity size={48} style={{ color: "var(--color-mu-accent)" }} />
-              <div className="text-center">
-                <div className="font-black uppercase tracking-[0.4em] text-xl italic" style={{ color: "var(--color-mu-text-bright)" }}>MODULE_LOCKED</div>
-                <div className="font-mono text-[10px] mt-2 uppercase tracking-widest" style={{ color: "var(--color-mu-cyan)" }}>Awaiting BOP plugin authorization for {activeView}</div>
-              </div>
-            </div>
-          )}
+          {activeView === "Analytics" && <AnalyticsView />}
         </section>
       </main>
 
