@@ -1,3 +1,15 @@
+# C++ Build
+engine/build/
+*.o
+*.a
+*.so
+*.dylib
+*.exe
+
+# Tauri
+src-tauri/target/
+src-tauri/bin/
+
 # Logs
 logs
 *.log
@@ -20,5 +32,4 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
