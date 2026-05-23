@@ -482,6 +482,34 @@ struct ExecutionEngine {
 
   virtual Price get_pnl() const { return Price(0); }
 
+  virtual OrderBook get_orderbook(MarketId market) const {
+    for (auto b : backends_) {
+      OrderBook ob = b->get_orderbook(market);
+      if (!ob.bids.empty() || !ob.asks.empty()) {
+        return ob;
+      }
+    }
+    return OrderBook{};
+  }
+
+  virtual OrderBook get_universal_orderbook(MarketId super_ticker) const {
+    const auto *super = MarketRegistry::Get(super_ticker.ticker);
+    if (!super)
+      return get_orderbook(super_ticker);
+
+    OrderBook merged;
+    for (const auto &entry : super->entries) {
+      OrderBook ob = entry.backend->get_orderbook(entry.market);
+      for (const auto& [price, qty] : ob.bids) {
+        merged.bids[price] += qty;
+      }
+      for (const auto& [price, qty] : ob.asks) {
+        merged.asks[price] += qty;
+      }
+    }
+    return merged;
+  }
+
   virtual Price get_depth(MarketId market, OutcomeId outcome) const {
     for (auto b : backends_) {
       Price p = b->get_depth(market, outcome);

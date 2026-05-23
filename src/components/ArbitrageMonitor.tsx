@@ -29,8 +29,37 @@ export function ArbitrageMonitor() {
     SEED_OPPS.map(o => ({ ...o, id: `arb-${++arbId}`, status: "ACTIVE" }))
   );
 
+  const { isConnected, lastUpdate } = useBopBridge();
+
+  useEffect(() => {
+    if (!lastUpdate || (lastUpdate as any).type !== 'arb') return;
+    
+    const arb = lastUpdate as any;
+    setOpps(prev => {
+      // Find if we already have this opp
+      const existing = prev.find(o => o.id === arb.id);
+      if (existing) {
+        return prev.map(o => o.id === arb.id ? { ...o, ...arb } : o);
+      } else {
+        return [{
+          id: arb.id,
+          market: arb.market || "UNKNOWN",
+          venueBuy: arb.venueBuy || "POLY",
+          venueSell: arb.venueSell || "KALSHI",
+          buyPrice: arb.buyPrice || 0,
+          sellPrice: arb.sellPrice || 0,
+          spread: arb.spread || 0,
+          maxSize: arb.maxSize || 0,
+          netProfit: arb.netProfit || 0,
+          status: arb.status || "ACTIVE",
+        }, ...prev].slice(0, 10); // Keep last 10
+      }
+    });
+  }, [lastUpdate]);
+
   // Simulate spread fluctuations
   useEffect(() => {
+    if (isConnected) return;
     const id = setInterval(() => {
       setOpps(prev => prev.map(opp => {
         if (opp.status !== "ACTIVE") return opp;

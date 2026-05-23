@@ -172,10 +172,8 @@ export function NewsFeed() {
           return (
             <div
               key={item.id}
-              className="flex gap-3 px-4 py-3 group cursor-pointer "
+              className="flex gap-3 px-4 py-3 group cursor-pointer hover:bg-[var(--color-mu-surface-mid)] transition-colors"
               style={{ borderColor: "var(--color-mu-border)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-mu-surface-mid)")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
             >
               {/* Sentiment bar */}
               <div
@@ -242,10 +240,7 @@ export function NewsFeed() {
                     {item.ticker}
                   </span>
                   <button
-                    className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider "
-                    style={{ color: "var(--color-mu-text-muted)" }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-mu-accent)")}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = "var(--color-mu-text-muted)")}
+                    className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)] transition-colors"
                   >
                     <Zap size={9} />
                     Quick Trade

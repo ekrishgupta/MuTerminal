@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useRef } from 'react';
 
 interface LiveChartProps {
   data: number[];
@@ -70,6 +70,79 @@ export const LiveChart: React.FC<LiveChartProps> = ({ data, color = 'var(--color
     );
   }
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // High-performance Canvas Rendering
+  useEffect(() => {
+    if (mode !== "line" || !canvasRef.current || data.length < 2) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // Handle high-DPI displays
+    const rect = canvas.parentElement?.getBoundingClientRect();
+    if (!rect) return;
+    
+    // Set actual size in memory (scaled to account for extra pixel density)
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const w = rect.width;
+    const h = rect.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const range = max - min || 1;
+
+    // Draw Line
+    ctx.beginPath();
+    ctx.lineWidth = 1.5;
+    ctx.strokeStyle = color;
+    ctx.lineJoin = "round";
+
+    data.forEach((val, i) => {
+      const x = (i / (data.length - 1)) * w;
+      const y = h - ((val - min) / range) * h;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Draw Gradient Fill under line
+    const gradient = ctx.createLinearGradient(0, 0, 0, h);
+    // Parse the color (assuming it's a CSS variable, we can't easily parse it in pure JS canvas unless we use getComputedStyle, 
+    // but for now we'll just use the raw color if it's hex, or fallback to a hardcoded cyan if it's a var)
+    let fillBase = color;
+    if (color.startsWith("var")) {
+       fillBase = color.includes("green") ? "44, 182, 125" : color.includes("red") ? "224, 82, 82" : "59, 158, 202";
+       gradient.addColorStop(0, `rgba(${fillBase}, 0.4)`);
+       gradient.addColorStop(1, `rgba(${fillBase}, 0.0)`);
+    } else {
+       gradient.addColorStop(0, color);
+       gradient.addColorStop(1, "transparent");
+    }
+
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    // Draw Current Price Dot
+    const lastX = w;
+    const lastY = h - ((data[data.length - 1] - min) / range) * h;
+    
+    ctx.beginPath();
+    ctx.arc(lastX, lastY, 3, 0, 2 * Math.PI);
+    ctx.fillStyle = color;
+    ctx.fill();
+
+  }, [data, color, mode]);
+
   return (
     <div className="w-full h-full relative group">
       {/* Background Grid Lines */}
@@ -83,41 +156,11 @@ export const LiveChart: React.FC<LiveChartProps> = ({ data, color = 'var(--color
         {min.toFixed(3)}
       </div>
 
-      <svg className="w-full h-full preserve-3d" viewBox="0 -10 100 120" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={color} stopOpacity="0.4" />
-            <stop offset="100%" stopColor={color} stopOpacity="0.0" />
-          </linearGradient>
-        </defs>
-        
-        {/* Fill Area */}
-        <polygon 
-          points={`0,100 ${points} 100,100`} 
-          fill="url(#chartGradient)" 
-        />
-        
-        {/* Line */}
-        <polyline 
-          points={points} 
-          fill="none" 
-          stroke={color} 
-          strokeWidth="1.5" 
-          vectorEffect="non-scaling-stroke"
-          className="drop-shadow-[0_0_8px_rgba(0,255,255,0.8)]"
-        />
-        
-        {/* Current Price Dot */}
-        {points && (
-          <circle 
-            cx="100" 
-            cy={100 - ((lastPrice - min) / (max - min || 1)) * 100} 
-            r="2" 
-            fill={color} 
-            className="animate-pulse"
-          />
-        )}
-      </svg>
+      <canvas 
+        ref={canvasRef}
+        className="w-full h-full"
+        style={{ width: "100%", height: "100%", display: "block" }}
+      />
       
       {/* Last Price Tag */}
       <div className="absolute right-0 flex items-center shadow-lg" style={{ 

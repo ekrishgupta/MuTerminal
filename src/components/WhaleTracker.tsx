@@ -4,6 +4,7 @@
  */
 import { useEffect, useState } from "react";
 import { Activity, ExternalLink, AlertCircle } from "lucide-react";
+import { useBopBridge } from "../hooks/useBopBridge";
 
 interface WhaleEvent {
   id: string;
@@ -65,7 +66,28 @@ export function WhaleTracker() {
     Array.from({ length: 6 }, generateEvent).sort((a, b) => b.time - a.time)
   );
 
+  const { isConnected, lastUpdate } = useBopBridge();
+
   useEffect(() => {
+    if (!lastUpdate || (lastUpdate as any).type !== 'alert') return;
+    
+    const ev = lastUpdate as any;
+    setEvents(prev => [{
+      id: `w-live-${++eventId}`,
+      time: Date.now(),
+      wallet: ev.wallet || "0xUNKNOWN",
+      market: ev.ticker || "UNKNOWN",
+      side: ev.side || "BUY",
+      size: ev.size || 0,
+      notional: ev.notional || 0,
+      price: ev.price || 0,
+      venue: ev.venue || "POLY",
+      type: ev.alertType || "WHALE",
+    }, ...prev].slice(0, 50));
+  }, [lastUpdate]);
+
+  useEffect(() => {
+    if (isConnected) return;
     const roll = () => {
       if (Math.random() < 0.35) {
         setEvents((prev) => [generateEvent(), ...prev].slice(0, 50));
@@ -73,7 +95,7 @@ export function WhaleTracker() {
     };
     const id = setInterval(roll, 2200);
     return () => clearInterval(id);
-  }, []);
+  }, [isConnected]);
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
