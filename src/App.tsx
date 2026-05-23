@@ -129,6 +129,7 @@ function App() {
   const { isConnected } = useBopBridge();
   const { activeView, setActiveView, toggleCommandPalette, isCommandPaletteOpen } = useTerminalStore();
   const marketData = useMockMarket("TRUMP_WIN_2026");
+  const [chartMode, setChartMode] = useState<"line" | "heatmap">("line");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -312,10 +313,29 @@ function App() {
                 {/* Center / Chart placeholder + Whale tracker */}
                 <div className="flex-1 flex flex-col gap-1 overflow-hidden">
                   <div className="flex-[2] mu-panel overflow-hidden relative group p-0">
-                    <div className="absolute top-2 left-2 mu-label z-10 bg-[var(--color-mu-surface)]/80 px-1 rounded backdrop-blur">Live Chart (Mock)</div>
+                    <div className="absolute top-2 left-2 z-10 flex items-center gap-2">
+                      <div className="mu-label bg-[var(--color-mu-surface)]/80 px-1 rounded backdrop-blur">
+                        Live Chart (Mock)
+                      </div>
+                      <div className="flex items-center bg-black/80 rounded border overflow-hidden" style={{ borderColor: "var(--color-mu-border)" }}>
+                        <button 
+                          onClick={() => setChartMode("line")}
+                          className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest ${chartMode === "line" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-cyan)]" : "text-[var(--color-mu-text-dim)]"}`}
+                        >
+                          SVG
+                        </button>
+                        <button 
+                          onClick={() => setChartMode("heatmap")}
+                          className={`px-2 py-0.5 text-[8px] font-black uppercase tracking-widest ${chartMode === "heatmap" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-red)]" : "text-[var(--color-mu-text-dim)]"}`}
+                        >
+                          DOM
+                        </button>
+                      </div>
+                    </div>
                     <LiveChart 
                       data={marketData.priceHistory} 
                       color={marketData.ticker.change24h >= 0 ? "var(--color-mu-green)" : "var(--color-mu-red)"} 
+                      mode={chartMode}
                     />
                   </div>
                   <div className="flex-1 mu-panel overflow-hidden min-h-[200px]">
