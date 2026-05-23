@@ -5,6 +5,7 @@ import {
 import { useTerminalStore, AppView } from "./store/useTerminalStore";
 import { useBopBridge } from "./hooks/useBopBridge";
 import { useMockMarket } from "./hooks/useMockMarket";
+import { CryptoKeyVault } from "./utils/CryptoKeyVault";
 
 import { MarketTable } from "./components/MarketTable";
 import { NewsFeed } from "./components/NewsFeed";
@@ -23,16 +24,17 @@ import { AnalyticsView } from "./components/AnalyticsView";
 
 import "./App.css";
 
-const NavItem = ({ name, index }: { name: AppView, index: number }) => {
+const NavItem = ({ name, index, disabled }: { name: AppView, index: number, disabled?: boolean }) => {
   const { activeView, setActiveView } = useTerminalStore();
   return (
     <button
+      disabled={disabled}
       onClick={() => setActiveView(name)}
-      className={activeView === name ? "mu-tab-active" : "mu-tab-inactive"}
+      className={`${activeView === name ? "mu-tab-active" : "mu-tab-inactive"} ${disabled ? "opacity-20 cursor-not-allowed" : ""}`}
     >
       <div className="flex items-center gap-1.5">
         <span>{name}</span>
-        <span className="text-[9px] opacity-40 font-bold tracking-widest">[F{index + 1}]</span>
+        {!disabled && <span className="text-[9px] opacity-40 font-bold tracking-widest">[F{index + 1}]</span>}
       </div>
     </button>
   );
@@ -128,6 +130,27 @@ function App() {
   const { activeView, setActiveView, toggleCommandPalette, isCommandPaletteOpen } = useTerminalStore();
   const marketData = useMockMarket();
   const [chartMode, setChartMode] = useState<"line" | "heatmap">("line");
+  const [hasKeys, setHasKeys] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkKeys = async () => {
+      const poly = await CryptoKeyVault.getKey("POLY");
+      const kalshi = await CryptoKeyVault.getKey("KALSHI");
+      setHasKeys(!!(poly || kalshi));
+    };
+    checkKeys();
+    
+    // Listen for credential updates
+    const handleRefresh = () => checkKeys();
+    window.addEventListener("mu-refresh-keys", handleRefresh);
+    return () => window.removeEventListener("mu-refresh-keys", handleRefresh);
+  }, []);
+
+  useEffect(() => {
+    if (hasKeys === false && activeView !== "Settings") {
+      setActiveView("Settings");
+    }
+  }, [hasKeys, activeView, setActiveView]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -215,7 +238,7 @@ function App() {
           </div>
           <nav className="flex items-center gap-6 h-full font-black text-[10px] uppercase tracking-widest">
             {(["Discover", "Trade", "Strategies", "News", "Top Traders", "Portfolio"] as AppView[]).map((tab, i) => (
-              <NavItem key={tab} name={tab} index={i} />
+              <NavItem key={tab} name={tab} index={i} disabled={hasKeys === false && tab !== "Settings"} />
             ))}
           </nav>
         </div>
@@ -242,29 +265,63 @@ function App() {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-[9px] font-bold text-[var(--color-mu-text-dim)] uppercase">Smart Router</span>
-              <span className="text-[9px] font-black uppercase" style={{ color: "var(--color-mu-cyan)" }}>ACTIVE</span>
+              <span className="text-[9px] font-black uppercase" style={{ color: hasKeys ? "var(--color-mu-cyan)" : "var(--color-mu-text-muted)" }}>{hasKeys ? "ACTIVE" : "INACTIVE"}</span>
             </div>
           </div>
 
           <div className="p-3 border-b" style={{ borderColor: "var(--color-mu-border)" }}>
             <div className="mu-label mb-1">Venue Filter</div>
             <div className="flex flex-col gap-1">
-              {["AGGREGATED", "POLYMARKET", "KALSHI", "PREDICTIT", "OPINION"].map((v, i) => (
-                <button key={v} className="text-left px-2 py-1.5 rounded text-[10px] font-bold " style={{ background: i === 0 ? "var(--color-mu-surface-high)" : "transparent", color: i === 0 ? "var(--color-mu-text)" : "var(--color-mu-text-dim)", border: `1px solid ${i===0 ? "var(--color-mu-border-focus)" : "transparent"}` }}>
+              {["AGGREGATED", "POLYMARKET", "KALSHI"].map((v, i) => (
+                <button 
+                  key={v} 
+                  disabled={!hasKeys}
+                  className="text-left px-2 py-1.5 rounded text-[10px] font-bold disabled:opacity-20" 
+                  style={{ 
+                    background: (i === 0 && hasKeys) ? "var(--color-mu-surface-high)" : "transparent", 
+                    color: (i === 0 && hasKeys) ? "var(--color-mu-text)" : "var(--color-mu-text-dim)", 
+                    border: `1px solid ${(i===0 && hasKeys) ? "var(--color-mu-border-focus)" : "transparent"}` 
+                  }}
+                >
                   {v}
                 </button>
               ))}
             </div>
           </div>
 
+          {!hasKeys && (
+            <div className="p-4 mt-4 mx-2 rounded border border-dashed border-mu-border-high bg-mu-surface-high/50 flex flex-col gap-3">
+              <div className="mu-label" style={{ color: 'var(--color-mu-amber)' }}>Setup Required</div>
+              <p className="text-[9px] font-bold leading-relaxed opacity-50 uppercase">Connect exchange API keys to initialize universal liquidity.</p>
+              <button 
+                onClick={() => setActiveView("Settings")}
+                className="mu-btn-primary text-[9px] py-2"
+              >
+                Configure Keys
+              </button>
+            </div>
+          )}
+
           <div className="mt-auto p-3 border-t" style={{ borderColor: "var(--color-mu-border)" }}>
             <div className="mu-label mb-1">Global PnL (Today)</div>
-            <div className="font-mono text-[16px] font-black" style={{ color: "var(--color-mu-green)" }}>+$2,412.50</div>
+            <div className="font-mono text-[16px] font-black" style={{ color: hasKeys ? "var(--color-mu-green)" : "var(--color-mu-text-ghost)" }}>
+              {hasKeys ? "+$2,412.50" : "$0.00"}
+            </div>
           </div>
         </aside>
 
         <section className="flex-1 flex flex-col overflow-hidden bg-[var(--color-mu-bg)]">
-          {activeView === "Trade" && (
+          {hasKeys === false && activeView !== "Settings" && (
+            <div className="flex-1 flex flex-col items-center justify-center opacity-30 gap-4">
+              <Shield size={64} style={{ color: "var(--color-mu-amber)" }} />
+              <div className="flex flex-col items-center gap-1">
+                <span className="text-[14px] font-black uppercase tracking-[0.4em]">Restricted Access</span>
+                <span className="text-[10px] font-bold text-[var(--color-mu-text-dim)] uppercase">Initialize secure vault to unlock trading</span>
+              </div>
+            </div>
+          )}
+
+          {hasKeys !== false && activeView === "Trade" && (
             <div className="flex-1 flex flex-col overflow-hidden">
               <div className="h-14 flex items-center justify-between px-4 shrink-0" style={{ borderBottom: "1px solid var(--color-mu-border)" }}>
                 <div>

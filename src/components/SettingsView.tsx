@@ -30,6 +30,7 @@ export function SettingsView() {
     if (!key || !secret) return;
     await CryptoKeyVault.setKey(exchange, key, secret);
     setStatus(`Saved ${exchange} credentials securely to OS Keychain`);
+    window.dispatchEvent(new CustomEvent("mu-refresh-keys"));
     setTimeout(() => setStatus(null), 3000);
   };
 
