@@ -1,10 +1,7 @@
-/**
- * NewsFeed - Professional news squawk with live-updating headlines,
- * keyword highlighting, and one-click trade execution.
- */
 import { useState, useEffect } from "react";
-import { Radio, Zap, ExternalLink, FileText, Scale } from "lucide-react";
+import { Zap, ExternalLink, Search, TrendingUp, Filter } from "lucide-react";
 import { TickerMapper } from "../utils/TickerMapper";
+import { useTerminalStore } from "../store/useTerminalStore";
 
 interface NewsItem {
   id: string;
@@ -30,55 +27,15 @@ const SEED_NEWS: Omit<NewsItem, "id" | "time">[] = [
   { title: "California gig-work ruling reversed — Prop 22 reinstated by appeals court", source: "Reuters", sentiment: "neutral", ticker: "MU:HARRIS_CA_GOV", keywords: ["RULING", "CALIFORNIA"], isBreaking: false },
 ];
 
-const SEED_LEGAL: Omit<NewsItem, "id" | "time">[] = [
-  { title: "SEC v. Ripple Labs - Summary Judgment Denial (Docket 214)", source: "PACER AI", sentiment: "bull", ticker: "MU:XRP_ETF_2026", keywords: ["SEC", "RIPPLE", "JUDGMENT"], score: 82, pdfUrl: "gov.uscourts.nysd.551082.214.0.pdf" },
-  { title: "FTC Final Rule: Non-Compete Clause Ban (Federal Register)", source: "FEDERAL REGISTER AI", sentiment: "bear", ticker: "MU:UBER_Q3_EARNINGS", keywords: ["FTC", "RULE", "UBER"], score: 41, pdfUrl: "FR-2024-04-23-NonCompete.pdf" },
-  { title: "Chevron Deference Overturned: Loper Bright Enterprises v. Raimondo", source: "SCOTUS AI", sentiment: "neutral", ticker: "MU:EPA_EMISSION_REG", keywords: ["CHEVRON", "SCOTUS", "RULING"], score: 65, pdfUrl: "scotus_22-451_7m58.pdf" },
-  { title: "United States v. Google LLC - Antitrust Findings of Fact", source: "PACER AI", sentiment: "bear", ticker: "MU:GOOG_BREAKUP_25", keywords: ["ANTITRUST", "GOOGLE"], score: 89, pdfUrl: "us_v_google_findings_24.pdf" },
-];
-
 let newsId = 0;
 
-const KEYWORD_COLORS: Record<string, string> = {
-  FED:     "var(--color-mu-cyan)",
-  CPI:     "var(--color-mu-cyan)",
-  RATE:    "var(--color-mu-cyan)",
-  POLL:    "var(--color-mu-accent)",
-  TRUMP:   "var(--color-mu-accent)",
-  RULING:  "var(--color-mu-purple)",
-  SCOTUS:  "var(--color-mu-purple)",
-  ETF:     "var(--color-mu-green)",
-  BTC:     "var(--color-mu-green)",
-  OPEC:    "var(--color-mu-amber)",
-  UKRAINE: "var(--color-mu-red)",
-  PEACE:   "var(--color-mu-red)",
-  NVDA:    "var(--color-mu-green)",
-  EARNINGS:"var(--color-mu-green)",
-  CALIFORNIA: "var(--color-mu-text-dim)",
-};
-
 function highlightKeywords(title: string, keywords: string[]) {
-  let remaining = title;
-
-  // Simple word-boundary highlight
-  keywords.forEach((kw) => {
-    const idx = remaining.toUpperCase().indexOf(kw);
-    if (idx !== -1) {
-      // just store for reference — we'll render with spans
-    }
-  });
-
-  // Tokenize by word, highlight matching keywords
   return title.split(" ").map((word, i) => {
     const clean = word.toUpperCase().replace(/[^A-Z]/g, "");
-    const match = keywords.find((k) => clean === k || clean.startsWith(k));
-    if (match) {
+    const isMatched = keywords.some((k) => clean === k || clean.startsWith(k));
+    if (isMatched) {
       return (
-        <span
-          key={i}
-          className="font-black"
-          style={{ color: KEYWORD_COLORS[match] || "var(--color-mu-accent)" }}
-        >
+        <span key={i} className="text-mu-text-bright font-bold">
           {word}{" "}
         </span>
       );
@@ -87,39 +44,26 @@ function highlightKeywords(title: string, keywords: string[]) {
   });
 }
 
-const SENTIMENT_STYLE = {
-  bull:    { bar: "var(--color-mu-green)", badge: "rgba(44,182,125,0.15)", color: "var(--color-mu-green)", label: "BULL" },
-  bear:    { bar: "var(--color-mu-red)",   badge: "rgba(224,82,82,0.12)",  color: "var(--color-mu-red)",   label: "BEAR" },
-  neutral: { bar: "var(--color-mu-text-muted)", badge: "var(--color-mu-surface-high)", color: "var(--color-mu-text-muted)", label: "NTRL" },
-};
-
 export function NewsFeed() {
-  const [feedMode, setFeedMode] = useState<"squawk" | "legal">("squawk");
+  const { setActiveView, setSelectedMarket } = useTerminalStore();
   const [items, setItems] = useState<NewsItem[]>(() =>
     SEED_NEWS.map((n, i) => ({ ...n, id: `n-${++newsId}`, time: Date.now() - i * 4 * 60000 }))
   );
-  
-  const [legalItems] = useState<NewsItem[]>(() =>
-    SEED_LEGAL.map((n, i) => ({ ...n, id: `l-${++newsId}`, time: Date.now() - i * 15 * 60000 }))
-  );
 
-  // Occasionally surface a new headline
   useEffect(() => {
     const id = setInterval(() => {
-      if (Math.random() > 0.7) {
+      if (Math.random() > 0.8) {
         const template = SEED_NEWS[Math.floor(Math.random() * SEED_NEWS.length)];
-        
-        // Add dynamic mapping via TickerMapper
         const mapping = TickerMapper.mapHeadline(template.title);
         const dynamicTicker = mapping ? mapping.ticker : template.ticker;
         const dynamicKeywords = mapping ? Array.from(new Set([...template.keywords, ...mapping.keywords])) : template.keywords;
         
         setItems((prev) => [
-          { ...template, id: `n-${++newsId}`, time: Date.now(), isBreaking: Math.random() > 0.85, ticker: dynamicTicker, keywords: dynamicKeywords },
+          { ...template, id: `n-${++newsId}`, time: Date.now(), isBreaking: Math.random() > 0.9, ticker: dynamicTicker, keywords: dynamicKeywords },
           ...prev,
         ].slice(0, 40));
       }
-    }, 8000);
+    }, 10000);
     return () => clearInterval(id);
   }, []);
 
@@ -130,156 +74,91 @@ export function NewsFeed() {
     return `${Math.floor(secs / 3600)}h`;
   };
 
+  const handleQuickTrade = (ticker: string) => {
+    setSelectedMarket(ticker);
+    setActiveView("Trade");
+  };
+
   return (
-    <div className="flex-1 flex flex-col overflow-hidden ">
-      {/* Header */}
-      <div
-        className="flex items-center justify-between px-4 py-2.5 border-b"
-        style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)" }}
-      >
-        <div className="flex items-center gap-4 bg-black p-1 rounded border" style={{ borderColor: "var(--color-mu-border)" }}>
-          <button 
-            onClick={() => setFeedMode("squawk")}
-            className={`flex items-center gap-2 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest transition-colors ${feedMode === "squawk" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-text-bright)]" : "text-[var(--color-mu-text-dim)] hover:text-[var(--color-mu-text)]"}`}
-          >
-            <Radio size={12} style={{ color: feedMode === "squawk" ? "var(--color-mu-red)" : "inherit" }} />
-            Squawk
-          </button>
-          <button 
-            onClick={() => setFeedMode("legal")}
-            className={`flex items-center gap-2 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest transition-colors ${feedMode === "legal" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-text-bright)]" : "text-[var(--color-mu-text-dim)] hover:text-[var(--color-mu-text)]"}`}
-          >
-            <Scale size={12} style={{ color: feedMode === "legal" ? "var(--color-mu-cyan)" : "inherit" }} />
-            AI Legal Parser
-          </button>
+    <div className="flex-1 flex flex-col overflow-hidden bg-mu-bg">
+      {/* Search & Category Bar */}
+      <div className="px-6 py-4 flex items-center gap-4 border-b border-mu-border">
+        <div className="flex items-center gap-1.5 text-mu-red font-bold px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20">
+          <TrendingUp size={16} />
+          <span>Squawk</span>
         </div>
-        
-        <div className="flex items-center gap-4">
-          <span className="mu-label">{feedMode === "squawk" ? "12 Active Sources" : "2 Document Ingestion Nodes"}</span>
-          <span
-            className="w-1.5 h-1.5 rounded-full"
-            style={{ background: feedMode === "squawk" ? "var(--color-mu-green)" : "var(--color-mu-cyan)", display: "inline-block" }}
-          />
+        <div className="flex items-center gap-2">
+          {["All", "Macro", "Elections", "Tech", "Crypto"].map(cat => (
+            <button key={cat} className={`mu-pill ${cat === 'All' ? 'bg-mu-surface-high text-mu-text-bright' : ''}`}>{cat}</button>
+          ))}
+        </div>
+        <div className="ml-auto flex items-center gap-3">
+          <div className="relative">
+            <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-mu-text-dim" />
+            <input 
+              type="text" 
+              placeholder="Filter news..."
+              className="bg-mu-surface-low border border-mu-border rounded-full py-1.5 pl-9 pr-4 text-[13px] w-64 focus:outline-none focus:border-mu-text-dim transition-colors"
+            />
+          </div>
+          <button className="p-2 rounded-full border border-mu-border text-mu-text-dim hover:text-mu-text-bright"><Filter size={18} /></button>
         </div>
       </div>
 
-      {/* Feed */}
-      <div className="flex-1 overflow-y-auto no-scrollbar flex flex-col divide-y"
-        style={{ '--tw-divide-opacity': 1 } as any}
-      >
-        {(feedMode === "squawk" ? items : legalItems).map((item) => {
-          const s = SENTIMENT_STYLE[item.sentiment];
-          return (
-            <div
-              key={item.id}
-              className="flex gap-3 px-4 py-3 group cursor-pointer hover:bg-[var(--color-mu-surface-mid)] transition-colors"
-              style={{ borderColor: "var(--color-mu-border)" }}
-            >
-              {/* Sentiment bar */}
-              <div
-                className="w-0.5 rounded-full shrink-0 self-stretch"
-                style={{ background: s.bar, minHeight: 40 }}
-              />
-
-              <div className="flex-1 min-w-0">
-                {/* Meta row */}
-                <div className="flex items-center gap-2 mb-1">
-                  {item.isBreaking && (
-                    <span
-                      className="text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-wider "
-                      style={{
-                        background: "rgba(224,82,82,0.15)",
-                        color: "var(--color-mu-red)",
-                        border: "1px solid rgba(224,82,82,0.3)",
-                      }}
-                    >
-                      BREAKING
-                    </span>
-                  )}
-                  <span
-                    className="text-[9px] font-bold px-1.5 py-0.5 rounded"
-                    style={{
-                      background: "var(--color-mu-surface-high)",
-                      color: "var(--color-mu-text-muted)",
-                      border: "1px solid var(--color-mu-border)",
-                    }}
-                  >
-                    {item.source}
-                  </span>
-                  <span className="text-[9px]" style={{ color: "var(--color-mu-text-muted)" }}>
-                    {formatAge(item.time)} ago
-                  </span>
-                  <span
-                    className="text-[8px] font-black px-1 py-0.5 rounded ml-auto"
-                    style={{
-                      background: s.badge,
-                      color: s.color,
-                      border: `1px solid ${s.bar}40`,
-                    }}
-                  >
-                    {s.label}
-                  </span>
-                </div>
-
-                {/* Title with keyword highlights */}
-                <p className="text-[11px] font-bold leading-snug mb-2"
-                  style={{ color: "var(--color-mu-text)" }}>
-                  {highlightKeywords(item.title, item.keywords)}
-                </p>
-
-                {/* Action row */}
-                <div className="flex items-center gap-2">
-                  <span
-                    className="font-mono text-[9px] px-1.5 py-0.5 rounded"
-                    style={{
-                      color: "var(--color-mu-cyan)",
-                      background: "rgba(59,158,202,0.08)",
-                      border: "1px solid rgba(59,158,202,0.2)",
-                    }}
-                  >
-                    {item.ticker}
-                  </span>
-                  <button
-                    className="flex items-center gap-1 text-[9px] font-black uppercase tracking-wider text-[var(--color-mu-text-muted)] hover:text-[var(--color-mu-accent)] transition-colors"
-                  >
-                    <Zap size={9} />
-                    Quick Trade
-                  </button>
-                  {item.pdfUrl && (
-                    <span
-                      className="font-mono text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1"
-                      style={{
-                        color: "var(--color-mu-text-muted)",
-                        background: "var(--color-mu-surface)",
-                        border: "1px solid var(--color-mu-border)",
-                      }}
-                    >
-                      <FileText size={8} />
-                      {item.pdfUrl}
-                    </span>
-                  )}
-                  {item.score !== undefined && (
-                    <span
-                      className="font-mono text-[9px] px-1.5 py-0.5 rounded flex items-center gap-1 ml-auto"
-                      style={{
-                        color: item.score > 60 ? "var(--color-mu-green)" : (item.score < 40 ? "var(--color-mu-red)" : "var(--color-mu-text-dim)"),
-                        background: "var(--color-mu-surface)",
-                        border: "1px solid var(--color-mu-border)",
-                      }}
-                    >
-                      AI_CONF: {item.score}%
-                    </span>
-                  )}
-                  <ExternalLink
-                    size={10}
-                    className={`${item.score !== undefined ? '' : 'ml-auto'} opacity-0 group-hover:opacity-60 `}
-                    style={{ color: "var(--color-mu-text-muted)" }}
-                  />
-                </div>
+      <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4">
+        {items.map((item) => (
+          <div 
+            key={item.id} 
+            className="mu-card group cursor-pointer border-transparent hover:border-mu-border-high"
+            onClick={() => handleQuickTrade(item.ticker)}
+          >
+            <div className="flex items-start justify-between mb-2">
+              <div className="flex items-center gap-2">
+                {item.isBreaking && (
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded bg-mu-red text-white">BREAKING</span>
+                )}
+                <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">{item.source}</span>
+                <span className="text-[11px] text-mu-text-ghost">•</span>
+                <span className="text-[11px] text-mu-text-dim font-medium">{formatAge(item.time)} ago</span>
+              </div>
+              <div className={`text-[10px] font-black px-2 py-0.5 rounded border ${
+                item.sentiment === 'bull' ? 'bg-mu-green-soft text-mu-green border-mu-green/20' : 
+                item.sentiment === 'bear' ? 'bg-mu-red-soft text-mu-red border-mu-red/20' : 
+                'bg-mu-surface-high text-mu-text-dim border-mu-border'
+              }`}>
+                {item.sentiment.toUpperCase()}
               </div>
             </div>
-          );
-        })}
+
+            <h3 className="text-[15px] font-semibold text-mu-text leading-snug group-hover:text-mu-text-bright transition-colors">
+              {highlightKeywords(item.title, item.keywords)}
+            </h3>
+
+            <div className="mt-4 pt-4 border-t border-mu-border/50 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="text-[12px] font-mono font-bold text-mu-blue bg-blue-500/10 px-2 py-0.5 rounded">{item.ticker}</span>
+                <button 
+                  onClick={(e) => { e.stopPropagation(); handleQuickTrade(item.ticker); }}
+                  className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-mu-text-dim hover:text-mu-text-bright transition-colors"
+                >
+                  <Zap size={12} className="text-mu-yellow" />
+                  Quick Trade
+                </button>
+              </div>
+              <div className="flex items-center gap-4">
+                 {item.score !== undefined && (
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-1 bg-mu-surface-high rounded-full overflow-hidden">
+                        <div className="h-full bg-mu-blue" style={{ width: `${item.score}%` }} />
+                      </div>
+                      <span className="text-[11px] font-mono text-mu-text-dim">AI:{item.score}%</span>
+                    </div>
+                 )}
+                 <ExternalLink size={14} className="text-mu-text-ghost opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
