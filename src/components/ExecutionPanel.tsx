@@ -1,9 +1,5 @@
-/**
- * ExecutionPanel - Professional order entry form.
- * Handles Buy/Sell, Limit/Market, IOC, and BOP protocol commands.
- */
 import { useState, useEffect } from "react";
-import { AlertTriangle, ChevronDown } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Navigation } from "lucide-react";
 
 type OrderSide = "BUY" | "SELL";
 type OrderType = "LIMIT" | "MARKET" | "IOC" | "FOK";
@@ -47,7 +43,6 @@ export function ExecutionPanel({ ticker, bidPrice, askPrice, onOrder }: Executio
 
   const handleSubmit = () => {
     if (!isValid || showConfirm) return;
-    // Fat-finger guard: warn if notional > $10k
     if (notional > 10000) {
       setShowConfirm(true);
       return;
@@ -69,252 +64,194 @@ export function ExecutionPanel({ ticker, bidPrice, askPrice, onOrder }: Executio
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-mu-surface select-none">
       {/* Header */}
-      <div
-        className="px-3 py-2 border-b flex items-center justify-between"
-        style={{ borderColor: "var(--color-mu-border)" }}
-      >
-        <span className="mu-heading">Execute Order</span>
-        <span
-          className="font-mono text-[10px] font-bold"
-          style={{ color: "var(--color-mu-text-dim)" }}
-        >
+      <div className="h-11 flex items-center justify-between px-4 border-b border-mu-border shrink-0">
+        <span className="text-[12px] font-bold text-mu-text-bright uppercase tracking-tight">Execute</span>
+        <span className="text-[10px] font-bold font-mono bg-mu-surface-high px-2 py-0.5 rounded text-mu-text-dim">
           {ticker}
         </span>
       </div>
 
-      <div className="flex-1 flex flex-col gap-3 p-3 overflow-y-auto no-scrollbar">
-        {/* Side selector */}
-        <div className="grid grid-cols-2 gap-1">
+      <div className="flex-1 overflow-y-auto no-scrollbar p-4 flex flex-col gap-4">
+        {/* Side Toggle */}
+        <div className="flex rounded-lg overflow-hidden bg-mu-surface-low border border-mu-border p-1">
           <button
-            className="py-2.5 rounded text-[11px] font-black uppercase tracking-wider "
-            style={{
-              background: side === "BUY" ? "var(--color-mu-green)" : "var(--color-mu-surface-high)",
-              color: side === "BUY" ? "#000" : "var(--color-mu-text-muted)",
-              border: `1px solid ${side === "BUY" ? "var(--color-mu-green)" : "var(--color-mu-border-high)"}`,
-            }}
+            className={`flex-1 py-2 text-[12px] font-bold transition-all rounded-md ${
+              side === "BUY" 
+                ? "bg-mu-green text-black shadow-sm" 
+                : "text-mu-text hover:text-mu-text-bright hover:bg-mu-surface-high"
+            }`}
             onClick={() => setSide("BUY")}
           >
             Buy / Yes
           </button>
           <button
-            className="py-2.5 rounded text-[11px] font-black uppercase tracking-wider "
-            style={{
-              background: side === "SELL" ? "var(--color-mu-red)" : "var(--color-mu-surface-high)",
-              color: side === "SELL" ? "#fff" : "var(--color-mu-text-muted)",
-              border: `1px solid ${side === "SELL" ? "var(--color-mu-red)" : "var(--color-mu-border-high)"}`,
-            }}
+            className={`flex-1 py-2 text-[12px] font-bold transition-all rounded-md ${
+              side === "SELL" 
+                ? "bg-mu-red text-white shadow-sm" 
+                : "text-mu-text hover:text-mu-text-bright hover:bg-mu-surface-high"
+            }`}
             onClick={() => setSide("SELL")}
           >
             Sell / No
           </button>
         </div>
 
-        {/* Order type */}
-        <div className="flex gap-1">
+        {/* Order Type */}
+        <div className="grid grid-cols-4 gap-1">
           {(["LIMIT", "MARKET", "IOC", "FOK"] as OrderType[]).map((t) => (
             <button
               key={t}
               onClick={() => setOrderType(t)}
-              className="flex-1 py-1 rounded text-[9px] font-bold uppercase tracking-wider "
-              style={{
-                background: orderType === t ? "var(--color-mu-surface-top)" : "transparent",
-                color: orderType === t ? "var(--color-mu-text)" : "var(--color-mu-text-muted)",
-                border: `1px solid ${orderType === t ? "var(--color-mu-border-focus)" : "var(--color-mu-border)"}`,
-              }}
+              className={`py-1.5 rounded-md text-[10px] font-bold uppercase transition-colors ${
+                orderType === t 
+                  ? "bg-mu-surface-high text-mu-text-bright border border-mu-border-high" 
+                  : "bg-transparent text-mu-text-dim border border-transparent hover:text-mu-text"
+              }`}
             >
               {t}
             </button>
           ))}
         </div>
 
-        {/* Quantity */}
-        <div>
-          <div className="flex justify-between mb-1">
-            <span className="mu-label">Quantity</span>
-            <span className="mu-label" style={{ color: "var(--color-mu-cyan)" }}>
-              MAX: 10,000
+        {/* Inputs */}
+        <div className="flex flex-col gap-3">
+          {/* Quantity */}
+          <div className="flex flex-col gap-1.5">
+            <div className="flex justify-between items-end">
+              <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Quantity</span>
+              <span className="text-[10px] font-medium text-mu-blue">Max: 10K</span>
+            </div>
+            <div className="relative flex items-center">
+               <input
+                 type="number"
+                 value={qty}
+                 onChange={(e) => setQty(e.target.value)}
+                 className="w-full bg-mu-surface-low border border-mu-border rounded-lg py-2 pl-3 pr-16 text-[14px] font-bold text-mu-text-bright tabular-nums focus:outline-none focus:border-mu-blue transition-colors"
+                 placeholder="0"
+               />
+               <span className="absolute right-3 text-[11px] font-medium text-mu-text-dim uppercase">Shares</span>
+            </div>
+            <div className="flex gap-1.5 mt-1">
+              {[100, 500, 1000, 5000].map((v) => (
+                <button
+                  key={v}
+                  onClick={() => handleQuickQty(v)}
+                  className="flex-1 py-1 rounded border border-mu-border bg-mu-surface-low text-[10px] font-bold text-mu-text-dim hover:text-mu-text hover:border-mu-border-high transition-colors"
+                >
+                  {v >= 1000 ? `${v/1000}K` : v}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Price */}
+          {orderType !== "MARKET" && (
+            <div className="flex flex-col gap-1.5 mt-2">
+              <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Limit Price</span>
+              <div className="flex gap-2">
+                <div className="relative flex items-center flex-1">
+                   <input
+                     type="number"
+                     value={price}
+                     onChange={(e) => setPrice(e.target.value)}
+                     className="w-full bg-mu-surface-low border border-mu-border rounded-lg py-2 pl-6 pr-3 text-[14px] font-bold text-mu-text-bright tabular-nums focus:outline-none focus:border-mu-blue transition-colors"
+                     placeholder={effectivePrice.toFixed(3)}
+                     step="0.001"
+                   />
+                   <span className="absolute left-3 text-[12px] font-bold text-mu-text-dim">$</span>
+                </div>
+                <button onClick={handleMid} className="px-3 rounded-lg border border-mu-border bg-mu-surface-low text-[10px] font-bold text-mu-text-dim hover:text-mu-text hover:bg-mu-surface-high transition-colors">
+                  MID
+                </button>
+                <button onClick={handleBestPrice} className="px-3 rounded-lg border border-mu-border bg-mu-surface-low text-[10px] font-bold text-mu-text-dim hover:text-mu-text hover:bg-mu-surface-high transition-colors">
+                  BEST
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Notional Preview */}
+        <div className="mt-2 p-3 rounded-lg border border-mu-border bg-mu-surface-low flex items-center justify-between">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Notional Value</span>
+            <span className={`text-[15px] font-bold tabular-nums ${notional > 10000 ? 'text-mu-amber' : 'text-mu-text-bright'}`}>
+              ${notional.toLocaleString("en-US", { maximumFractionDigits: 2 })}
             </span>
           </div>
-          <input
-            type="number"
-            value={qty}
-            onChange={(e) => setQty(e.target.value)}
-            className="mu-input w-full text-right"
-            style={{ fontSize: 13, fontWeight: 700 }}
-            placeholder="0"
-          />
-          <div className="flex gap-1 mt-1">
-            {[100, 500, 1000, 5000].map((v) => (
-              <button
-                key={v}
-                onClick={() => handleQuickQty(v)}
-                className="flex-1 py-1 text-[9px] font-bold rounded "
-                style={{
-                  background: "var(--color-mu-surface-high)",
-                  border: "1px solid var(--color-mu-border)",
-                  color: "var(--color-mu-text-muted)",
-                }}
-              >
-                {v >= 1000 ? `${v/1000}K` : v}
-              </button>
-            ))}
+          <div className="flex flex-col items-end gap-0.5">
+            <span className="text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Venue</span>
+            <span className="flex items-center gap-1 text-[11px] font-bold text-mu-blue">
+              <Navigation size={10} /> AGGREGATED
+            </span>
           </div>
         </div>
 
-        {/* Price (only for LIMIT / IOC / FOK) */}
-        {orderType !== "MARKET" && (
-          <div>
-            <span className="mu-label">Limit Price</span>
-            <div className="flex gap-1 mt-1">
-              <input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="mu-input flex-1 text-right"
-                style={{ fontSize: 13, fontWeight: 700 }}
-                placeholder={effectivePrice.toFixed(3)}
-                step="0.001"
-              />
-              <button
-                onClick={handleMid}
-                className="px-2 py-1 text-[9px] font-bold rounded "
-                style={{
-                  background: "var(--color-mu-surface-high)",
-                  border: "1px solid var(--color-mu-border-high)",
-                  color: "var(--color-mu-text-dim)",
-                }}
-              >
-                MID
-              </button>
-              <button
-                onClick={handleBestPrice}
-                className="px-2 py-1 text-[9px] font-bold rounded "
-                style={{
-                  background: "var(--color-mu-surface-high)",
-                  border: "1px solid var(--color-mu-border-high)",
-                  color: "var(--color-mu-text-dim)",
-                }}
-              >
-                BEST
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Notional preview */}
-        <div
-          className="rounded p-2 flex items-center justify-between"
-          style={{
-            background: "var(--color-mu-surface-high)",
-            border: "1px solid var(--color-mu-border-high)",
-          }}
-        >
-          <div>
-            <div className="mu-label">Notional Value</div>
-            <div
-              className="font-mono text-[13px] font-black mt-0.5"
-              style={{
-                color: notional > 10000 ? "var(--color-mu-amber)" : "var(--color-mu-text)",
-              }}
-            >
-              ${notional.toLocaleString("en-US", { maximumFractionDigits: 0 })}
-            </div>
-          </div>
-          <div className="text-right">
-            <div className="mu-label">@ Venue</div>
-            <div
-              className="text-[10px] font-bold mt-0.5"
-              style={{ color: "var(--color-mu-cyan)" }}
-            >
-              AGGREGATED
-            </div>
-          </div>
-        </div>
-
-        {/* Fat-finger warning */}
+        {/* Fat-finger Guard */}
         {showConfirm && (
-          <div
-            className="rounded p-3 flex items-start gap-2 "
-            style={{
-              background: "rgba(217, 119, 6, 0.1)",
-              border: "1px solid var(--color-mu-amber)",
-            }}
-          >
-            <AlertTriangle size={14} style={{ color: "var(--color-mu-amber)", flexShrink: 0, marginTop: 1 }} />
-            <div>
-              <div className="text-[10px] font-black uppercase" style={{ color: "var(--color-mu-amber)" }}>
-                Fat-finger Guard Active
+          <div className="mt-2 p-3 rounded-xl border border-mu-amber/30 bg-mu-amber/5 flex flex-col gap-3 animate-fade-in">
+            <div className="flex items-start gap-2">
+              <AlertTriangle size={14} className="text-mu-amber shrink-0 mt-0.5" />
+              <div className="flex flex-col gap-1">
+                <span className="text-[11px] font-bold text-mu-amber uppercase tracking-wider">Fat-Finger Guard</span>
+                <span className="text-[11px] text-mu-text-dim leading-relaxed">
+                  Order notional <strong>${notional.toLocaleString()}</strong> exceeds the $10,000 threshold.
+                </span>
               </div>
-              <div className="text-[9px] mt-1" style={{ color: "var(--color-mu-text-dim)" }}>
-                Order notional ${notional.toLocaleString()} exceeds $10K threshold. Confirm to proceed.
-              </div>
-              <div className="flex gap-2 mt-2">
-                <button
-                  onClick={submitOrder}
-                  className="mu-btn mu-btn-sell text-[9px] py-1"
-                >
-                  Confirm
-                </button>
-                <button
-                  onClick={() => setShowConfirm(false)}
-                  className="mu-btn mu-btn-ghost text-[9px] py-1"
-                >
-                  Cancel
-                </button>
-              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+               <button onClick={() => setShowConfirm(false)} className="py-2 rounded-lg bg-mu-surface-high text-[11px] font-bold text-mu-text-dim hover:text-mu-text-bright">
+                 Cancel
+               </button>
+               <button onClick={submitOrder} className="py-2 rounded-lg bg-mu-amber text-black text-[11px] font-bold hover:opacity-90 active:scale-95">
+                 Confirm Order
+               </button>
             </div>
           </div>
         )}
 
-        {/* Submit button */}
+        {/* Smart Router Visualization */}
         {!showConfirm && (
+          <div className="mt-auto pt-2 flex flex-col gap-2">
+             <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">
+                   <CheckCircle2 size={10} className="text-mu-green" /> Smart Router (BOP)
+                </div>
+                <span className="text-[10px] font-bold text-mu-text-ghost">Auto-Split</span>
+             </div>
+             <div className="flex items-center gap-2">
+                <div className="flex-1 h-1.5 rounded-full overflow-hidden bg-mu-surface-high flex">
+                   <div className="h-full bg-mu-blue" style={{ width: '62%' }} />
+                   <div className="h-full bg-mu-green" style={{ width: '38%' }} />
+                </div>
+                <span className="text-[9px] font-bold text-mu-text-dim tabular-nums">
+                   62% / 38%
+                </span>
+             </div>
+          </div>
+        )}
+      </div>
+
+      {/* Submit Button Area */}
+      {!showConfirm && (
+        <div className="p-4 border-t border-mu-border shrink-0 bg-mu-surface">
           <button
             onClick={handleSubmit}
             disabled={!isValid}
-            className="w-full py-3 rounded text-[11px] font-black uppercase tracking-widest "
-            style={{
-              background: isValid
-                ? side === "BUY"
-                  ? "var(--color-mu-green)"
-                  : "var(--color-mu-red)"
-                : "var(--color-mu-surface-high)",
-              color: isValid ? (side === "BUY" ? "#000" : "#fff") : "var(--color-mu-text-muted)",
-              border: "none",
-              cursor: isValid ? "pointer" : "not-allowed",
-              opacity: isValid ? 1 : 0.5,
-            }}
+            className={`w-full py-3.5 rounded-xl text-[13px] font-bold uppercase tracking-wider transition-all shadow-lg ${
+              !isValid 
+                ? "bg-mu-surface-high text-mu-text-muted border border-mu-border" 
+                : side === "BUY"
+                  ? "bg-mu-green text-black hover:opacity-90 active:scale-95 shadow-mu-green/10"
+                  : "bg-mu-red text-white hover:opacity-90 active:scale-95 shadow-mu-red/10"
+            }`}
           >
-            {side === "BUY" ? "▲" : "▼"} {orderType} · {side} {parseFloat(qty || "0").toLocaleString()} @ {effectivePrice.toFixed(3)}
+            {side === "BUY" ? "Execute Buy" : "Execute Sell"}
           </button>
-        )}
-
-        {/* Smart Route indicator */}
-        <div
-          className="rounded p-2"
-          style={{
-            background: "var(--color-mu-surface)",
-            border: "1px solid var(--color-mu-border)",
-          }}
-        >
-          <div className="flex items-center justify-between mb-1">
-            <span className="mu-label">Smart Route (BOP)</span>
-            <ChevronDown size={10} style={{ color: "var(--color-mu-text-muted)" }} />
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="flex-1 h-1.5 rounded-full overflow-hidden"
-              style={{ background: "var(--color-mu-surface-high)" }}>
-              <div className="h-full rounded-full" style={{
-                width: "62%", background: "var(--color-mu-green)"
-              }} />
-            </div>
-            <span className="text-[9px] font-bold" style={{ color: "var(--color-mu-text-dim)" }}>
-              POLY 62% / KALSHI 38%
-            </span>
-          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
