@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Play, Activity, TrendingUp, Target, Zap, BarChart2 } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Play, Activity, TrendingUp, Target, Zap, BarChart2, FlaskConical, ShieldAlert } from "lucide-react";
 
 interface BacktestResult {
   pnl: number;
@@ -11,8 +11,8 @@ interface BacktestResult {
 }
 
 export function AnalyticsView() {
-  const [strategy, setStrategy] = useState("Arbitrage_Core_v2");
-  const [dataset, setDataset] = useState("2024_ELECTION_DEBATE_KALSHI_POLY");
+  const [strategy, setStrategy] = useState("Cross_Venue_Arb");
+  const [dataset, setDataset] = useState("2024_ELECTION_DEBATE");
   const [isRunning, setIsRunning] = useState(false);
   const [result, setResult] = useState<BacktestResult | null>(null);
   const [progress, setProgress] = useState(0);
@@ -23,7 +23,7 @@ export function AnalyticsView() {
     setProgress(0);
     setResult(null);
 
-    // Simulate C++ Sidecar Backtest
+    // Simulate C++ Sidecar Backtest Engine Execution
     let currentProgress = 0;
     const interval = setInterval(() => {
       currentProgress += 5 + Math.random() * 5;
@@ -32,205 +32,270 @@ export function AnalyticsView() {
         setProgress(100);
         
         // Generate mock equity curve
-        let currentEquity = 10000;
+        let currentEquity = 100000;
         const curve = [currentEquity];
-        for (let i = 0; i < 100; i++) {
-          const move = (Math.random() - 0.45) * 200; // Slight upward bias
+        for (let i = 0; i < 150; i++) {
+          const move = (Math.random() - 0.46) * 1200; // Upward bias
           currentEquity += move;
           curve.push(currentEquity);
         }
 
         setResult({
-          pnl: currentEquity - 10000,
+          pnl: currentEquity - 100000,
           winRate: 64.2,
-          sharpe: 2.1,
+          sharpe: 2.15,
           maxDrawdown: -4.5,
-          trades: 124,
+          trades: 1240,
           equityCurve: curve
         });
         setIsRunning(false);
       } else {
         setProgress(currentProgress);
       }
-    }, 100);
+    }, 120);
   };
 
-  // Simple SVG charting
   const renderEquityCurve = () => {
     if (!result) return null;
     const { equityCurve } = result;
     const min = Math.min(...equityCurve);
     const max = Math.max(...equityCurve);
     const range = max - min;
-    const width = 800;
-    const height = 300;
-
-    const points = equityCurve.map((val, i) => {
-      const x = (i / (equityCurve.length - 1)) * width;
-      const y = height - ((val - min) / range) * height;
-      return `${x},${y}`;
-    }).join(" ");
-
     const isProfitable = result.pnl >= 0;
-    const strokeColor = isProfitable ? "var(--color-mu-green)" : "var(--color-mu-red)";
-    const fillColor = isProfitable ? "rgba(44,182,125,0.1)" : "rgba(255,85,85,0.1)";
+    const strokeColor = isProfitable ? "#00c087" : "#ff4d5a";
 
     return (
-      <div className="relative w-full h-full p-4">
-        <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-full overflow-visible">
-          {/* Grid lines */}
-          <line x1="0" y1={height/2} x2={width} y2={height/2} stroke="var(--color-mu-border)" strokeWidth="1" strokeDasharray="4 4" />
-          
-          <path 
-            d={`M 0,${height} L ${points} L ${width},${height} Z`} 
-            fill={fillColor} 
-          />
-          <polyline 
-            fill="none" 
-            stroke={strokeColor} 
-            strokeWidth="2" 
-            points={points} 
-            style={{ filter: `drop-shadow(0 0 4px ${strokeColor})` }}
-          />
-        </svg>
-      </div>
+      <EquityChart data={equityCurve} color={strokeColor} min={min} max={max} range={range} />
     );
   };
 
   return (
-    <div className="flex-1 flex flex-col p-6 gap-6 bg-[var(--color-mu-bg)] overflow-y-auto">
-      <div className="flex items-center gap-3 border-b pb-4 shrink-0" style={{ borderColor: "var(--color-mu-border)" }}>
-        <BarChart2 size={24} style={{ color: "var(--color-mu-accent)" }} />
-        <h1 className="text-2xl font-black uppercase tracking-widest" style={{ color: "var(--color-mu-text-bright)" }}>
-          Quantitative Analytics & Backtesting
-        </h1>
+    <div className="flex-1 flex flex-col p-8 gap-8 overflow-y-auto bg-mu-bg">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-mu-border pb-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-mu-purple/10 flex items-center justify-center border border-mu-purple/20">
+            <FlaskConical size={18} className="text-mu-purple" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-mu-text-bright">Backtesting Lab</h1>
+            <p className="text-sm text-mu-text-dim">Simulate BOP algorithms against tick-level historical data</p>
+          </div>
+        </div>
       </div>
 
-      <div className="flex gap-6 shrink-0">
-        <div className="mu-panel p-4 flex-1 flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <Zap size={14} style={{ color: "var(--color-mu-cyan)" }} />
-            <span className="mu-heading">Strategy Configuration</span>
-          </div>
-          
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col gap-1">
-              <label className="mu-label">Target Strategy</label>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Configuration Panel */}
+        <div className="lg:w-[400px] flex flex-col gap-6">
+          <div className="mu-card p-6 flex flex-col gap-5">
+            <div className="flex items-center gap-2 mb-2">
+              <Zap size={16} className="text-mu-blue" />
+              <span className="text-[13px] font-bold text-mu-text-bright uppercase tracking-wider">Parameters</span>
+            </div>
+            
+            <div className="flex flex-col gap-2">
+              <label className="text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Algorithm</label>
               <select 
                 value={strategy}
                 onChange={e => setStrategy(e.target.value)}
-                className="bg-black px-3 py-2 rounded text-[12px] font-bold border outline-none"
-                style={{ borderColor: "var(--color-mu-border)", color: "var(--color-mu-text)" }}
+                className="bg-mu-surface-low border border-mu-border px-4 py-3 rounded-xl text-[13px] font-bold text-mu-text-bright focus:outline-none focus:border-mu-blue transition-colors appearance-none"
               >
-                <option value="Arbitrage_Core_v2">Arbitrage_Core_v2</option>
+                <option value="Cross_Venue_Arb">Cross_Venue_Arb</option>
                 <option value="Trump_Volatility_Arb">Trump_Volatility_Arb</option>
                 <option value="Yield_Farmer_Poly">Yield_Farmer_Poly</option>
               </select>
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="mu-label">Historical Dataset</label>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Historical Dataset</label>
               <select 
                 value={dataset}
                 onChange={e => setDataset(e.target.value)}
-                className="bg-black px-3 py-2 rounded text-[12px] font-bold border outline-none"
-                style={{ borderColor: "var(--color-mu-border)", color: "var(--color-mu-text)" }}
+                className="bg-mu-surface-low border border-mu-border px-4 py-3 rounded-xl text-[13px] font-bold text-mu-text-bright focus:outline-none focus:border-mu-blue transition-colors appearance-none"
               >
-                <option value="2024_ELECTION_DEBATE_KALSHI_POLY">Jun 2024 - Election Debate (Tick Level)</option>
+                <option value="2024_ELECTION_DEBATE">June 2024 - Election Debate (Tick Level)</option>
                 <option value="FOMC_RATE_HIKE_Q3">Q3 FOMC Rate Announcement (Tick Level)</option>
                 <option value="SEC_RIPPLE_VERDICT">SEC vs Ripple Verdict Day (Tick Level)</option>
               </select>
             </div>
+
+            <div className="mt-4 pt-4 border-t border-mu-border flex items-center justify-between text-[11px] font-medium text-mu-text-dim">
+              <span>Engine: BOP_BACKTEST_v1</span>
+              <span>Latency Sim: 15ms</span>
+            </div>
+
+            <button 
+              onClick={handleRunBacktest}
+              disabled={isRunning}
+              className={`mt-2 w-full py-4 rounded-xl text-[12px] font-bold uppercase tracking-widest flex items-center justify-center gap-2 transition-all shadow-lg ${
+                isRunning 
+                  ? "bg-mu-surface-high text-mu-text-muted border border-mu-border" 
+                  : "bg-mu-text-bright text-black hover:bg-white hover:opacity-90 active:scale-95"
+              }`}
+            >
+              {isRunning ? (
+                <>
+                  <Activity size={16} className="animate-spin text-mu-blue" />
+                  <span className="text-mu-blue">Simulating {progress.toFixed(0)}%</span>
+                </>
+              ) : (
+                <>
+                  <Play size={14} fill="currentColor" /> Run Simulation
+                </>
+              )}
+            </button>
           </div>
 
-          <button 
-            onClick={handleRunBacktest}
-            disabled={isRunning}
-            className="mt-2 py-3 flex items-center justify-center gap-2 rounded text-[12px] font-black uppercase tracking-widest transition-all"
-            style={{ 
-              background: isRunning ? "transparent" : "var(--color-mu-accent)",
-              border: isRunning ? "1px solid var(--color-mu-border)" : "none",
-              color: isRunning ? "var(--color-mu-text-dim)" : "black"
-            }}
-          >
-            {isRunning ? (
-              <span className="flex items-center gap-2">
-                <Activity size={14} className="animate-spin" />
-                Processing {progress.toFixed(0)}%
-              </span>
-            ) : (
-              <>
-                <Play size={14} fill="black" /> Run Historical Backtest
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Stats Summary Panel */}
-        <div className="w-[300px] mu-panel p-4 flex flex-col gap-4">
-           <div className="flex items-center gap-2">
-            <Target size={14} style={{ color: "var(--color-mu-green)" }} />
-            <span className="mu-heading">Simulation Results</span>
-          </div>
-
-          {!result ? (
-             <div className="flex-1 flex items-center justify-center text-[10px] uppercase font-bold tracking-widest" style={{ color: "var(--color-mu-text-ghost)" }}>
-               Awaiting Simulation
-             </div>
-          ) : (
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: "var(--color-mu-border)" }}>
-                <span className="mu-label">Net PnL</span>
-                <span className={`text-[16px] font-black tracking-wider ${result.pnl >= 0 ? "text-[var(--color-mu-green)]" : "text-[var(--color-mu-red)]"}`}>
-                  {result.pnl >= 0 ? "+" : ""}${result.pnl.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: "var(--color-mu-border)" }}>
-                <span className="mu-label">Win Rate</span>
-                <span className="text-[14px] font-bold" style={{ color: "var(--color-mu-text-bright)" }}>
-                  {result.winRate.toFixed(1)}%
-                </span>
-              </div>
-              <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: "var(--color-mu-border)" }}>
-                <span className="mu-label">Sharpe Ratio</span>
-                <span className="text-[14px] font-bold" style={{ color: "var(--color-mu-text-bright)" }}>
-                  {result.sharpe.toFixed(2)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="mu-label">Max Drawdown</span>
-                <span className="text-[14px] font-bold text-[var(--color-mu-red)]">
-                  {result.maxDrawdown.toFixed(1)}%
-                </span>
-              </div>
+          {/* Results Summary */}
+          <div className="mu-card p-6 flex flex-col gap-4">
+             <div className="flex items-center gap-2 mb-2">
+              <Target size={16} className="text-mu-green" />
+              <span className="text-[13px] font-bold text-mu-text-bright uppercase tracking-wider">Report</span>
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* Equity Curve Panel */}
-      <div className="flex-1 mu-panel flex flex-col overflow-hidden">
-         <div className="p-4 border-b shrink-0 flex justify-between items-center" style={{ borderColor: "var(--color-mu-border)" }}>
-            <div className="flex items-center gap-2">
-              <TrendingUp size={14} style={{ color: "var(--color-mu-purple)" }} />
-              <span className="mu-heading">Equity Curve (Simulated)</span>
-            </div>
-            {result && (
-               <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest" style={{ color: "var(--color-mu-text-dim)" }}>
-                 <span className="flex items-center gap-1"><Zap size={10}/> Initial: $10,000.00</span>
-                 <span className="flex items-center gap-1"><Target size={10}/> Trades: {result.trades}</span>
+            {!result ? (
+               <div className="flex-1 min-h-[150px] flex items-center justify-center text-[10px] uppercase font-bold tracking-widest text-mu-text-ghost">
+                 Waiting for execution
                </div>
-            )}
-         </div>
-         <div className="flex-1 min-h-[300px] flex items-center justify-center" style={{ background: "var(--color-mu-surface-high)" }}>
-           {!result ? (
-              <div className="text-[10px] uppercase font-bold tracking-widest flex items-center gap-2" style={{ color: "var(--color-mu-text-ghost)" }}>
-                <Activity size={14} /> Run backtest to visualize equity curve
+            ) : (
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between border-b border-mu-border pb-3">
+                  <span className="text-[12px] font-bold text-mu-text-dim uppercase tracking-wider">Net PnL</span>
+                  <span className={`text-2xl font-bold tabular-nums ${result.pnl >= 0 ? "text-mu-green" : "text-mu-red"}`}>
+                    {result.pnl >= 0 ? "+" : ""}${result.pnl.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-b border-mu-border pb-3">
+                  <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Win Rate</span>
+                  <span className="text-[14px] font-bold text-mu-text-bright">
+                    {result.winRate.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-b border-mu-border pb-3">
+                  <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Sharpe Ratio</span>
+                  <span className="text-[14px] font-bold text-mu-blue">
+                    {result.sharpe.toFixed(2)}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between border-b border-mu-border pb-3">
+                  <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Max Drawdown</span>
+                  <span className="text-[14px] font-bold text-mu-red">
+                    {result.maxDrawdown.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">Total Trades</span>
+                  <span className="text-[14px] font-bold text-mu-text-bright tabular-nums">
+                    {result.trades.toLocaleString()}
+                  </span>
+                </div>
               </div>
-           ) : (
-             renderEquityCurve()
-           )}
-         </div>
+            )}
+          </div>
+        </div>
+
+        {/* Equity Curve Panel */}
+        <div className="flex-1 mu-card p-0 flex flex-col overflow-hidden min-h-[400px]">
+           <div className="px-6 py-4 border-b border-mu-border bg-mu-surface-low flex justify-between items-center z-10">
+              <div className="flex items-center gap-3">
+                <TrendingUp size={16} className="text-mu-blue" />
+                <span className="text-[13px] font-bold text-mu-text-bright uppercase tracking-wider">Equity Curve</span>
+              </div>
+              {result && (
+                 <div className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest text-mu-text-dim bg-mu-surface px-3 py-1.5 rounded border border-mu-border">
+                   <span className="flex items-center gap-1.5"><ShieldAlert size={12} className="text-mu-text-ghost"/> Init: $100K</span>
+                 </div>
+              )}
+           </div>
+           
+           <div className="flex-1 relative bg-mu-bg/50 flex items-center justify-center">
+             {!result ? (
+                <div className="text-[10px] uppercase font-bold tracking-[0.2em] text-mu-text-ghost flex flex-col items-center gap-3">
+                  <BarChart2 size={32} className="opacity-20" />
+                  Run simulation to plot timeline
+                </div>
+             ) : (
+               <div className="absolute inset-0 p-6">
+                 {renderEquityCurve()}
+               </div>
+             )}
+           </div>
+        </div>
       </div>
     </div>
   );
+}
+
+// Minimal canvas implementation for the equity curve
+function EquityChart({ data, color, min, max, range }: { data: number[], color: string, min: number, max: number, range: number }) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || data.length < 2) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    const width = rect.width;
+    const height = rect.height;
+
+    ctx.clearRect(0, 0, width, height);
+
+    const padding = 10;
+    const chartHeight = height - padding * 2;
+
+    const getX = (i: number) => (i / (data.length - 1)) * width;
+    const getY = (val: number) => height - padding - ((val - min) / range) * chartHeight;
+
+    // Gradient
+    const gradient = ctx.createLinearGradient(0, getY(max), 0, height);
+    gradient.addColorStop(0, color === '#00c087' ? 'rgba(0, 192, 135, 0.15)' : 'rgba(255, 77, 90, 0.15)');
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    // Path area
+    ctx.beginPath();
+    ctx.moveTo(getX(0), getY(data[0]));
+    
+    for (let i = 0; i < data.length - 1; i++) {
+      const x1 = getX(i);
+      const y1 = getY(data[i]);
+      const x2 = getX(i + 1);
+      const y2 = getY(data[i + 1]);
+      const cx = (x1 + x2) / 2;
+      ctx.bezierCurveTo(cx, y1, cx, y2, x2, y2);
+    }
+    
+    ctx.lineTo(width, height);
+    ctx.lineTo(0, height);
+    ctx.closePath();
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    // Path stroke
+    ctx.beginPath();
+    ctx.moveTo(getX(0), getY(data[0]));
+    for (let i = 0; i < data.length - 1; i++) {
+      const x1 = getX(i);
+      const y1 = getY(data[i]);
+      const x2 = getX(i + 1);
+      const y2 = getY(data[i + 1]);
+      const cx = (x1 + x2) / 2;
+      ctx.bezierCurveTo(cx, y1, cx, y2, x2, y2);
+    }
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+
+  }, [data, color, min, max, range]);
+
+  return <canvas ref={canvasRef} className="w-full h-full" />;
 }
