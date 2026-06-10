@@ -1,7 +1,3 @@
-/**
- * TopTradersView - Professional leaderboard / whale following interface.
- * Shows ranked traders with PnL, win rate, and copy-trade functionality.
- */
 import { useState, useEffect } from "react";
 import { Copy, Eye, Shield, Users, Code, Lock } from "lucide-react";
 
@@ -94,7 +90,6 @@ export function TopTradersView() {
     );
   };
 
-  // Jitter PnL values for live feel
   useEffect(() => {
     const id = setInterval(() => {
       setTraders((prev) =>
@@ -108,233 +103,163 @@ export function TopTradersView() {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col overflow-hidden ">
-      {/* Header Toggle */}
-      <div className="px-4 py-2 border-b flex items-center gap-4 bg-[var(--color-mu-surface)]" style={{ borderColor: "var(--color-mu-border)" }}>
-        <div className="flex items-center gap-2 bg-black p-1 rounded border" style={{ borderColor: "var(--color-mu-border)" }}>
-          <button 
-            onClick={() => setViewMode("traders")}
-            className={`flex items-center gap-2 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest transition-colors ${viewMode === "traders" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-text-bright)]" : "text-[var(--color-mu-text-dim)] hover:text-[var(--color-mu-text)]"}`}
-          >
-            <Users size={12} style={{ color: viewMode === "traders" ? "var(--color-mu-accent)" : "inherit" }} />
-            Whale Tracker
-          </button>
-          <button 
-            onClick={() => setViewMode("strategies")}
-            className={`flex items-center gap-2 px-3 py-1 rounded text-[10px] font-black uppercase tracking-widest transition-colors ${viewMode === "strategies" ? "bg-[var(--color-mu-surface-high)] text-[var(--color-mu-text-bright)]" : "text-[var(--color-mu-text-dim)] hover:text-[var(--color-mu-text)]"}`}
-          >
-            <Code size={12} style={{ color: viewMode === "strategies" ? "var(--color-mu-cyan)" : "inherit" }} />
-            Strategy Marketplace
-          </button>
+    <div className="flex-1 flex flex-col overflow-hidden bg-mu-bg">
+      <div className="px-6 py-4 flex items-center gap-4 border-b border-mu-border">
+        <div className="flex items-center gap-1.5 text-mu-blue font-bold px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+          <Users size={16} />
+          <span>Leaderboard</span>
+        </div>
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
+           <button 
+             onClick={() => setViewMode("traders")}
+             className={`mu-pill whitespace-nowrap ${viewMode === 'traders' ? 'bg-mu-surface-high text-mu-text-bright' : ''}`}
+           >
+             Whale Tracker
+           </button>
+           <button 
+             onClick={() => setViewMode("strategies")}
+             className={`mu-pill whitespace-nowrap ${viewMode === 'strategies' ? 'bg-mu-surface-high text-mu-text-bright' : ''}`}
+           >
+             Strategy Marketplace
+           </button>
         </div>
       </div>
-      {/* Stats bar */}
-      <div
-        className="grid grid-cols-4 border-b px-4 py-3 gap-4"
-        style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface)" }}
-      >
+
+      <div className="grid grid-cols-4 px-6 py-4 gap-4 border-b border-mu-border bg-mu-surface-low">
         {viewMode === "traders" ? [
-          { label: "Tracked Wallets", value: "1,247", color: "var(--color-mu-cyan)" },
+          { label: "Tracked Wallets", value: "1,247", color: "var(--color-mu-text-bright)" },
           { label: "Total Volume 30D", value: "$2.41B", color: "var(--color-mu-text-bright)" },
           { label: "Avg Win Rate (Top 10)", value: "63.8%", color: "var(--color-mu-green)" },
-          { label: "Highest PnL 30D", value: "$248K", color: "var(--color-mu-accent)" },
+          { label: "Highest PnL 30D", value: "$248K", color: "var(--color-mu-blue)" },
         ].map((s) => (
           <div key={s.label}>
-            <div className="mu-label">{s.label}</div>
-            <div
-              className="text-[15px] font-black mt-1 font-mono"
-              style={{ color: s.color }}
-            >
-              {s.value}
-            </div>
+            <div className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">{s.label}</div>
+            <div className="text-[18px] font-bold mt-1 tabular-nums" style={{ color: s.color }}>{s.value}</div>
           </div>
         )) : [
-          { label: "Active Marketplace Bots", value: "142", color: "var(--color-mu-cyan)" },
+          { label: "Active Marketplace Bots", value: "142", color: "var(--color-mu-text-bright)" },
           { label: "Total Strategy AUM", value: "$18.4M", color: "var(--color-mu-text-bright)" },
           { label: "Avg Win Rate", value: "71.2%", color: "var(--color-mu-green)" },
-          { label: "Total Creator Fees 30D", value: "$1.2M", color: "var(--color-mu-accent)" },
+          { label: "Total Creator Fees 30D", value: "$1.2M", color: "var(--color-mu-blue)" },
         ].map((s) => (
           <div key={s.label}>
-            <div className="mu-label">{s.label}</div>
-            <div
-              className="text-[15px] font-black mt-1 font-mono"
-              style={{ color: s.color }}
-            >
-              {s.value}
-            </div>
+            <div className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider">{s.label}</div>
+            <div className="text-[18px] font-bold mt-1 tabular-nums" style={{ color: s.color }}>{s.value}</div>
           </div>
         ))}
       </div>
 
-      {/* Sort controls */}
-      <div
-        className="flex items-center gap-2 px-4 py-2 border-b"
-        style={{ borderColor: "var(--color-mu-border)", background: "var(--color-mu-surface-mid)" }}
-      >
-        <span className="mu-label mr-2">Sort by:</span>
+      <div className="flex items-center gap-2 px-6 py-2 border-b border-mu-border bg-mu-surface">
+        <span className="text-[11px] font-bold text-mu-text-dim uppercase tracking-wider mr-2">Sort by:</span>
         {([["pnl30d", "30D PnL"], ["roi", "ROI %"], ["winRate", "Win Rate"]] as const).map(([key, label]) => (
           <button
             key={key}
             onClick={() => setSortBy(key)}
-            className="px-3 py-1 rounded text-[9px] font-bold uppercase tracking-wider "
-            style={{
-              background: sortBy === key ? "var(--color-mu-surface-top)" : "transparent",
-              color: sortBy === key ? "var(--color-mu-text)" : "var(--color-mu-text-muted)",
-              border: `1px solid ${sortBy === key ? "var(--color-mu-border-focus)" : "var(--color-mu-border)"}`,
-            }}
+            className={`px-3 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${
+              sortBy === key 
+                ? "bg-mu-surface-high text-mu-text-bright border-mu-border-high" 
+                : "bg-transparent text-mu-text-dim border-transparent hover:text-mu-text"
+            }`}
           >
             {label}
           </button>
         ))}
       </div>
 
-      {/* Table */}
-      <div className="flex-1 overflow-y-auto no-scrollbar">
+      <div className="flex-1 overflow-y-auto no-scrollbar pb-6">
         <table className="w-full border-collapse">
-          <thead className="mu-table-header">
+          <thead className="bg-mu-surface sticky top-0 z-10 shadow-sm">
             <tr>
-              <th className="text-left pl-4">Rank</th>
-              <th className="text-left">{viewMode === "traders" ? "Trader" : "Strategy"}</th>
-              <th className="text-right">30D PnL</th>
-              <th className="text-right">{viewMode === "traders" ? "ROI" : "AUM"}</th>
-              <th className="text-right">Win Rate</th>
-              <th className="text-right">{viewMode === "traders" ? "Trades" : "Fee %"}</th>
-              <th className="text-right">{viewMode === "traders" ? "Avg Size" : "Encryption"}</th>
-              <th className="text-right">{viewMode === "traders" ? "Top Market" : "Author"}</th>
-              <th className="text-right pr-4">30D Curve</th>
-              <th className="text-right pr-4">Action</th>
+              <th className="text-left pl-6 py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Rank</th>
+              <th className="text-left py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">{viewMode === "traders" ? "Trader" : "Strategy"}</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">30D PnL</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">{viewMode === "traders" ? "ROI" : "AUM"}</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Win Rate</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">{viewMode === "traders" ? "Trades" : "Fee %"}</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">{viewMode === "traders" ? "Avg Size" : "Encryption"}</th>
+              <th className="text-right py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">{viewMode === "traders" ? "Top Market" : "Author"}</th>
+              <th className="text-right pr-4 py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">30D Curve</th>
+              <th className="text-right pr-6 py-3 text-[10px] font-bold text-mu-text-dim uppercase tracking-wider">Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-mu-border">
             {viewMode === "traders" ? sorted.map((t) => {
               const isPos = t.pnl30d >= 0;
               return (
-                <tr key={t.rank} className="mu-table-row">
-                  <td className="pl-4">
-                    <span
-                      className="font-mono text-[12px] font-black"
-                      style={{
-                        color: t.rank <= 3 ? "var(--color-mu-accent)" : "var(--color-mu-text-muted)",
-                      }}
-                    >
+                <tr key={t.rank} className="hover:bg-mu-surface-high transition-colors cursor-pointer group">
+                  <td className="pl-6 py-4">
+                    <span className={`font-mono text-[13px] font-bold ${t.rank <= 3 ? "text-mu-blue" : "text-mu-text-dim"}`}>
                       #{t.rank}
                     </span>
                   </td>
-                  <td>
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-6 h-6 rounded flex items-center justify-center text-[9px] font-black"
-                        style={{
-                          background: "var(--color-mu-surface-high)",
-                          border: "1px solid var(--color-mu-border-high)",
-                          color: "var(--color-mu-text-dim)",
-                        }}
-                      >
+                  <td className="py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded bg-mu-surface-low border border-mu-border flex items-center justify-center text-[12px] font-bold text-mu-text-dim">
                         {t.label[0].toUpperCase()}
                       </div>
-                      <div>
-                        <div className="flex items-center gap-1">
-                          <span
-                            className="text-[11px] font-bold"
-                            style={{ color: "var(--color-mu-text)" }}
-                          >
-                            {t.label}
-                          </span>
-                          {t.verified && (
-                            <Shield size={9} style={{ color: "var(--color-mu-cyan)" }} />
-                          )}
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[13px] font-bold text-mu-text-bright">{t.label}</span>
+                          {t.verified && <Shield size={10} className="text-mu-blue" />}
                         </div>
-                        <div
-                          className="font-mono text-[8px]"
-                          style={{ color: "var(--color-mu-text-muted)" }}
-                        >
-                          {t.address}
-                        </div>
+                        <span className="font-mono text-[10px] text-mu-text-dim">{t.address}</span>
                       </div>
                     </div>
                   </td>
-                  <td className="text-right">
-                    <span
-                      className="font-mono text-[12px] font-black"
-                      style={{ color: isPos ? "var(--color-mu-green)" : "var(--color-mu-red)" }}
-                    >
+                  <td className="text-right py-4">
+                    <span className={`text-[13px] font-bold tabular-nums ${isPos ? "text-mu-green" : "text-mu-red"}`}>
                       {isPos ? "+" : ""}${(t.pnl30d / 1000).toFixed(1)}K
                     </span>
                   </td>
-                  <td className="text-right">
-                    <span
-                      className="font-mono text-[11px] font-bold"
-                      style={{ color: isPos ? "var(--color-mu-green)" : "var(--color-mu-red)" }}
-                    >
+                  <td className="text-right py-4">
+                    <span className={`text-[13px] font-bold tabular-nums ${isPos ? "text-mu-green" : "text-mu-red"}`}>
                       {isPos ? "+" : ""}{t.roi.toFixed(1)}%
                     </span>
                   </td>
-                  <td className="text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <div
-                        className="h-1.5 rounded-full overflow-hidden"
-                        style={{ width: 40, background: "var(--color-mu-surface-high)" }}
-                      >
+                  <td className="text-right py-4">
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="w-12 h-1.5 rounded-full bg-mu-surface-low overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{
                             width: `${t.winRate * 100}%`,
-                            background: t.winRate > 0.65 ? "var(--color-mu-green)" : t.winRate > 0.55 ? "var(--color-mu-cyan)" : "var(--color-mu-amber)",
+                            background: t.winRate > 0.65 ? "var(--color-mu-green)" : t.winRate > 0.55 ? "var(--color-mu-blue)" : "var(--color-mu-yellow)",
                           }}
                         />
                       </div>
-                      <span
-                        className="font-mono text-[10px] font-bold"
-                        style={{ color: "var(--color-mu-text-dim)", width: 36, textAlign: "right" }}
-                      >
-                        {(t.winRate * 100).toFixed(1)}%
+                      <span className="text-[11px] font-bold text-mu-text tabular-nums w-8">
+                        {(t.winRate * 100).toFixed(0)}%
                       </span>
                     </div>
                   </td>
-                  <td className="text-right font-mono" style={{ color: "var(--color-mu-text-dim)" }}>
+                  <td className="text-right py-4 text-[13px] font-medium text-mu-text tabular-nums">
                     {t.trades30d.toLocaleString()}
                   </td>
-                  <td className="text-right font-mono" style={{ color: "var(--color-mu-text-dim)" }}>
+                  <td className="text-right py-4 text-[13px] font-medium text-mu-text tabular-nums">
                     ${t.avgSize.toLocaleString()}
                   </td>
-                  <td className="text-right">
-                    <span
-                      className="font-mono text-[9px] px-1.5 py-0.5 rounded"
-                      style={{
-                        color: "var(--color-mu-cyan)",
-                        background: "rgba(59,158,202,0.08)",
-                        border: "1px solid rgba(59,158,202,0.2)",
-                      }}
-                    >
+                  <td className="text-right py-4">
+                    <span className="text-[10px] font-mono font-bold text-mu-blue bg-mu-blue/10 px-2 py-0.5 rounded border border-mu-blue/20">
                       {t.topMarket}
                     </span>
                   </td>
-                  <td className="text-right pr-2">
+                  <td className="text-right pr-2 py-4 flex justify-end">
                     <PnLSparkline roi={t.roi} />
                   </td>
-                  <td className="pr-4">
-                    <div className="flex items-center gap-1 justify-end">
-                      <button
-                        className="p-1.5 rounded "
-                        style={{
-                          background: "var(--color-mu-surface-high)",
-                          border: "1px solid var(--color-mu-border-high)",
-                          color: "var(--color-mu-text-muted)",
-                        }}
-                        title="View profile"
-                      >
-                        <Eye size={10} />
+                  <td className="pr-6 py-4">
+                    <div className="flex items-center gap-2 justify-end">
+                      <button className="p-1.5 rounded text-mu-text-dim hover:text-mu-text-bright hover:bg-mu-surface-low transition-colors">
+                        <Eye size={14} />
                       </button>
                       <button
-                        onClick={() => toggleFollow(t.rank)}
-                        className="px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider "
-                        style={{
-                          background: t.isFollowing ? "rgba(44,182,125,0.15)" : "var(--color-mu-surface-high)",
-                          color: t.isFollowing ? "var(--color-mu-green)" : "var(--color-mu-text-muted)",
-                          border: `1px solid ${t.isFollowing ? "var(--color-mu-green-dim)" : "var(--color-mu-border-high)"}`,
-                        }}
+                        onClick={(e) => { e.stopPropagation(); toggleFollow(t.rank); }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                          t.isFollowing 
+                            ? "bg-mu-green-soft text-mu-green border border-mu-green/20" 
+                            : "bg-mu-surface-low text-mu-text-dim border border-mu-border hover:text-mu-text-bright hover:border-mu-border-high"
+                        }`}
                       >
-                        <Copy size={8} className="inline mr-1" />
+                        <Copy size={12} />
                         {t.isFollowing ? "Follow" : "Copy"}
                       </button>
                     </div>
@@ -344,105 +269,80 @@ export function TopTradersView() {
             }) : strategies.map((s, idx) => {
               const isPos = s.pnl30d >= 0;
               return (
-                <tr key={s.id} className="mu-table-row">
-                  <td className="pl-4">
-                    <span
-                      className="font-mono text-[12px] font-black"
-                      style={{
-                        color: idx <= 2 ? "var(--color-mu-cyan)" : "var(--color-mu-text-muted)",
-                      }}
-                    >
+                <tr key={s.id} className="hover:bg-mu-surface-high transition-colors cursor-pointer group">
+                  <td className="pl-6 py-4">
+                    <span className={`font-mono text-[13px] font-bold ${idx <= 2 ? "text-mu-blue" : "text-mu-text-dim"}`}>
                       #{idx + 1}
                     </span>
                   </td>
-                  <td>
-                    <div className="flex items-center gap-2">
-                      <div
-                        className="w-6 h-6 rounded flex items-center justify-center text-[9px] font-black"
-                        style={{
-                          background: "rgba(59,158,202,0.15)",
-                          border: "1px solid rgba(59,158,202,0.3)",
-                          color: "var(--color-mu-cyan)",
-                        }}
-                      >
-                        <Code size={10} />
+                  <td className="py-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded bg-mu-blue/10 border border-mu-blue/20 flex items-center justify-center text-mu-blue">
+                        <Code size={12} />
                       </div>
-                      <div className="flex items-center gap-1">
-                        <span className="text-[11px] font-bold font-mono" style={{ color: "var(--color-mu-text)" }}>
-                          {s.name}
-                        </span>
-                      </div>
+                      <span className="text-[13px] font-bold text-mu-text-bright font-mono">{s.name}</span>
                     </div>
                   </td>
-                  <td className="text-right">
-                    <span
-                      className="font-mono text-[12px] font-black"
-                      style={{ color: isPos ? "var(--color-mu-green)" : "var(--color-mu-red)" }}
-                    >
+                  <td className="text-right py-4">
+                    <span className={`text-[13px] font-bold tabular-nums ${isPos ? "text-mu-green" : "text-mu-red"}`}>
                       {isPos ? "+" : ""}${(s.pnl30d / 1000).toFixed(1)}K
                     </span>
                   </td>
-                  <td className="text-right">
-                    <span className="font-mono text-[11px] font-bold" style={{ color: "var(--color-mu-text-bright)" }}>
+                  <td className="text-right py-4">
+                    <span className="text-[13px] font-bold text-mu-text-bright tabular-nums">
                       ${(s.aum / 1000000).toFixed(2)}M
                     </span>
                   </td>
-                  <td className="text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      <div
-                        className="h-1.5 rounded-full overflow-hidden"
-                        style={{ width: 40, background: "var(--color-mu-surface-high)" }}
-                      >
+                  <td className="text-right py-4">
+                    <div className="flex items-center justify-end gap-2">
+                      <div className="w-12 h-1.5 rounded-full bg-mu-surface-low overflow-hidden">
                         <div
                           className="h-full rounded-full"
                           style={{
                             width: `${s.winRate * 100}%`,
-                            background: s.winRate > 0.65 ? "var(--color-mu-green)" : s.winRate > 0.55 ? "var(--color-mu-cyan)" : "var(--color-mu-amber)",
+                            background: s.winRate > 0.65 ? "var(--color-mu-green)" : s.winRate > 0.55 ? "var(--color-mu-blue)" : "var(--color-mu-yellow)",
                           }}
                         />
                       </div>
-                      <span
-                        className="font-mono text-[10px] font-bold"
-                        style={{ color: "var(--color-mu-text-dim)", width: 36, textAlign: "right" }}
-                      >
-                        {(s.winRate * 100).toFixed(1)}%
+                      <span className="text-[11px] font-bold text-mu-text tabular-nums w-8">
+                        {(s.winRate * 100).toFixed(0)}%
                       </span>
                     </div>
                   </td>
-                  <td className="text-right font-mono" style={{ color: "var(--color-mu-text-dim)" }}>
+                  <td className="text-right py-4 text-[13px] font-medium text-mu-text tabular-nums">
                     {s.feePct}%
                   </td>
-                  <td className="text-right flex items-center justify-end h-full pt-3">
+                  <td className="text-right py-4 flex justify-end">
                     {s.isEncrypted ? (
-                       <span className="flex items-center gap-1 text-[9px] uppercase tracking-widest font-black text-[var(--color-mu-green)] bg-[rgba(44,182,125,0.1)] px-1.5 py-0.5 rounded border border-[rgba(44,182,125,0.2)]">
-                         <Lock size={8}/> BOP_ENC
-                       </span>
+                       <div className="flex items-center gap-1 text-[10px] font-bold text-mu-green bg-mu-green-soft px-2 py-0.5 rounded border border-mu-green/20">
+                         <Lock size={10}/> BOP_ENC
+                       </div>
                     ) : (
-                       <span className="text-[9px] uppercase tracking-widest font-black text-[var(--color-mu-text-muted)] bg-[var(--color-mu-surface-high)] px-1.5 py-0.5 rounded border border-[var(--color-mu-border)]">
+                       <div className="text-[10px] font-bold text-mu-text-dim bg-mu-surface-low px-2 py-0.5 rounded border border-mu-border">
                          OPEN_SRC
-                       </span>
+                       </div>
                     )}
                   </td>
-                  <td className="text-right font-mono" style={{ color: "var(--color-mu-accent)" }}>
+                  <td className="text-right py-4 font-mono text-[11px] text-mu-blue">
                     @{s.author}
                   </td>
-                  <td className="text-right pr-2">
+                  <td className="text-right pr-2 py-4 flex justify-end">
                     <PnLSparkline roi={s.winRate * 100} />
                   </td>
-                  <td className="pr-4">
-                    <div className="flex items-center gap-1 justify-end">
+                  <td className="pr-6 py-4">
+                    <div className="flex items-center gap-2 justify-end">
                       <button
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setStrategies((prev) => prev.map((st) => (st.id === s.id ? { ...st, isFollowing: !st.isFollowing } : st)));
                         }}
-                        className="px-2 py-1 rounded text-[9px] font-black uppercase tracking-wider "
-                        style={{
-                          background: s.isFollowing ? "rgba(59,158,202,0.15)" : "var(--color-mu-surface-high)",
-                          color: s.isFollowing ? "var(--color-mu-cyan)" : "var(--color-mu-text-muted)",
-                          border: `1px solid ${s.isFollowing ? "var(--color-mu-cyan)" : "var(--color-mu-border-high)"}`,
-                        }}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors ${
+                          s.isFollowing 
+                            ? "bg-mu-blue/10 text-mu-blue border border-mu-blue/30" 
+                            : "bg-mu-surface-low text-mu-text-dim border border-mu-border hover:text-mu-text-bright hover:border-mu-border-high"
+                        }`}
                       >
-                        <Copy size={8} className="inline mr-1" />
+                        <Copy size={12} />
                         {s.isFollowing ? "Active" : "Allocate"}
                       </button>
                     </div>
